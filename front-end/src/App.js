@@ -15,8 +15,8 @@ class App extends Component {
         <Switch>
       <Route exact path ='/' component={Users}/>
       <Route exact path ='/user/:userId' component={User}/>  
-      <Route exact path = '/'  component={NewUser}/>
-      <Route exact path="/" component={Login} /> 
+      <Route exact path = '/new-user'  component={NewUser}/>
+      <Route exact path="/login" component={Login} /> 
       </Switch>
       </div>
     </Router>
@@ -25,6 +25,4 @@ class App extends Component {
     );
   }
 }
-
-
 export default App;
