@@ -6,6 +6,7 @@ import User from './pages/User';
 import Users from './pages/Users';
 import NewUser from './pages/NewUser';
 import Login from "./pages/Login";
+import Home from './pages/HomePage/Home/Home';
 
 class App extends Component {
   render() {
@@ -18,6 +19,8 @@ class App extends Component {
           <Route exact path="/" component={Login} /> 
           <Route exact path ='/user' component={User}/>  
           <Route exact path = '/new-user'  component={NewUser}/>
+          <Route exact path="/home" component={Home} />
+
         </Switch>
         </div>
       </Router>    
