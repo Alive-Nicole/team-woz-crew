@@ -41,7 +41,18 @@ app.use(passport.session())
 app.use("/",routes)
 
 // Connect to the Mongo DB
+<<<<<<< HEAD
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/devCompanion")
+=======
+let connectionType = ""
+if(process.env.NODE_ENV === "production"){
+  connectionType = process.env.MONGODB_URI
+}else {
+  connectionType = "mongodb://localhost:27017/devCompanion"
+}
+mongoose.connect(connectionType, { useNewUrlParser: true })
+  .catch(err => console.log(err))
+>>>>>>> current ui-auth placeholder
 
 // Start the API server
 app.listen(PORT, function() {
