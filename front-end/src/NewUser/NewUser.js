@@ -5,7 +5,7 @@ import axios from 'axios';
 class NewUser extends Component {
   constructor(props) {
     super(props);
-
+     
     this.state = {
       disabled: false,
       userName: '',
@@ -19,7 +19,7 @@ class NewUser extends Component {
       languages:[],
       technologies:[],
       interests:[]
-    };
+    }
   }
 
   updateuserName(value) {
@@ -60,17 +60,17 @@ updatelinkedIn(value) {
   }
 updatelanguages(value) {
     this.setState({
-      languages: value,
+      languages: this.state.languages.push(value),
     });
   }
 updatetechnologies(value) {
     this.setState({
-      technologies: value,
+      technologies: this.state.technologies.push(value),
     });
   }
 updateinterests(value) {
     this.setState({
-      interests: value,
+      interests: this.state.interests.push(value),
     });
   }
 
@@ -79,7 +79,7 @@ updateinterests(value) {
       disabled: true,
     });
 
-    await axios.post('http://localhost:8081', {
+    await axios.post('http://localhost:4000/user', {
       userName: this.state.userName,
       firstName: this.state.firstName,
       lastName: this.state.lastName,
@@ -88,9 +88,9 @@ updateinterests(value) {
       gitHub: this.gitHub,
       linkedIn: this.linkedIn,
       aboutYou: this.aboutYou,
-      languages: this.languages,
-      technologies: this.technologies,
-      interests: this.interests
+      languages: this.languages[String],
+      technologies: this.technologies[String],
+      interests: this.interests[String]
 });
 
     this.props.history.push('/');
