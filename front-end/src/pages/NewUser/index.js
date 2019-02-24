@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {withRouter} from 'react-router-dom';
 import axios from 'axios';
 
-class NewUser extends Component {
+require("./index.css");
+
+export default class NewUser extends Component {
   constructor(props) {
     super(props);
      
@@ -22,64 +23,30 @@ class NewUser extends Component {
     }
   }
 
-  updateuserName(value) {
-    this.setState({
-      userName: value,
-    });
-  }
-
-  updatefirstName(value) {
-    this.setState({
-      firstName: value,
-    });
-  }
-  updatelastName(value) {
-    this.setState({
-      lastName: value,
-    });
-  }
-updatephone(value) {
-    this.setState({
-      phone: value,
-    });
-  }
-updateemail(value) {
-    this.setState({
-      email: value,
-    });
-  }
-updategitHub(value) {
-    this.setState({
-      gitHub: value,
-    });
-  }
-updatelinkedIn(value) {
-    this.setState({
-      linkedIn: value,
-    });
-  }
-updatelanguages(value) {
-    this.setState({
-      languages: this.state.languages.push(value),
-    });
-  }
-updatetechnologies(value) {
-    this.setState({
-      technologies: this.state.technologies.push(value),
-    });
-  }
-updateinterests(value) {
-    this.setState({
-      interests: this.state.interests.push(value),
-    });
-  }
+  handleInputChange = event => {
+    // Pull the name and value properties off of the event.target (the element which triggered the event)
+    const { name, value } = event.target;
+    // Set the state for the appropriate input field
+    if(name.includes("languages", "technologies", "interests")){
+      const splitValue = value.split(",")
+      
+      console.log("name", name, "value", value)
+      this.setState({
+        [name]: value.split(",")
+      });  
+    } else {
+      this.setState({
+        [name]: value
+      });
+    }
+  };
 
   async submit() {
     this.setState({
       disabled: true,
     });
 
-    await axios.post('http://localhost:4000/user', {
+    await axios.post('/api/auth/signup', {
       userName: this.state.userName,
       firstName: this.state.firstName,
       lastName: this.state.lastName,
@@ -91,9 +58,10 @@ updateinterests(value) {
       languages: this.languages[String],
       technologies: this.technologies[String],
       interests: this.interests[String]
-});
+    });
 
     this.props.history.push('/');
+    console.log(this.state)
   }
 
   render() {
@@ -107,9 +75,10 @@ updateinterests(value) {
                 <div className="form-group">
                   <label htmlFor="exampleInputEmail1">User Name:</label>
                   <input
+                    name="userName"
                     disabled={this.state.disabled}
                     type="text"
-                    onBlur={(e) => {this.updateuserName(e.target.value)}}
+                    onChange={this.handleInputChange}
                     className="form-control"
                     placeholder="Provide a username."
                   />
@@ -117,9 +86,10 @@ updateinterests(value) {
                 <div className="form-group">
                   <label htmlFor="exampleInputEmail1">FirstName:</label>
                   <input
+                    name="firstName"
                     disabled={this.state.disabled}
                     type="text"
-                    onBlur={(e) => {this.updatefirstName(e.target.value)}}
+                    onChange={this.handleInputChange}
                     className="form-control"
                     placeholder="Enter first name."
                   />
@@ -127,9 +97,10 @@ updateinterests(value) {
                 <div className="form-group">
                   <label htmlFor="exampleInputEmail1">LastName:</label>
                   <input
+                    name="lastName"
                     disabled={this.state.disabled}
                     type="text"
-                    onBlur={(e) => {this.updatelastName(e.target.value)}}
+                    onChange={this.handleInputChange}
                     className="form-control"
                     placeholder="Enter last name."
                   />
@@ -137,9 +108,10 @@ updateinterests(value) {
                 <div className="form-group">
                   <label htmlFor="exampleInputEmail1">Phone Number:</label>
                   <input
+                    name="phone"
                     disabled={this.state.disabled}
                     type="text"
-                    onBlur={(e) => {this.updatephone(e.target.value)}}
+                    onChange={this.handleInputChange}
                     className="form-control"
                     placeholder="Enter phone number."
                   />
@@ -147,9 +119,10 @@ updateinterests(value) {
                 <div className="form-group">
                   <label htmlFor="exampleInputEmail1">Email:</label>
                   <input
+                    name="email"
                     disabled={this.state.disabled}
                     type="text"
-                    onBlur={(e) => {this.updateemail(e.target.value)}}
+                    onChange={this.handleInputChange}
                     className="form-control"
                     placeholder="Enter email address."
                   />
@@ -157,9 +130,10 @@ updateinterests(value) {
                 <div className="form-group">
                   <label htmlFor="exampleInputEmail1">GitHub Profile:</label>
                   <input
+                    name="github"
                     disabled={this.state.disabled}
                     type="text"
-                    onBlur={(e) => {this.updategitHub(e.target.value)}}
+                    onChange={this.handleInputChange}
                     className="form-control"
                     placeholder="Enter github profile link."
                   />
@@ -167,9 +141,10 @@ updateinterests(value) {
                 <div className="form-group">
                   <label htmlFor="exampleInputEmail1">linkedIn profile:</label>
                   <input
+                    name="linkedIn"
                     disabled={this.state.disabled}
                     type="text"
-                    onBlur={(e) => {this.updatelinkedIn(e.target.value)}}
+                    onChange={this.handleInputChange}
                     className="form-control"
                     placeholder="Enter linked in profile."
                   />
@@ -177,9 +152,10 @@ updateinterests(value) {
                 <div className="form-group">
                   <label htmlFor="exampleInputEmail1">About You:</label>
                   <input
+                    name="aboutYou"
                     disabled={this.state.disabled}
                     type="textarea"
-                    onBlur={(e) => {this.updateaboutYou(e.target.value)}}
+                    onChange={this.handleInputChange}
                     className="form-control"
                     placeholder="Tell us a bit about yourself."
                   />
@@ -187,9 +163,10 @@ updateinterests(value) {
                 <div className="form-group">
                   <label htmlFor="exampleInputEmail1">languages:</label>
                   <input
+                    name="languages"
                     disabled={this.state.disabled}
                     type="text"
-                    onBlur={(e) => {this.updatelanguages(e.target.value)}}
+                    onChange={this.handleInputChange}
                     className="form-control"
                     placeholder="Enter languages separated by comas."
                   />
@@ -197,9 +174,10 @@ updateinterests(value) {
                 <div className="form-group">
                   <label htmlFor="exampleInputEmail1">Technologies:</label>
                   <input
+                    name="technologies"
                     disabled={this.state.disabled}
                     type="text"
-                    onBlur={(e) => {this.updatetechnologies(e.target.value)}}
+                    onChange={this.handleInputChange}
                     className="form-control"
                     placeholder="Enter list of technologies separeted by comas."
                   />
@@ -207,9 +185,10 @@ updateinterests(value) {
                 <div className="form-group">
                   <label htmlFor="exampleInputEmail1">Interests:</label>
                   <input
+                    name="interests"
                     disabled={this.state.disabled}
                     type="text"
-                    onBlur={(e) => {this.updateinterests(e.target.value)}}
+                    onChange={this.handleInputChange}
                     className="form-control"
                     placeholder="Enter interests separated by comas."
                   />
@@ -229,5 +208,3 @@ updateinterests(value) {
     )
   }
 }
-
-export default withRouter(NewUser);
