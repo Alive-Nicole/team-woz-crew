@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // Define collection and schema for user
-let user = new Schema({
+const User = new Schema({
   userName: {
     type: String
   },
@@ -18,7 +18,7 @@ let user = new Schema({
    gitHub: {
     type: String
   },
-      aboutYou: {
+    aboutYou: {
     type: String
   },
    linkedIn: {
@@ -36,7 +36,7 @@ let user = new Schema({
 },
 
 {
-    collection: 'user'
+    collection: 'User'
 });
 
-module.exports = mongoose.model('user', user);
+module.exports = mongoose.model('User', User);
