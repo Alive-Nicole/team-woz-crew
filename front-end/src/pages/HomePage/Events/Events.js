@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import Home from '../Home/Home';
 
 export class Events extends Component {
   render() {
     return (
-      <div>
-        Events
+      <div className="events"> 
+        <div className = "section1">
+          <h3>Events</h3>      
+          <h5>Event Title</h5>
+          <p>Event content</p>
+        </div>
       </div>
     )
   }
