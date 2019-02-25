@@ -1,9 +1,14 @@
 const mongoose = require('mongoose');
+const bcrypt = require("bcrypt")
+
 const Schema = mongoose.Schema;
 
 // Define collection and schema for user
 const User = new Schema({
-  userName: {
+  username: {
+    type: String
+  },
+  password: {
     type: String
   },
   firstName: {
@@ -38,5 +43,14 @@ const User = new Schema({
 {
     collection: 'User'
 });
+
+// User.methods.generateHash = function(password) {
+//   return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+// };
+
+// // checking if password is valid
+// User.methods.validPassword = function(password) {
+//   return bcrypt.compareSync(password, this.local.password);
+// };
 
 module.exports = mongoose.model('User', User);

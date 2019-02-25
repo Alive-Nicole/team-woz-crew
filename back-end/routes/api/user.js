@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 // Require user model in our routes module
-let User = require('../../user.model');
+let User = require('../../models/user');
 
 // Defined get data(index or listing) route
 router.route('/')
@@ -16,6 +16,15 @@ router.route('/')
       }
     });
   });
+
+router.route('/:name')
+  .get(function (req, res) {
+    let name = req.params.name;
+    User.find({username: name}, function (err, user){
+        console.log(user)
+        res.json(user);
+    });
+  })
 
 // Defined edit route
 router.route('/edit/:id')

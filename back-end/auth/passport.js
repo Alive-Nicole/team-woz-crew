@@ -1,35 +1,41 @@
 const passport = require('passport'),
-      LocalStrategy = require('passport-local').Strategy
-      // User = require('../models/user')
+      LocalStrategy = require('passport-local').Strategy,
+      User = require('../models/user')
 
 passport.use('local-signup', new LocalStrategy(
     function(username, password, done) {
-      return done(null, user);
-      // User.findOrCreate({ username: username }, function (err, user) {
-        //   if (err) { return done(err); }
-        //   if (user) {
-        //     return done(null, false, { message: 'Username exists.' });
-        //   }
-        //   if (!user.validPassword(password)) {
-        //     return done(null, false, { message: 'Incorrect password.' });
-        //   }
-        // });
+      User.findOne({ username: username }, function (err, user) {
+        if (err) { return done(err); }
+        if (user) {
+          return done(null, false, { message: 'Username exists.' });
+        }
+        User.create({token: "", username: username, password: password}, function(err, newUser){
+          return done(null, newUser);
+        })
+      });
     }
 ))
 passport.use('local-login', new LocalStrategy(
   function(username, password, done) {
-    return done(null, user);
-    // User.findOne({ username: username }, function (err, user) {
-    //   if (err) { return done(err); }
-    //   if (!user) {
-    //     return done(null, false, { message: 'Incorrect username.' });
-    //   }
-    //   if (!user.validPassword(password)) {
-    //     return done(null, false, { message: 'Incorrect password.' });
-    //   }
-    //   return done(null, user);
-    // });
+    User.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (user.password !== password) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
   }
 ))
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
 
 module.exports = passport;

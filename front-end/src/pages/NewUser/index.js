@@ -10,6 +10,7 @@ export default class NewUser extends Component {
     this.state = {
       disabled: false,
       userName: '',
+      password: '',
       firstName: '',
       lastName: '',
       phone: '',
@@ -24,15 +25,12 @@ export default class NewUser extends Component {
   }
 
   handleInputChange = event => {
-    // Pull the name and value properties off of the event.target (the element which triggered the event)
     const { name, value } = event.target;
-    // Set the state for the appropriate input field
     if(name.includes("languages", "technologies", "interests")){
-      const splitValue = value.split(",")
-      
-      console.log("name", name, "value", value)
+      const splitValue = value.split(",");
+
       this.setState({
-        [name]: value.split(",")
+        [name]: splitValue
       });  
     } else {
       this.setState({
@@ -41,13 +39,12 @@ export default class NewUser extends Component {
     }
   };
 
-  async submit() {
-    this.setState({
-      disabled: true,
-    });
-
-    await axios.post('/api/auth/signup', {
+  submit() {
+    axios.defaults.baseURL = "http://localhost:3001"
+    axios.post('/api/auth/signup', 
+    {
       userName: this.state.userName,
+      password: this.state.password,
       firstName: this.state.firstName,
       lastName: this.state.lastName,
       phone: this.state.phone,
@@ -55,13 +52,16 @@ export default class NewUser extends Component {
       gitHub: this.gitHub,
       linkedIn: this.linkedIn,
       aboutYou: this.aboutYou,
-      languages: this.languages[String],
-      technologies: this.technologies[String],
-      interests: this.interests[String]
+      languages: this.languages,
+      technologies: this.technologies,
+      interests: this.interests
+    });
+    
+    this.setState({
+      disabled: true,
     });
 
     this.props.history.push('/');
-    console.log(this.state)
   }
 
   render() {
@@ -73,7 +73,7 @@ export default class NewUser extends Component {
               <div className="card-header">Sign Up</div>
               <div className="card-body text-left">
                 <div className="form-group">
-                  <label htmlFor="exampleInputEmail1">User Name:</label>
+                  <label>User Name:</label>
                   <input
                     name="userName"
                     disabled={this.state.disabled}
@@ -84,7 +84,18 @@ export default class NewUser extends Component {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="exampleInputEmail1">FirstName:</label>
+                  <label>Password:</label>
+                  <input
+                    name="password"
+                    disabled={this.state.disabled}
+                    type="text"
+                    onChange={this.handleInputChange}
+                    className="form-control"
+                    placeholder="Provide a password."
+                  />
+                </div>
+                <div className="form-group">
+                  <label>FirstName:</label>
                   <input
                     name="firstName"
                     disabled={this.state.disabled}
@@ -95,7 +106,7 @@ export default class NewUser extends Component {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="exampleInputEmail1">LastName:</label>
+                  <label>LastName:</label>
                   <input
                     name="lastName"
                     disabled={this.state.disabled}
@@ -106,7 +117,7 @@ export default class NewUser extends Component {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="exampleInputEmail1">Phone Number:</label>
+                  <label>Phone Number:</label>
                   <input
                     name="phone"
                     disabled={this.state.disabled}
@@ -117,7 +128,7 @@ export default class NewUser extends Component {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="exampleInputEmail1">Email:</label>
+                  <label>Email:</label>
                   <input
                     name="email"
                     disabled={this.state.disabled}
@@ -128,7 +139,7 @@ export default class NewUser extends Component {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="exampleInputEmail1">GitHub Profile:</label>
+                  <label>GitHub Profile:</label>
                   <input
                     name="github"
                     disabled={this.state.disabled}
@@ -139,7 +150,7 @@ export default class NewUser extends Component {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="exampleInputEmail1">linkedIn profile:</label>
+                  <label>linkedIn profile:</label>
                   <input
                     name="linkedIn"
                     disabled={this.state.disabled}
@@ -150,7 +161,7 @@ export default class NewUser extends Component {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="exampleInputEmail1">About You:</label>
+                  <label>About You:</label>
                   <input
                     name="aboutYou"
                     disabled={this.state.disabled}
@@ -161,7 +172,7 @@ export default class NewUser extends Component {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="exampleInputEmail1">languages:</label>
+                  <label>languages:</label>
                   <input
                     name="languages"
                     disabled={this.state.disabled}
@@ -172,7 +183,7 @@ export default class NewUser extends Component {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="exampleInputEmail1">Technologies:</label>
+                  <label>Technologies:</label>
                   <input
                     name="technologies"
                     disabled={this.state.disabled}
@@ -183,7 +194,7 @@ export default class NewUser extends Component {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="exampleInputEmail1">Interests:</label>
+                  <label>Interests:</label>
                   <input
                     name="interests"
                     disabled={this.state.disabled}
