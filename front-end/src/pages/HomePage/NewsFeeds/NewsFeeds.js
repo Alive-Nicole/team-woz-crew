@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 
-const TechCrunch_API = "c4e2c7c9c884437086972ec602a6cebd"
+const TechCrunch_API = "694a36dcc42a4cbf9922f6435b66ac77"
 
 export class NewsFeeds extends Component {
 
   constructor(props){
     super(props);
     this.state = {
-      id: 0,
-      title: "",
-      description: "",
-      url: "",
+     newsFeeds: []
     }
     this.getTechCrunch();
   }
@@ -23,26 +20,36 @@ export class NewsFeeds extends Component {
     .then((data) => {
 
       var response = data.articles;
-      for(var i = 0; i<response.length; i++){
+      var newsFeeds = []
+
+      for(var i = 0; i<5; i++){
         console.log(response[i].url);
-        this.setState({
+        newsFeeds.push({
           id: i,
           title: response[i].title,
           description: response[i].description,
           url: response[i].url.toString()
         })
       }
+      console.log(newsFeeds)
+      this.setState({newsFeeds: newsFeeds})
     })
          
   }
   render() {
-    //console.log(this.getTechCrunch());
+    console.log(this.state.newsFeeds);
     return (
       <div  className="news-feeds">
         <h3>News Feeds</h3>
         <div key={this.props.id} className = "section">
-        <a href={this.props.url} _target="blank"><h5>{this.props.title}</h5></a>
-        <p>News content</p>
+        {this.state.newsFeeds.map(article => (
+         <div>
+            <a href={article.url} _target="blank"><h5>{article.title}</h5></a>
+            <p>News content</p>
+          </div>
+       ))}
+        
+        
       </div>
         
         {/* <tbody>
