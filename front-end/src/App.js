@@ -10,7 +10,6 @@ import Login from "./pages/Login";
 class App extends Component {
   render() {
     return (
-<<<<<<< HEAD
       <Router>
         <div>
         <NavBar/>
@@ -22,21 +21,6 @@ class App extends Component {
         </Switch>
         </div>
       </Router>    
-=======
-    <Router>
-      <div>
-      <NavBar/>
-        <Switch>
-          <Route exact path ='/' component={Users}/>
-          <Route exact path ='/user/:userId' component={User}/>  
-          <Route exact path = '/new-user'  component={NewUser}/>
-          <Route exact path="/login" component={Login} /> 
-        </Switch>
-      </div>
-    </Router>
-    
-      
->>>>>>> current ui-auth placeholder
     );
   }
 }

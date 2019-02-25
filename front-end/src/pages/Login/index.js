@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 require("./index.css");
 
 export default class Login extends Component {
@@ -7,24 +8,20 @@ export default class Login extends Component {
     password: ""
   };
 
-  // handle any changes to the input fields
   handleInputChange = event => {
-    // Pull the name and value properties off of the event.target (the element which triggered the event)
     const { name, value } = event.target;
-    console.log("name", name, "value", value)
-    // Set the state for the appropriate input field
+  
     this.setState({
       [name]: value
     });
   };
 
-  // When the form is submitted, prevent the default event and alert the username and password
   handleFormSubmit = event => {
     event.preventDefault();
-    alert(`Username: ${this.state.username}\nPassword: ${this.state.password}`);
-    // this.setState({ username: "", password: "" });
-    fetch("/api/auth/login")
-      .then(payload => console.log("received payload", payload))
+
+    axios.defaults.baseURL = "http://localhost:3001"
+    axios.post("/api/auth/login", {username: this.state.username, password: this.state.password})
+    .then(payload => console.log("received payload", payload))
   };
 
   handleSignup = () => console.log("to be setup");

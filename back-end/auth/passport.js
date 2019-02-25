@@ -4,15 +4,12 @@ const passport = require('passport'),
 
 passport.use('local-signup', new LocalStrategy(
     function(username, password, done) {
-      console.log("in passport", username, password)
       User.findOne({ username: username }, function (err, user) {
         if (err) { return done(err); }
         if (user) {
           return done(null, false, { message: 'Username exists.' });
         }
-        User.create({token: "", email: username, password: password}, function(err, newUser){
-          
-          console.log('====user====', err, newUser)
+        User.create({token: "", username: username, password: password}, function(err, newUser){
           return done(null, newUser);
         })
       });
@@ -20,14 +17,12 @@ passport.use('local-signup', new LocalStrategy(
 ))
 passport.use('local-login', new LocalStrategy(
   function(username, password, done) {
-    // return done(null, user);
-    console.log('====username, password====', username, password)
     User.findOne({ username: username }, function (err, user) {
       if (err) { return done(err); }
       if (!user) {
         return done(null, false, { message: 'Incorrect username.' });
       }
-      if (!user.validPassword(password)) {
+      if (user.password !== password) {
         return done(null, false, { message: 'Incorrect password.' });
       }
       return done(null, user);

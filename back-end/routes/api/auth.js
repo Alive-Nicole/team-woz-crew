@@ -2,20 +2,17 @@
 const router = require("express").Router();
 const passport = require("../../auth/passport");
 
-router.route("/login", passport.authenticate("local-login"))
-  .post(function(request, response){
-    //tbd
-    console.log('====in route login====', request.user)
+router.post("/login", passport.authenticate("local-login"), function(request, response){
+    const { user } = request;
+    
     return response.format({
       'application/json': function(){
-        response.send({ status: "200", userId: 1 });
+        response.send({ user });
       }
     })
   })
 
-  router.route("/signup", passport.authenticate('local-signup'))
-    .post(function(request, response){
-      // console.log('====in route signup====', request)
+  router.post("/signup", passport.authenticate('local-signup'), function(request, response){
       return response.format({
         'application/json': function(){
           response.send({ status: "200", userId: 1 });
@@ -28,4 +25,5 @@ router.route("/login", passport.authenticate("local-login"))
       req.logout();
       res.redirect('/');
     });
+    
 module.exports = router;
