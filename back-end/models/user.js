@@ -5,11 +5,14 @@ const Schema = mongoose.Schema;
 
 // Define collection and schema for user
 const User = new Schema({
-  username: {
+  picture: {
+    type:['.jpg', '.gif', '.png', '.gif']
+  },
+  userName: {
     type: String
   },
-  password: {
-    type: String
+  password:{
+type: String
   },
   firstName: {
     type: String

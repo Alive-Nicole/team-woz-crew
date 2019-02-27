@@ -90,6 +90,7 @@ export default class User extends Component {
     return (
       <div className="container">
         <div className="row">
+        <div className="card-header"> {user.picture}</div>
           <div className="jumbotron col-12">
             <h1 className="display-3">{user.username}</h1>
             {/* <p className="card-text">{user.firstName}, { user.lastName}</p>
