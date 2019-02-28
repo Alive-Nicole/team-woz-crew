@@ -3,31 +3,23 @@ const router = express.Router();
 
 // Require user model in our routes module
 let User = require('../../models/user');
+const passport = require('../../auth/passport');
 
 // Defined get data(index or listing) route
-router.route('/')
-  .get(function (req, res) {
-    User.find(function(err, users){
-      if(err){
-        console.log(err);
-      }
-      else {
-        res.json(users);
-      }
-    });
+router.get("/:username", function (request, res) {
+  // console.log('====request in user====', request)
+  User.find({username: request.params.username},function(err, users){
+    if(err){
+      console.log(err);
+    }
+    else {
+      res.json(users);
+    }
   });
-
-router.route('/:name')
-  .get(function (req, res) {
-    let name = req.params.name;
-    User.find({username: name}, function (err, user){
-        console.log(user)
-        res.json(user);
-    });
-  })
+});
 
 // Defined edit route
-router.route('/edit/:id')
+router.route('/edit/:username')
   .get(function (req, res) {
     let id = req.params.id;
     User.findById(id, function (err, user){
@@ -52,7 +44,7 @@ router.route('/update/:id')
           user.linkedIn = req.body.linkedIn;
           user.languages = req.body.languages[String];
           user.technologies = req.body.technologies[String];
-          user.interests=require.body.interests[String];
+          user.interests= req.body.interests[String];
 
           user.save().then(user => {
             res.json('Update complete');

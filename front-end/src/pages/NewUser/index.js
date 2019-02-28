@@ -8,9 +8,9 @@ export default class NewUser extends Component {
     super(props);
      
     this.state = {
-      disabled: false,
-      userName: '',
+      username: '',
       password: '',
+      retypedPassword: '',
       firstName: '',
       lastName: '',
       phone: '',
@@ -20,7 +20,8 @@ export default class NewUser extends Component {
       aboutYou: '',
       languages:[],
       technologies:[],
-      interests:[]
+      interests:[],
+      rejected: false
     }
   }
 
@@ -28,7 +29,7 @@ export default class NewUser extends Component {
     const { name, value } = event.target;
     if(name.includes("languages", "technologies", "interests")){
       const splitValue = value.split(",");
-
+      
       this.setState({
         [name]: splitValue
       });  
@@ -39,32 +40,27 @@ export default class NewUser extends Component {
     }
   };
 
-  submit() {
-    axios.defaults.baseURL = "http://localhost:3001"
-    axios.post('/api/auth/signup', 
-    {
-      userName: this.state.userName,
-      password: this.state.password,
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      phone: this.state.phone,
-      email: this.state.email,
-      gitHub: this.gitHub,
-      linkedIn: this.linkedIn,
-      aboutYou: this.aboutYou,
-      languages: this.languages,
-      technologies: this.technologies,
-      interests: this.interests
-    });
-    
-    this.setState({
-      disabled: true,
-    });
+  handleSubmit = event => {
+    event.preventDefault();
 
-    this.props.history.push('/');
+    const payload = this.state 
+
+    axios.defaults.baseURL = "http://localhost:3001";
+    axios.post('/api/auth/signup', payload)
+    .then(payload => {
+      if(payload.message === "Success!"){        
+        this.props.history.push('/');
+      }
+    })
+    .catch(err => {
+      if(err.response.status === 401 || err.response.status === 400) {
+        this.setState({rejected: true});
+      }
+    });
   }
 
   render() {
+    this.state.rejected = this.state.password !== this.state.retypedPassword ? true : false;
     return (
       <div className="container">
         <div className="row">
@@ -75,12 +71,12 @@ export default class NewUser extends Component {
                 <div className="form-group">
                   <label>User Name:</label>
                   <input
-                    name="userName"
+                    name="username"
                     disabled={this.state.disabled}
                     type="text"
                     onChange={this.handleInputChange}
                     className="form-control"
-                    placeholder="Provide a username."
+                    placeholder="Provide a Username."
                   />
                 </div>
                 <div className="form-group">
@@ -94,6 +90,18 @@ export default class NewUser extends Component {
                     placeholder="Provide a password."
                   />
                 </div>
+                <div className="form-group">
+                  <label>Retype Password:</label>
+                  <input
+                    name="retypedPassword"
+                    disabled={this.state.disabled}
+                    type="text"
+                    onChange={this.handleInputChange}
+                    className="form-control"
+                    placeholder="Please confirm password."
+                  />
+                </div>
+                {this.state.rejected ? <small>Passwords Do Not Match!</small> : <div></div>}
                 <div className="form-group">
                   <label>FirstName:</label>
                   <input
@@ -204,11 +212,12 @@ export default class NewUser extends Component {
                     placeholder="Enter interests separated by comas."
                   />
                 </div>
-
+                {this.state.rejected ? <div><small>Username Exists, Please Choose Another</small><br></br></div> : <div></div>}
                 <button
+                  type="button"
                   disabled={this.state.disabled}
                   className="btn btn-primary"
-                  onClick={() => {this.submit()}}>
+                  onClick={this.handleSubmit}>
                   Submit
                 </button>
               </div>

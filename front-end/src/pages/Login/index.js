@@ -3,10 +3,14 @@ import axios from 'axios';
 require("./index.css");
 
 export default class Login extends Component {
-  state = {
-    username: "",
-    password: ""
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: "",
+      password: "",
+      rejected: false
+    };
+  }
 
   handleInputChange = event => {
     const { name, value } = event.target;
@@ -20,11 +24,24 @@ export default class Login extends Component {
     event.preventDefault();
 
     axios.defaults.baseURL = "http://localhost:3001"
-    axios.post("/api/auth/login", {username: this.state.username, password: this.state.password})
-    .then(payload => console.log("received payload", payload))
+    axios.post("/api/auth/login", {
+      username: this.state.username, password: this.state.password
+    })
+    .then(payload => {
+      if(payload.status === 200){
+        const { username } = payload.data.user;
+        this.props.history.push({
+          pathname: "/user",
+          state: { payload: username }
+        })
+      }
+    })
+    .catch(err => {
+      if(err.response.status === 401 || err.response.status === 400) {
+        this.setState({rejected: true});
+      }
+    })
   };
-
-  handleSignup = () => console.log("to be setup");
 
   render() {
     return (
@@ -32,17 +49,15 @@ export default class Login extends Component {
         <form className="d-flex flex-column justify-content-center align-items-center w-25">
           <h4 className="text-center">Login</h4>
           <div className="form-group w-100">
-            <label>Email address</label>
+            <label>Username</label>
             <input 
-              type="email" 
+              type="text" 
               name="username"
-              className="form-control" 
+              className="form-control"
               value={this.state.username} 
-              onChange={this.handleInputChange}
-              aria-describedby="emailHelp" 
-              placeholder="Enter email"
+              onChange={this.handleInputChange} 
+              placeholder="Enter Username"
             />
-            <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
           </div>
           <div className="form-group w-100">
             <label>Password</label>
@@ -55,10 +70,7 @@ export default class Login extends Component {
               placeholder="Password"
             />
           </div>
-          <div className="form-group form-check">
-            <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
-            <label className="form-check-label">Check me out</label>
-          </div>
+          {this.state.rejected ? <small>Username Or Password Is Incorrect</small> : <div></div>}
           <button type="button" className="btn btn-primary w-100" onClick={this.handleFormSubmit}>Submit</button><br></br>
           <a type="link" className="btn btn-primary w-100" href="/new-user">SignUp</a>
         </form>

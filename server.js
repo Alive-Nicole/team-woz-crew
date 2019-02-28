@@ -2,10 +2,12 @@ const express = require("express")
 const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
 const session = require("express-session")
+const MongoStore  = require('connect-mongo')(session)
 const passport = require("passport")
 const helmet = require("helmet")
 const cors = require("cors")
 const morgan = require("morgan")
+const cookieParser = require("cookie-parser")
 
 const routes = require("./back-end/routes")
 
@@ -19,8 +21,9 @@ app.use(bodyParser.json())
 app.use(helmet())
 
 // enable all CORS requests
-app.use(cors())
-
+app.use(cors({
+  credentials: true
+}))
 // log HTTP requests
 app.use(morgan('combined'))
 
@@ -28,12 +31,15 @@ app.use(morgan('combined'))
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("front-end/build"))
 }
-
+app.use(cookieParser("s3cr3t"));
 //express-sessions creates a server session for the user when they login
 app.use(session({
-  secret: 's3cr3t',
+  secret: "s3cr3t",
   resave: true,
-  saveUninitialized: true
+  saveInitialized: true,
+  saveUninitialized: true,
+  store: new MongoStore({ mongooseConnection: mongoose.connection }),
+  cookie: { secure: false, maxAge: 600000 }
 }))
 
 //allows passport auth to talk with the express server
@@ -42,6 +48,7 @@ app.use(passport.session())
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Credentials", false);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
