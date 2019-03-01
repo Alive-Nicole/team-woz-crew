@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import fetch from 'node-fetch';
 import { get } from 'mongoose';
 
 require("./index.css");
@@ -14,14 +15,13 @@ export default class User extends Component {
 
   componentDidMount() {
     const username = this.props.history.location.state.payload;
+    // axios.defaults.baseURL = "http://localhost:3001"
     // axios.get(`http://localhost:3001/api/user/${username}`)
-    fetch(`http://localhost:3001/api/user/${username}`, {
-        method: "GET", // *GET, POST, PUT, DELETE, etc.
-        mode: "cors", // no-cors, cors, *same-origin
-        cache: "no-cache"
-    })
+    fetch(`http://localhost:3001/api/user/${username}`)
     .then(payload => payload.json())
-    .then(data => this.setState({ user: data[0] }))
+    .then(data => {
+      console.log('====data====', data)
+      this.setState({ user: data[0] })})
     .catch(err => console.log('====err====', err)) 
   }
 

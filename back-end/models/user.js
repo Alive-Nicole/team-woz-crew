@@ -14,6 +14,9 @@ const User = new Schema({
   firstName: {
     type: String
   },
+  lastName: {
+    type: String
+  },
    phone: {
     type: Number
   },

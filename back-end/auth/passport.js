@@ -14,9 +14,10 @@ passport.use('local-signup', new LocalStrategy(
         })
       });
     }
-))
-passport.use('local-login', new LocalStrategy(
-  function(username, password, done) {
+    ))
+    passport.use('local-login', new LocalStrategy(
+      function(username, password, done) {
+        console.log('====username in login====', username)
     User.findOne({ username: username }, function (err, user) {
       if (err) { return done(err); }
       if (!user) {
@@ -29,9 +30,20 @@ passport.use('local-login', new LocalStrategy(
     });
   }
 ))
-passport.use(new LocalStrategy(
+passport.use("local", new LocalStrategy(
   function(username, password, done) {
-    console.log('====username, password====', username, password);
+    console.log('====username, password in other strategy====', username, password);
+    User.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect Username.' });
+      }
+      if (user.password !== password) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      user.password = "";
+      return done(null, user);
+    });
   }
 ))
 
