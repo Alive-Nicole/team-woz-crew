@@ -30,7 +30,7 @@ passport.use('local-signup', new LocalStrategy(
     });
   }
 ))
-passport.use("local", new LocalStrategy(
+passport.use("local-session", new LocalStrategy({usernameField:"user-email", passwordField:"user-password"},
   function(username, password, done) {
     console.log('====username, password in other strategy====', username, password);
     User.findOne({ username: username }, function (err, user) {

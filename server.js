@@ -15,13 +15,17 @@ const app = express()
 const PORT = process.env.PORT || 3001
 
 // Define middleware here
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 // enhance your app security with Helmet
 app.use(helmet())
 
 // enable all CORS requests
-// app.use(cors())
+const corsOptions = {
+  origin: "http://localhost:3000", //the port my react app is running on.
+  credentials: true,
+};
+app.use(cors(corsOptions))
 // log HTTP requests
 app.use(morgan('combined'))
 
@@ -37,7 +41,7 @@ app.use(session({
   saveInitialized: true,
   saveUninitialized: true,
   store: new MongoStore({ mongooseConnection: mongoose.connection }),
-  cookie: { secure: false, maxAge: 600000 }
+  cookie: { secure: false, maxAge: 600000, httpOnly: false }
 }))
 
 //allows passport auth to talk with the express server
@@ -45,9 +49,16 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Credentials", true);
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  // // console.log('====req====', req)
+  // res.header("Access-Control-Allow-Origin", "*");
+  // res.header("Access-Control-Allow-Credentials", true);
+  // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
+  res.header('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept, X-Auth-Token')
+  res.header('Access-Control-Allow-Credentials', 'true')
+  res.header('Access-Control-Request-Headers', 'Origin, X-Custom-Header, X-Requested-With, Authorization, Content-Type, Accept')
+  res.header('Access-Control-Expose-Headers', 'Content-Length, X-Kuma-Revision')
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
   next();
 });
 

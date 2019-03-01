@@ -7,13 +7,16 @@ const passport = require('../../auth/passport');
 
 // Defined get data(index or listing) route
 router.get("/:username", function (request, res) {
-  console.log('====request in user====', request.user)
-  User.find({username: request.params.username},function(err, users){
+
+  let { username } = request.params;
+  console.log('====request====', request.user)
+  User.findOne({ username },function(err, user){
     if(err){
       console.log(err);
     }
     else {
-      res.json(users);
+      if(user) user.password = "";
+      res.json(user);
     }
   });
 });

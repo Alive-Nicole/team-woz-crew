@@ -23,7 +23,7 @@ export default class Login extends Component {
   handleFormSubmit = event => {
     event.preventDefault();
 
-    axios.defaults.baseURL = "http://localhost:3001"
+    // axios.defaults.baseURL = "http://localhost:3001"
     axios.post("/api/auth/login", {
       username: this.state.username, password: this.state.password
     })
