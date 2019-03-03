@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-
+import ImageUploader from 'react-images-upload';
 require("./index.css");
 
 export default class NewUser extends Component {
@@ -23,6 +23,65 @@ export default class NewUser extends Component {
       interests:[],
       rejected: false
     }
+    this.state = {picture:[]}
+    this.onDrop = this.onDrop.bind(this);
+  } 
+  onDrop(picture) {
+    this.setState({
+        picture: this.state.picture.concat(picture),
+    });
+}
+
+  updateuserName(value) {
+    this.setState({
+      userName: value,
+    });
+  }
+
+  updatefirstName(value) {
+    this.setState({
+      firstName: value,
+    });
+  }
+  updatelastName(value) {
+    this.setState({
+      lastName: value,
+    });
+  }
+updatephone(value) {
+    this.setState({
+      phone: value,
+    });
+  }
+updateemail(value) {
+    this.setState({
+      email: value,
+    });
+  }
+updategitHub(value) {
+    this.setState({
+      gitHub: value,
+    });
+  }
+updatelinkedIn(value) {
+    this.setState({
+      linkedIn: value,
+    });
+  }
+updatelanguages(value) {
+    this.setState({
+      languages: this.state.languages.push(value),
+    });
+  }
+updatetechnologies(value) {
+    this.setState({
+      technologies: this.state.technologies.push(value),
+    });
+  }
+updateinterests(value) {
+    this.setState({
+      interests: this.state.interests.push(value),
+    });
   }
 
   handleInputChange = event => {
@@ -40,10 +99,32 @@ export default class NewUser extends Component {
     }
   };
 
-  handleSubmit = event => {
-    event.preventDefault();
-
-    const payload = this.state 
+  
+      submit() {
+        this.setState({
+      disabled: true,
+    });
+    
+    axios.defaults.baseURL = "http://localhost:3001"
+     axios.post('/api/auth/signup', {
+      picture: this.state.picture,
+      userName: this.state.userName,
+      password: this.state.password,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      phone: this.state.phone,
+      email: this.state.email,
+      gitHub: this.state.gitHub,
+      linkedIn: this.state.linkedIn,
+      aboutYou: this.state.aboutYou,
+      languages: this.state.languages,
+      technologies: this.state.technologies,
+      interests: this.state.interests
+    });
+    
+    this.setState({
+      disabled: true,
+    });
 
     axios.post('/api/auth/signup', payload)
     .then(payload => {
@@ -66,6 +147,15 @@ export default class NewUser extends Component {
           <div className="col-12">
             <div className="card border-primary">
               <div className="card-header">Sign Up</div>
+              <div>
+                 <ImageUploader
+                   withIcon={true}
+                   buttonText='Choose Profile Image'
+                   onChange={this.onDrop}
+                   imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                   maxFileSize={5242880}
+                 />
+              </div>
               <div className="card-body text-left">
                 <div className="form-group">
                   <label>User Name:</label>
@@ -225,5 +315,6 @@ export default class NewUser extends Component {
         </div>
       </div>
     )
+ 
   }
 }

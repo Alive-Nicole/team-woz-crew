@@ -46,6 +46,7 @@ router.route('/update/:id')
       if (!user)
         res.status(404).send("data is not found");
       else {
+          user.picture = req.body.picture;
           user.userName = req.body.userName;
           user.firstName = req.body.firstName;
           user.lastName = req.body.lastName;

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import axios from 'axios';
+//import axios from 'axios';
 
 require("./index.css");
 
@@ -28,18 +28,19 @@ export default class Users extends Component {
             <div className="card text-white bg-secondary mb-3">
               <div className="card-header">Want to be part of the developer's companion, sign up here!</div>
               <div className="card-body">
-                <h4 className="card-title">+ </h4>
+                <h4 className="card-title"> </h4>
                 <p className="card-text">Don't worry. we have more to offer once you sign up!</p>
               </div>
             </div>
           </Link>
-          {this.state.questions === null && <p>Loading Users...</p>}
+          {this.state.users === null && <p>Loading Users...</p>}
           {
             this.state.users && this.state.users.map(user => (
               <div key={user.id} className="col-sm-12 col-md-4 col-lg-3">
                 <Link to={`/user/${user.id}`}>
                   <div className="card text-white bg-success mb-3">
-                    <div className="card-header">Users: {user.photo}</div>
+                    <div className="card-header"> {user.picture}</div>
+                   
                     <div className="card-body">
                       <h4 className="card-title">{user.userName}</h4>
                       <p className="card-text">{user.firstName}, { user.lastName}</p>
