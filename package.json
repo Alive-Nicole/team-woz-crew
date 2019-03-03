@@ -1,5 +1,5 @@
 {
-  "name": "Dev-Companion",
+  "name": "dev-companion",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -16,7 +16,7 @@
   "author": "Nicole Nwakalor, Lah Lah Ntumsi, Abraham Ferguson",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^3.6.1",
+    "concurrently": "^3.5.0",
     "morgan": "^1.9.1",
     "nodemon": "^1.11.0"
   },
