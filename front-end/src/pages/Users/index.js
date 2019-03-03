@@ -33,7 +33,7 @@ export default class Users extends Component {
               </div>
             </div>
           </Link>
-          {this.state.questions === null && <p>Loading Users...</p>}
+          {this.state.users === null && <p>Loading Users...</p>}
           {
             this.state.users && this.state.users.map(user => (
               <div key={user.id} className="col-sm-12 col-md-4 col-lg-3">
