@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import fetch from 'node-fetch';
 import axios from 'axios';
 
 require("./index.css");
@@ -19,18 +18,12 @@ export default class User extends Component {
   }
 
   componentDidMount() {
-    if(this.props.history.location.state){
-      const username = this.props.history.location.state.payload;
-      fetch(`/api/user/${username}`, {
-        method: "GET", 
-        credentials: 'include'
+    axios.get("/api/user/profile")
+      .then(payload => {
+        console.log('====payload====', payload)
+        this.setState({ user: payload.data })
       })
-      .then(payload => payload.json())
-      .then(data => {
-        this.setState({ user: data })
-      })
-      .catch(err => console.log('====err====', err)) 
-    }
+      .catch(err => console.log(err)) 
   }
 
   handleInputChange = event => {
@@ -48,7 +41,7 @@ export default class User extends Component {
   };
 
   handleLogout() {
-    fetch("/api/auth/logout")
+    axios.get("/api/auth/logout")
       .then(payload => {
         if (payload.status === 200){
           this.props.history.push("/")

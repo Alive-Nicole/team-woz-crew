@@ -3,14 +3,16 @@ const passport = require('passport'),
       User = require('../models/user')
 
 passport.use('local-signup', new LocalStrategy({ passReqToCallback: true },
-    function(req, username, password, done) {
-      console.log('====req in signup====', req)
+    function(request, username, password, done) {
+      console.log('====request in signup====', username)
       User.findOne({ username: username }, function (err, user) {
         if (err) { return done(err); }
         if (user) {
           return done(null, false, { message: 'Username exists.' });
         }
-        User.create({token: "", username: username, password: password}, function(err, newUser){
+        const { picture, username, password, firstName, lastName, phone, email, github } = request.body
+        User.create({ picture, username, password, firstName, lastName, phone, email, github }, function(err, newUser){
+          if(err) console.log('====err====', err)
           return done(null, newUser.username);
         })
       });

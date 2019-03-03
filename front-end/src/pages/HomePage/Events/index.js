@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-import {Button} from 'react-bootstrap';
 import axios from 'axios';
 
 
@@ -76,7 +75,7 @@ export class Events extends Component {
               </div>
               <a href="/url-of-post" _target="blank">Read more...</a>
               <Link to="/share">
-                <Button variant="info" >Share</Button>
+                <button className="btn" variant="info" >Share</button>
               </Link>
             </div>
 
@@ -86,7 +85,7 @@ export class Events extends Component {
                 Sing long her way size. Waited end mutual missed myself the little sister one. So in pointed or chicken cheered neither spirits invited. Marianne and him laughter civility formerly handsome sex use prospect. Hence we doors is given rapid scale above am. Difficult ye mr delivered behaviour by an. If their woman could do wound on. You folly taste hoped their above are and but.
               </div>
               <a href="/url-of-post" _target="blank">Read more...</a>
-              <Button variant="info" >Share</Button>
+              <button className="btn" variant="info" >Share</button>
             </div>
 
             <div className="content3">
@@ -96,7 +95,7 @@ export class Events extends Component {
               </div>
               <a href="/url-of-post" _target="blank">Read more...</a>
               <Link to="/share">
-                <Button variant="info" >Share</Button>
+                <button className="btn" variant="info" >Share</button>
               </Link>
             </div>
 

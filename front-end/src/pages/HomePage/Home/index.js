@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import NewsFeeds from '../NewsFeeds/NewsFeeds';
-import Jobs from '../Jobs/Jobs';
-import Events from '../Events/Events';
-import './Home.css';
+import NewsFeeds from '../NewsFeeds';
+import Jobs from '../Jobs';
+import Events from '../Events';
+import './index.css';
 import {Link} from 'react-router-dom';
-import {Jumbotron, Grid, Row, Col, Button, Container} from 'react-bootstrap';
 
 
 // import Container from 'react-bootstrap/Container';

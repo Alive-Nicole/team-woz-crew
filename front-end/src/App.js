@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Login from './pages/Login/index';
-import NewUser from './pages/NewUser/index';
-import Home from './pages/HomePage/Home/Home';
-import ShareForm from "./pages/Share/ShareForm";
-import SharePage from "./pages/Share/SharePage";
+import Login from './pages/Login/';
+import NewUser from './pages/NewUser/';
+import Home from './pages/HomePage/Home';
+import ShareForm from "./pages/ShareForm/";
+import SharePage from "./pages/SharePage/";
 import User from "./pages/User";
 // import Nav from "./components/Nav";
 

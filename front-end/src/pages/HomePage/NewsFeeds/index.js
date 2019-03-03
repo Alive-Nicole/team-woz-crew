@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-import { Button} from 'react-bootstrap';
 //import {Share} from '../../Share/ShareForm';
 import axios from 'axios';
 
@@ -115,7 +114,7 @@ export class NewsFeeds extends Component {
               </div>
               <a href="/url-of-post" _target="blank">Read more...</a>
               <Link to="/share">
-                <Button variant="info">Share</Button>
+                <button className="btn" variant="info">Share</button>
               </Link>
               
             </div>
@@ -127,7 +126,7 @@ export class NewsFeeds extends Component {
               </div>
               <a href="/url-of-post" _target="blank">Read more...</a>
               <Link to="/share">
-                <Button variant="info">Share</Button>
+                <button className="btn" variant="info">Share</button>
               </Link>
             </div>
 
@@ -138,7 +137,7 @@ export class NewsFeeds extends Component {
               </div>
               <a href="/url-of-post" _target="blank">Read more...</a>
               <Link to="/share">
-                <Button variant="info">Share</Button>
+                <button className="btn" variant="info">Share</button>
               </Link>
             </div>
 

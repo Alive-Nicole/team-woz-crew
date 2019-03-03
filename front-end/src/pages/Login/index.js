@@ -29,10 +29,7 @@ export default class Login extends Component {
     .then(payload => {
       if(payload.status === 200){
         const { username } = payload.data.user;
-        this.props.history.push({
-          pathname: "/user",
-          state: { payload: username }
-        })
+        this.props.history.push("/profile")
       }
     })
     .catch(err => {
