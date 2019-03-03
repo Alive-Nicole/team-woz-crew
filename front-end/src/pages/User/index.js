@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import axios from 'axios';
 import fetch from 'node-fetch';
-import { get } from 'mongoose';
+import axios from 'axios';
 
 require("./index.css");
 
@@ -10,6 +9,12 @@ export default class User extends Component {
     super(props);
     this.state = {
       user: null,
+      edit: false,
+      password: "",
+      newPassword: "",
+      confNewPassword: "",
+      noMatch: false,
+      rejected: false
     };
   }
 
@@ -22,27 +27,66 @@ export default class User extends Component {
       })
       .then(payload => payload.json())
       .then(data => {
-        console.log('====data====', data)
-        this.setState({ user: data })})
-        .catch(err => console.log('====err====', err)) 
-    }else {
-
+        this.setState({ user: data })
+      })
+      .catch(err => console.log('====err====', err)) 
     }
-    // axios.defaults.baseURL = "http://localhost:3001"
-    // axios.get(`http://localhost:3001/api/user/${username}`)
   }
+
+  handleInputChange = event => {
+    const { name, value } = event.target;
+    if(name.includes("languages", "technologies", "interests")){
+      const splitValue = value.split(",");
+      this.setState({
+        [name]: splitValue
+      });  
+    } else {
+      this.setState({
+        [name]: value
+      });
+    }
+  };
 
   handleLogout() {
     fetch("/api/auth/logout")
-    // .then(payload => payload.json())
-    .then(console.log)
-    .catch(err => console.log('====err====', err))
+      .then(payload => {
+        if (payload.status === 200){
+          this.props.history.push("/")
+        }
+      })
+      .catch(err => console.log('====err====', err))
+  }
+
+  handleFormDisplay() {
+    if(this.state.edit === false){
+      this.setState({edit: true})
+    }else {
+      this.setState({edit: false})
+    }
+  }
+
+  handlePasswordChange() {
+    const { user, password, newPassword, confNewPassword } = this.state;
+
+    if(newPassword === confNewPassword){
+      axios.post(`/api/user/change-password/${user.username}`, {password, newPassword})
+      .then(payload => {
+        console.log('====payload====', payload)
+        if(payload.data.status === 401){
+          this.setState({rejected: true})
+        }else if(payload.status === 200){
+          this.setState({ user: payload, edit: false })
+          this.props.history.push("/")
+        }
+      })
+      .catch(err => console.log(err)) 
+    }
   }
 
   render() {
     const { user } = this.state;
     if ( user === null ) return <p>Loading ...</p>;
-
+    this.state.noMatch = this.state.newPassword !== this.state.confNewPassword ? true : false;
     return (
       <div className="container">
         <div className="row">
@@ -58,7 +102,40 @@ export default class User extends Component {
             <p className="card-text">{user.interests.length}</p> */}
 
             <hr className="my-4" />
-            <button type="button" onClick={this.handleLogout} className="btn btn-primary">Logout</button>
+            <button type="button" onClick={this.handleLogout.bind(this)} className="btn btn-primary">Logout</button>
+            {this.state.edit ?
+            <div>
+              <form className="form">
+                <input
+                      name="password"
+                      disabled={this.state.disabled}
+                      type="text"
+                      onChange={this.handleInputChange.bind(this)}
+                      className="form-control"
+                      placeholder="Enter Current Password."
+                    />
+                  <input
+                      name="newPassword"
+                      disabled={this.state.disabled}
+                      type="text"
+                      onChange={this.handleInputChange.bind(this)}
+                      className="form-control"
+                      placeholder="Enter New Password."
+                    />
+                  <input
+                      name="confNewPassword"
+                      disabled={this.state.disabled}
+                      type="text"
+                      onChange={this.handleInputChange.bind(this)}
+                      className="form-control"
+                      placeholder="Confirm New Password."
+                    />
+                {this.state.noMatch ? <small>Passwords Do Not Match!</small> : <div></div>}
+                {this.state.rejected ? <small>Old Password Is Incorrect!</small> : <div></div>}
+                <button className="btn btn-primary" type="button" onClick={this.handlePasswordChange.bind(this)} className="btn btn-primary">Submit Change</button>
+              </form>
+              <button className="btn btn-primary" type="button" onClick={this.handleFormDisplay.bind(this)}>Hide</button>
+            </div> : <div><button className="btn btn-primary" type="button" onClick={this.handleFormDisplay.bind(this)}>Change Password</button></div> }
           </div>
         </div>
       </div>

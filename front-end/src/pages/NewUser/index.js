@@ -45,7 +45,6 @@ export default class NewUser extends Component {
 
     const payload = this.state 
 
-    axios.defaults.baseURL = "http://localhost:3001";
     axios.post('/api/auth/signup', payload)
     .then(payload => {
       if(payload.message === "Success!"){        
@@ -74,7 +73,7 @@ export default class NewUser extends Component {
                     name="username"
                     disabled={this.state.disabled}
                     type="text"
-                    onChange={this.handleInputChange}
+                    onChange={this.handleInputChange.bind(this)}
                     className="form-control"
                     placeholder="Provide a Username."
                   />
@@ -85,7 +84,7 @@ export default class NewUser extends Component {
                     name="password"
                     disabled={this.state.disabled}
                     type="text"
-                    onChange={this.handleInputChange}
+                    onChange={this.handleInputChange.bind(this)}
                     className="form-control"
                     placeholder="Provide a password."
                   />
@@ -96,7 +95,7 @@ export default class NewUser extends Component {
                     name="retypedPassword"
                     disabled={this.state.disabled}
                     type="text"
-                    onChange={this.handleInputChange}
+                    onChange={this.handleInputChange.bind(this)}
                     className="form-control"
                     placeholder="Please confirm password."
                   />
@@ -108,7 +107,7 @@ export default class NewUser extends Component {
                     name="firstName"
                     disabled={this.state.disabled}
                     type="text"
-                    onChange={this.handleInputChange}
+                    onChange={this.handleInputChange.bind(this)}
                     className="form-control"
                     placeholder="Enter first name."
                   />
@@ -119,7 +118,7 @@ export default class NewUser extends Component {
                     name="lastName"
                     disabled={this.state.disabled}
                     type="text"
-                    onChange={this.handleInputChange}
+                    onChange={this.handleInputChange.bind(this)}
                     className="form-control"
                     placeholder="Enter last name."
                   />
@@ -130,7 +129,7 @@ export default class NewUser extends Component {
                     name="phone"
                     disabled={this.state.disabled}
                     type="text"
-                    onChange={this.handleInputChange}
+                    onChange={this.handleInputChange.bind(this)}
                     className="form-control"
                     placeholder="Enter phone number."
                   />
@@ -141,7 +140,7 @@ export default class NewUser extends Component {
                     name="email"
                     disabled={this.state.disabled}
                     type="text"
-                    onChange={this.handleInputChange}
+                    onChange={this.handleInputChange.bind(this)}
                     className="form-control"
                     placeholder="Enter email address."
                   />
@@ -152,18 +151,18 @@ export default class NewUser extends Component {
                     name="github"
                     disabled={this.state.disabled}
                     type="text"
-                    onChange={this.handleInputChange}
+                    onChange={this.handleInputChange.bind(this)}
                     className="form-control"
                     placeholder="Enter github profile link."
                   />
                 </div>
                 <div className="form-group">
-                  <label>linkedIn profile:</label>
+                  <label>LinkedIn Profile:</label>
                   <input
                     name="linkedIn"
                     disabled={this.state.disabled}
                     type="text"
-                    onChange={this.handleInputChange}
+                    onChange={this.handleInputChange.bind(this)}
                     className="form-control"
                     placeholder="Enter linked in profile."
                   />
@@ -174,18 +173,18 @@ export default class NewUser extends Component {
                     name="aboutYou"
                     disabled={this.state.disabled}
                     type="textarea"
-                    onChange={this.handleInputChange}
+                    onChange={this.handleInputChange.bind(this)}
                     className="form-control"
                     placeholder="Tell us a bit about yourself."
                   />
                 </div>
                 <div className="form-group">
-                  <label>languages:</label>
+                  <label>Languages:</label>
                   <input
                     name="languages"
                     disabled={this.state.disabled}
                     type="text"
-                    onChange={this.handleInputChange}
+                    onChange={this.handleInputChange.bind(this)}
                     className="form-control"
                     placeholder="Enter languages separated by comas."
                   />
@@ -196,7 +195,7 @@ export default class NewUser extends Component {
                     name="technologies"
                     disabled={this.state.disabled}
                     type="text"
-                    onChange={this.handleInputChange}
+                    onChange={this.handleInputChange.bind(this)}
                     className="form-control"
                     placeholder="Enter list of technologies separeted by comas."
                   />
@@ -207,7 +206,7 @@ export default class NewUser extends Component {
                     name="interests"
                     disabled={this.state.disabled}
                     type="text"
-                    onChange={this.handleInputChange}
+                    onChange={this.handleInputChange.bind(this)}
                     className="form-control"
                     placeholder="Enter interests separated by comas."
                   />
@@ -217,7 +216,7 @@ export default class NewUser extends Component {
                   type="button"
                   disabled={this.state.disabled}
                   className="btn btn-primary"
-                  onClick={this.handleSubmit}>
+                  onClick={this.handleSubmit.bind(this)}>
                   Submit
                 </button>
               </div>

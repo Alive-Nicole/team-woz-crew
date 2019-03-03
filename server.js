@@ -41,7 +41,7 @@ app.use(session({
   saveInitialized: true,
   saveUninitialized: true,
   store: new MongoStore({ mongooseConnection: mongoose.connection }),
-  cookie: { secure: false, maxAge: 600000, httpOnly: false }
+  cookie: { secure: false, maxAge: 60000, httpOnly: false }
 }))
 
 //allows passport auth to talk with the express server
@@ -49,10 +49,6 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 app.use(function(req, res, next) {
-  // // console.log('====req====', req)
-  // res.header("Access-Control-Allow-Origin", "*");
-  // res.header("Access-Control-Allow-Credentials", true);
-  // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
   res.header('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept, X-Auth-Token')
   res.header('Access-Control-Allow-Credentials', 'true')

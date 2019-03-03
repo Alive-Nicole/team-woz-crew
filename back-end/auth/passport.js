@@ -2,8 +2,9 @@ const passport = require('passport'),
       LocalStrategy = require('passport-local').Strategy,
       User = require('../models/user')
 
-passport.use('local-signup', new LocalStrategy(
-    function(username, password, done) {
+passport.use('local-signup', new LocalStrategy({ passReqToCallback: true },
+    function(req, username, password, done) {
+      console.log('====req in signup====', req)
       User.findOne({ username: username }, function (err, user) {
         if (err) { return done(err); }
         if (user) {
@@ -17,43 +18,24 @@ passport.use('local-signup', new LocalStrategy(
     ))
     passport.use('local-login', new LocalStrategy(
       function(username, password, done) {
-        console.log('====username in login====', username)
-    User.findOne({ username: username }, function (err, user) {
-      if (err) { return done(err); }
-      if (!user) {
-        return done(null, false, { message: 'Incorrect Username.' });
-      }
-      if (user.password !== password) {
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-      return done(null, { username: user.username });
-    });
-  }
-))
-passport.use("local-session", new LocalStrategy({usernameField:"user-email", passwordField:"user-password"},
-  function(username, password, done) {
-    console.log('====username, password in other strategy====', username, password);
-    User.findOne({ username: username }, function (err, user) {
-      if (err) { return done(err); }
-      if (!user) {
-        return done(null, false, { message: 'Incorrect Username.' });
-      }
-      if (user.password !== password) {
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-      user.password = "";
-      return done(null, user);
-    });
-  }
-))
+        User.findOne({ username: username }, function (err, user) {
+          if (err) { return done(err); }
+          if (!user) {
+            return done(null, false, { message: 'Incorrect Username.' });
+          }
+          if (user.password !== password) {
+            return done(null, false, { message: 'Incorrect password.' });
+          }
+          return done(null, { username: user.username });
+        });
+    }))
+
 
 passport.serializeUser(function(user, done) {
-  console.log('====user serialize====', user)
   done(null, user);
 });
 
 passport.deserializeUser(function(user, done) {
-  console.log('====user deserialize====', user)
   done(null, user);
 });
 

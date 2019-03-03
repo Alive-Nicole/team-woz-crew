@@ -9,7 +9,6 @@ const passport = require('../../auth/passport');
 router.get("/:username", function (request, res) {
 
   let { username } = request.params;
-  console.log('====request====', request.user)
   User.findOne({ username },function(err, user){
     if(err){
       console.log(err);
@@ -22,11 +21,21 @@ router.get("/:username", function (request, res) {
 });
 
 // Defined edit route
-router.route('/edit/:username')
-  .get(function (req, res) {
-    let id = req.params.id;
-    User.findById(id, function (err, user){
-        res.json(user);
+router.post('/change-password/:username', function (req, res) {
+    const username = req.params.username;
+    const passwordData = req.body;
+    User.findOne({username}, function (err, user){
+      if(user.password === passwordData.password){
+        console.log('====passwordData====', passwordData, user);
+        user.password = passwordData.newPassword;
+        user.save();
+        // User.findOneAndUpdate({username}, {password: passwordData.newPassword}, (err, user) => {
+        //   res.json({user, message: "success"});
+        // })
+        res.send(200)
+      } else {
+        res.json({status: 401})
+      }
     });
   });
 

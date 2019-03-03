@@ -23,7 +23,6 @@ export default class Login extends Component {
   handleFormSubmit = event => {
     event.preventDefault();
 
-    // axios.defaults.baseURL = "http://localhost:3001"
     axios.post("/api/auth/login", {
       username: this.state.username, password: this.state.password
     })
@@ -47,7 +46,6 @@ export default class Login extends Component {
     return (
       <div className="container-fluid d-flex flex-column justify-content-center align-items-center login">
         <form className="d-flex flex-column justify-content-center align-items-center w-25">
-          <h4 className="text-center">Login</h4>
           <div className="form-group w-100">
             <label>Username</label>
             <input 
@@ -55,7 +53,7 @@ export default class Login extends Component {
               name="username"
               className="form-control"
               value={this.state.username} 
-              onChange={this.handleInputChange} 
+              onChange={this.handleInputChange.bind(this)} 
               placeholder="Enter Username"
             />
           </div>
@@ -66,12 +64,12 @@ export default class Login extends Component {
               name="password" 
               className="form-control" 
               value={this.state.password} 
-              onChange={this.handleInputChange} 
+              onChange={this.handleInputChange.bind(this)} 
               placeholder="Password"
             />
           </div>
           {this.state.rejected ? <small>Username Or Password Is Incorrect</small> : <div></div>}
-          <button type="button" className="btn btn-primary w-100" onClick={this.handleFormSubmit}>Submit</button><br></br>
+          <button type="button" className="btn btn-primary w-100" onClick={this.handleFormSubmit.bind(this)}>Login</button><br></br>
           <a type="link" className="btn btn-primary w-100" href="/new-user">SignUp</a>
         </form>
       </div>
