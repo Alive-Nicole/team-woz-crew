@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-import {Grid, Row, Col, Button} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
+import axios from 'axios';
 
 
 //const Meetup_API = "2657185b242c4410412771346973716d";
@@ -9,15 +10,33 @@ export class Events extends Component {
   constructor(props){
     super(props);
     this.state = {
-      id: 0,
-      name: "",
-      description: "",
-      event_url: "",
-      state: "",
-      country: "",
+      events: null,
     }
-    //this.getMeetup();
   }
+
+  // Get API for Events.
+  async getEvents(){
+    let events = [];
+    let getJson = await axios.get('api-url').then(res => {
+      console.log("successful");
+    }).catch(error =>{
+      console.log("Failed: ", error);
+    });
+
+    getJson.forEach(data => {
+      events.push({
+        id: 'data.Id',
+        title: 'data.title',
+        description: 'data.description',
+        url: 'data.url',
+        state: 'data.state',
+        country: 'data.country'
+      })  
+    })
+
+    this.setState({events: events})
+  }
+ 
 
   //Get Meetup API
   // getMeetup() {
@@ -40,11 +59,10 @@ export class Events extends Component {
   //   })
   // }
 
-  // Method to post to share 
-  //postContent()
-
   
   render() {
+    //const {events} = this.state;
+
     return (
       <div  className="events">
         <div>

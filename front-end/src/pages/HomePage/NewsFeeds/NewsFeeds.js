@@ -1,23 +1,45 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-import {Jumbotron, Grid, Row, Form, Button} from 'react-bootstrap';
-import {Share} from '../../Share/Share';
+import { Button} from 'react-bootstrap';
+//import {Share} from '../../Share/ShareForm';
+import axios from 'axios';
 
 export class NewsFeeds extends Component {
 
   constructor(props){
     super(props);
     this.state = {
-      url: 'url'
+      news: null
     }
-    //this.getTechCrunch();
-   
   }
 
-  // Create method to post URL to /share message box
-  handleSubmit(data){
-    console.log("Successfully posted");
-     
+  // Get API for news feeds.
+  async getNews(){
+    let news = [];
+    let getJson = await axios.get('api-url').then(res => {
+      console.log("successful");
+    }).catch(error =>{
+      console.log("Failed: ", error);
+    });
+
+    getJson.forEach(data => {
+      news.push({
+        id: 'data.Id',
+        title: 'data.title',
+        content: 'data.content',
+        url: 'data.url'
+      })  
+    })
+
+    this.setState({news: news})
+  }
+
+  //onClick Send button = Url of news is posted to share page
+  async sharePost(e) {
+    //this.getNews;
+    let share = this.state.news.url;
+    // e.target
+    // await axios.post(url)
   }
 
   
@@ -77,10 +99,11 @@ export class NewsFeeds extends Component {
          
  // }
   render() {
-    //console.log(this.state.news);
+    //const {news} = this.state;
+
     return (
       <div  className="news-feed">
-        <Form onSubmit={this.handleSubmit}></Form>
+        
         <div>
           <h3 align="center">NewsFeed</h3>
           <div className="content">

@@ -1,31 +1,46 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-import {Jumbotron, Grid, Row, Col, Button} from 'react-bootstrap';
-
+import {Button} from 'react-bootstrap';
+import axios from 'axios';
 
  
 
 export class Jobs extends Component {
     constructor(props){
         super(props);
-        //this.getGithubJobs();
+        this.state = {
+          jobs: null,
+        }
+       
     }
-    
-    // getGithubJobs = () => {
-    //    let interest = "remote";
-    //    let state = "";
-    
-    //    fetch(`https://jobs.github.com/positions.json?description=${interest}&location=`, {mode: 'cors'})
-    //    .then((data) => {
-    //        console.log(data[0]);
-    //    })
 
-    // }
+    // Get API for Jobs.
+   async getJobs(){
+     let interest = "remote";
+     let location = "";
 
-    
+     let jobs = [];
+     let getJson = await axios.get('api-url').then(res => {
+       console.log("successful");
+     }).catch(error =>{
+       console.log("Failed: ", error);
+     });
 
+     getJson.forEach(data => {
+       jobs.push({
+         id: 'data.Id',
+         title: 'data.title',
+         description: 'data.content',
+         url: 'data.url',
+      
+       })  
+     })
+     this.setState({jobs: jobs});
+   }
 
   render() {
+    //const {jobs} = this.state;
+
     return (
       <div  className="jobs">
         <div>
