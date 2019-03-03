@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-import {Button} from 'react-bootstrap';
 import axios from 'axios';
-
- 
 
 export class Jobs extends Component {
     constructor(props){
@@ -39,8 +36,6 @@ export class Jobs extends Component {
    }
 
   render() {
-    //const {jobs} = this.state;
-
     return (
       <div  className="jobs">
         <div>
@@ -54,7 +49,7 @@ export class Jobs extends Component {
               </div>
               <a href="/url-of-post" _target="blank">Read more...</a>
               <Link to="/share">
-                <Button variant="info" >Share</Button>
+                <button className="btn" variant="info" >Share</button>
               </Link>
             </div>
 
@@ -65,7 +60,7 @@ export class Jobs extends Component {
               </div>
               <a href="/url-of-post" _target="blank">Read more...</a>
               <Link to="/share">
-                <Button variant="info">Share</Button>
+                <button className="btn" variant="info">Share</button>
               </Link>
             </div>
 
@@ -76,7 +71,7 @@ export class Jobs extends Component {
               </div>
               <a href="/url-of-post" _target="blank">Read more...</a>
               <Link to="/share">
-                <Button variant="info">Share</Button>
+                <button className="btn" variant="info">Share</button>
               </Link>
             </div>
 

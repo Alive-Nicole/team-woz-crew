@@ -8,11 +8,11 @@ const User = new Schema({
   picture: {
     type:['.jpg', '.gif', '.png', '.gif']
   },
-  userName: {
+  username: {
     type: String
   },
   password:{
-type: String
+    type: String
   },
   firstName: {
     type: String

@@ -13,6 +13,7 @@ router.post("/login", passport.authenticate("local-login"), function(request, re
   })
 
 router.post("/signup", passport.authenticate('local-signup'), function(request, response){
+  console.log('====request====', request.user)
     return response.format({
       'application/json': function(){
         response.send({ status: "200", message: "Success!" });
