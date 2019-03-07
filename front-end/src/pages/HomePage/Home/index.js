@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
+
 import NewsFeeds from '../NewsFeeds';
 import Jobs from '../Jobs';
 import Events from '../Events';
 import './index.css';
-import {Link} from 'react-router-dom';
-
 
 // import Container from 'react-bootstrap/Container';
 // import Col from 'react-bootstrap/Col'
@@ -28,6 +28,7 @@ class Home extends Component {
             <div className='events'>
                 <Events />
             </div> 
+            <Link to="/profile">Profile</Link>
         </div>
       </div>
     );
