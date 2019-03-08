@@ -40,19 +40,16 @@ export class SharePage extends Component {
     }
 
     markfoundUseful = (e) =>{
-      
       let share = this.state.share;
       let id = e.target.value;
+      let data = share[id-1]
+
+      let useful = data.foundUseful
+
+      true ? useful += 1 : useful = 0;
 
       this.setState({
-        share: share.map(post => {
-          if(post.id == id) {
-            post.foundUseful++// = useful;
-          }
-          
-          return post;
-        })
-          
+        foundUseful: useful
       })
       
       // console.log(foundUseful)

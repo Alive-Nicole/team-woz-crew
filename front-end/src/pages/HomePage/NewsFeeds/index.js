@@ -13,9 +13,9 @@ export class NewsFeeds extends Component {
   }
 
   // Get API for news feeds.
-  async getNews(){
+  getNews = () => {
     let news = [];
-    let getJson = await axios.get('api-url').then(res => {
+    let getJson = axios.get('api-url').then(res => {
       console.log("successful");
     }).catch(error =>{
       console.log("Failed: ", error);

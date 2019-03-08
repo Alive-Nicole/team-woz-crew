@@ -23,6 +23,7 @@
   "dependencies": {
     "bcrypt": "^3.0.4",
     "body-parser": "^1.17.2",
+    "bootstrap": "^4.3.1",
     "connect-mongo": "^2.0.3",
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
@@ -32,6 +33,9 @@
     "if-env": "^1.0.4",
     "mongoose": "^5.4.14",
     "passport": "^0.4.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "react": "^16.8.3",
+    "react-bootstrap": "^1.0.0-beta.5",
+    "react-dom": "^16.8.3"
   }
 }
