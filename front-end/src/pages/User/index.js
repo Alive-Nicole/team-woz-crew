@@ -25,6 +25,7 @@ export default class User extends Component {
   componentDidMount() {
     axios.get("/api/user/profile")
       .then(payload => {
+        localStorage.setItem("username", payload.data.username)
         this.setState({ user: payload.data })
       })
       .catch(err => console.log(err)) 

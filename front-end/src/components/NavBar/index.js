@@ -2,6 +2,7 @@ import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 
 function NavBar() {
+  console.log('====local====', localStorage.getItem("username"))
   return (
     <Navbar bg="primary" variant="dark" className="fixed-top">
       <Navbar.Brand href="/">DevCompanion</Navbar.Brand>

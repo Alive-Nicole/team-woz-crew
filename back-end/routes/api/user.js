@@ -42,11 +42,11 @@ router.post('/change-password/:username', function (req, res) {
   });
 
 //  Defined update route
-router.route('/update/:id')
-  .post(function (req, res) {
-    User.findById(req.params.id, function(err, user) {
-      if (!user)
-        res.status(404).send("data is not found");
+router.post('/update/:username', (req, res) => {
+    User.findById(req.params.username)
+    .then( err, user => {
+      if(err) res.json(err);
+      if (!user) { res.status(404).send("data is not found") }
       else {
           user.picture = req.body.picture;
           user.userName = req.body.userName;
@@ -55,7 +55,7 @@ router.route('/update/:id')
           user.phone = req.body.phone;
           user.email = req.body.email;
           user.aboutYou = req.body.aboutYou;
-          user.gitHub = req.body.gitHub; 
+          user.github = req.body.github; 
           user.linkedIn = req.body.linkedIn;
           user.languages = req.body.languages[String];
           user.technologies = req.body.technologies[String];
@@ -63,11 +63,11 @@ router.route('/update/:id')
 
           user.save().then(user => {
             res.json('Update complete');
-        })
-        .catch(err => {
-              res.status(400).send("unable to update the database");
-        });
+          })
       }
+    })
+    .catch(err => {
+        res.status(400).send("unable to update the database");
     });
   });
 
