@@ -6,12 +6,12 @@ import Home from './pages/HomePage/Home';
 import ShareForm from "./pages/ShareForm/";
 import SharePage from "./pages/SharePage/";
 import User from "./pages/User";
-import NavBar from "./components/NavBar";
+import NavigationBar from "./components/NavigationBar";
 
 const App = () => (
   <Router>
     <div>
-  <NavBar />
+      <NavigationBar />
       <Switch>
         <Route exact path="/" component={Login} />
         <Route exact path="/new-user" component={NewUser} /> 

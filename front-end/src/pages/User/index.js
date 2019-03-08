@@ -37,7 +37,7 @@ export default class User extends Component {
 
     reader.onloadend = () => {
       let newUserObj = this.state.user
-      newUserObj.picture.push(reader.result)
+      newUserObj.picture = reader.result
       this.setState({
         user: newUserObj
       });
@@ -69,16 +69,6 @@ export default class User extends Component {
     e.target.value = temp_value
   }
 
-  handleLogout() {
-    axios.get("/api/auth/logout")
-      .then(payload => {
-        if (payload.status === 200){
-          this.props.history.push("/")
-        }
-      })
-      .catch(err => console.log('====err====', err))
-  }
-
   handleFormDisplay() {
     if(this.state.edit === false){
       this.setState({edit: true})
@@ -105,7 +95,18 @@ export default class User extends Component {
   }
 
   handleProfileUpdate() {
-    console.log('====called====')
+    const { user } = this.state
+    console.log('====called====', user.username)
+    axios.post("/api/user/update", user)
+    .then(payload => {
+      if(payload.data.status === 401){
+        this.setState({rejected: true})
+      }else if(payload.status === 200){
+        this.setState({ user: payload })
+        this.props.history.push("/profile")
+      }
+    })
+    .catch(err => console.log(err)) 
     this.handleInteraction()
   }
 
@@ -120,6 +121,7 @@ export default class User extends Component {
     let { user, noMatch, newPassword, confNewPassword, clicked, rejected, edit, disabled } = this.state;
     if ( user === null ) return <p>Loading ...</p>;
     noMatch = newPassword !== confNewPassword ? true : false;
+    console.log('====this.state====', this.state)
     return (
       <Container>
         <Jumbotron>
@@ -171,23 +173,26 @@ export default class User extends Component {
                 <Button onClick={this.handleProfileUpdate.bind(this)}>Submit Changes</Button> : 
                 <Button onClick={this.handleInteraction.bind(this)}>Edit Profile</Button> }
           </Col>
-          <Col></Col>
-          <Col>
-            <button type="button" onClick={this.handleLogout.bind(this)} className="btn btn-primary">Logout</button>
-          </Col>
         </Row>
         <br></br>
         <Row>
           <Col>
-          { this.state.user.picture.length > 0 || !clicked ? 
-            <Image className="w-50" src={this.state.user.picture[0]} rounded fluid />
-            : <ImageUploader
-              withIcon={true}
-              buttonText='Choose Profile Image'
-              onChange={this.onDrop.bind(this)}
-              imgExtension={['.jpg', '.gif', '.png', '.gif']}
-              maxFileSize={3458475}
-            /> }
+          { this.state.user.picture.length > 0 && clicked ? 
+            <Row>
+              <Col>
+                <Image className="w-100" src={this.state.user.picture[0]} rounded fluid />
+              </Col>
+              <Col>
+                <ImageUploader
+                  withIcon={false}
+                  buttonText='Choose Profile Image'
+                  onChange={this.onDrop.bind(this)}
+                  imgExtension={[' .jpg, ', ' .gif, ', ' .png, ', ' .gif']}
+                  maxFileSize={3458475}
+                />  
+              </Col>
+            </Row>
+            : <Image className="w-100" src={this.state.user.picture[0]} rounded fluid /> }
           </Col>
           <Col>
             <div>
