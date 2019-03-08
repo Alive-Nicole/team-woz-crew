@@ -86,7 +86,20 @@ export default class User extends Component {
   render() {
     const { user } = this.state;
     if ( user === null ) return <p>Loading ...</p>;
-    this.state.noMatch = this.state.newPassword !== this.state.confNewPassword ? true : false;
+    
+    //this.state.noMatch = this.state.newPassword !== this.state.confNewPassword ? true : false;
+    if(this.state.newPassword !== this.state.confNewPassword){
+      this.setState({
+        noMatch: true
+      })
+    }
+    else{
+      this.setState({
+        noMatch: false
+      })
+    }
+    
+
     return (
       <div className="container">
         <div className="row">
