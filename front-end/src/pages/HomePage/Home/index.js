@@ -17,18 +17,17 @@ class Home extends Component {
     return(
       <div className='home'>
         <div className = "">
-            <div className='news'>
-                <NewsFeeds />
-            </div>
+          <div className='news'>
+              <NewsFeeds />
+          </div>
 
-            <div className='jobs'>
-                <Jobs/>
-            </div>
+          <div className='jobs'>
+              <Jobs/>
+          </div>
 
-            <div className='events'>
-                <Events />
-            </div> 
-            <Link to="/profile">Profile</Link>
+          <div className='events'>
+              <Events />
+          </div> 
         </div>
       </div>
     );

@@ -41,7 +41,7 @@ app.use(session({
   saveInitialized: true,
   saveUninitialized: true,
   store: new MongoStore({ mongooseConnection: mongoose.connection }),
-  cookie: { secure: false, maxAge: 60000, httpOnly: false }
+  cookie: { secure: false, maxAge: 6000000, httpOnly: false }
 }))
 
 //allows passport auth to talk with the express server

@@ -26,7 +26,7 @@ const User = new Schema({
    email: {
     type: String
   },
-   gitHub: {
+   github: {
     type: String
   },
     aboutYou: {

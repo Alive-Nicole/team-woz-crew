@@ -15,26 +15,37 @@ export default class NewUser extends Component {
       lastName: '',
       phone: '',
       email: '',
-      gitHub: '',
+      github: '',
       linkedIn: '',
       aboutYou: '',
       languages:[],
       technologies:[],
       interests:[],
+      picture:[],
       rejected: false
     }
     this.state = {picture:[]}
     this.onDrop = this.onDrop.bind(this);
   } 
+  // db.User.findAndModify({query: {username: "derp"}, update: {$set: {picture: [], linkedIn: "https://www.linkedin.com/in/abraham-ferguson/", github: "https://github.com/AbrahamFergie"}}, upsert: true})
   onDrop(picture) {
-    this.setState({
-        picture: this.state.picture.concat(picture),
-    });
+    let reader = new FileReader();
+    let file = picture[0];
+
+    reader.onloadend = () => {
+      let newUserObj = this.state
+      newUserObj.picture.push(reader.result)
+      this.setState({
+        newUserObj
+      });
+    }
+
+    reader.readAsDataURL(file)
   }
 
   handleInputChange = event => {
     const { name, value } = event.target;
-    if(name.includes("languages", "technologies", "interests")){
+    if(name === "interests" || name === "languages" || name === "technologies"){
       const splitValue = value.split(",");
       
       this.setState({
@@ -75,7 +86,7 @@ export default class NewUser extends Component {
                  <ImageUploader
                    withIcon={true}
                    buttonText='Choose Profile Image'
-                   onChange={this.onDrop}
+                   onChange={this.onDrop.bind(this)}
                    imgExtension={['.jpg', '.gif', '.png', '.gif']}
                    maxFileSize={5242880}
                  />
