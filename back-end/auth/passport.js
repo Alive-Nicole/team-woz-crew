@@ -10,9 +10,10 @@ passport.use('local-signup', new LocalStrategy({ passReqToCallback: true },
         if (user) {
           return done(null, false, { message: 'Username exists.' });
         }
-        const { picture, username, password, firstName, lastName, phone, email, github } = request.body
-        User.create({ picture, username, password, firstName, lastName, phone, email, github }, function(err, newUser){
+        const { picture, aboutYou, username, password, firstName, lastName, phone, email, github, linkedIn, interests, languages, technologies } = request.body
+        User.create({ picture, aboutYou, username, password, firstName, lastName, phone, email, github, linkedIn, interests, languages, technologies }, function(err, newUser){
           if(err) console.log('====err====', err)
+          console.log('====newUser====', newUser)
           return done(null, newUser.username);
         })
       });
