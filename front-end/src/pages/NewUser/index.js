@@ -88,7 +88,7 @@ export default class NewUser extends Component {
                    buttonText='Choose Profile Image'
                    onChange={this.onDrop.bind(this)}
                    imgExtension={['.jpg', '.gif', '.png', '.gif']}
-                   maxFileSize={5242880}
+                   maxFileSize={3000000}
                  />
               </div>
               <div className="card-body text-left">

@@ -9,6 +9,7 @@ require("./index.css");
 export default class User extends Component {
   constructor(props) {
     super(props);
+    this.delete = this.delete.bind(this);
     this.state = {
       user: null,
       edit: false,
@@ -115,6 +116,11 @@ export default class User extends Component {
     let flip = clicked ? false : true
     this.setState({ clicked: flip })
   }
+  delete() {
+    axios.get('api/user/delete/:id'+this.props.obj._id)
+        .then(console.log('Deleted'))
+        .catch(err => console.log(err))
+}
   
   render() {
     let { user, noMatch, newPassword, confNewPassword, clicked, rejected, edit, disabled } = this.state;
@@ -175,7 +181,11 @@ export default class User extends Component {
           <Col>
             <button type="button" onClick={this.handleLogout.bind(this)} className="btn btn-primary">Logout</button>
           </Col>
+          <col>
+          <button type="button" onClick={this.delete} className="btn btn-danger">Delete</button>
+          </col>
         </Row>
+
         <br></br>
         <Row>
           <Col>
@@ -186,7 +196,7 @@ export default class User extends Component {
               buttonText='Choose Profile Image'
               onChange={this.onDrop.bind(this)}
               imgExtension={['.jpg', '.gif', '.png', '.gif']}
-              maxFileSize={3458475}
+              maxFileSize={30000000}
             /> }
           </Col>
           <Col>
