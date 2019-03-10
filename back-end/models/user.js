@@ -36,13 +36,13 @@ const User = new Schema({
     type: String
   },
    languages: {
-    type: [String]
+    type: String
   },
    technologies: {
-    type: [String]
+    type: String
   },
    interests: {
-    type: [String]
+    type: String
   }
 },
 
