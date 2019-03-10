@@ -276,7 +276,7 @@ export default class User extends Component {
                       type="text" 
                     /> 
                   </div> :
-                  <p>{user.languages.join(",")}</p> 
+                  <p>{Array.isArray(user.languanges) ? user.languages.join(",") : user.languages}</p> 
                 }
               </Col>
             </Row>
@@ -293,7 +293,7 @@ export default class User extends Component {
                       type="text" 
                     /> 
                   </div> :
-                  <p>{user.technologies.join(",")}</p> 
+                  <p>{Array.isArray(user.technologies) ? user.technologies.join(",") : user.technologies}</p> 
                 }    
               </Col>
             </Row>
@@ -310,7 +310,7 @@ export default class User extends Component {
                       type="text" 
                     /> 
                   </div> :
-                  <p>{user.interests.join(",")}</p> 
+                  <p>{Array.isArray(user.interests) ? user.interests.join(",") : user.interests}</p> 
                 }
               </Col>
             </Row>
