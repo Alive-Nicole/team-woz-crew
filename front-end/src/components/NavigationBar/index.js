@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import { Navbar, Nav, Button } from 'react-bootstrap';
-import axios from 'axios';
 
 export default class NavigationBar extends Component {
   constructor(props) {
@@ -12,21 +10,13 @@ export default class NavigationBar extends Component {
   }
 
   handleLogout() {
-    axios.get("/api/auth/logout")
-      .then(payload => {
-        if (payload.status === 200){
-          // this.props.history.push("/")
-          localStorage.setItem("username", "")
-          this.setState({redirect: true})
-          // console.log('====this.props====', this.props)
-        }
-      })
-      .catch(err => console.log('====err====', err))
+    localStorage.setItem("username", "")
+    window.location.href = "/"
   }
 
   render() {
-    // console.log('====local====', )
     let userLoggedIn = localStorage.getItem("username").length > 0
+    console.log('====userLoggedIn====', userLoggedIn)
     return (
       <Navbar bg="primary" variant="dark" className="fixed-top w-100">
         <Navbar.Brand href="/">DevCompanion</Navbar.Brand>

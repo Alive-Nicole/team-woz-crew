@@ -10,7 +10,7 @@ export default class User extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: null,
+      user: { name: "", picture: ["https://via.placeholder.com/300/09f/fff.png"] },
       edit: false,
       password: "",
       newPassword: "",
@@ -27,13 +27,15 @@ export default class User extends Component {
       .then(payload => {
         localStorage.setItem("username", payload.data.username)
         this.setState({ user: payload.data })
+        // window.location.reload()
       })
       .catch(err => console.log(err)) 
   }
 
   onDrop(picture) {
     let reader = new FileReader();
-    let file = picture[0];
+    console.log('====picture====', picture.target.files[0])
+    let file = picture.target.files[0];
 
     reader.onloadend = () => {
       let newUserObj = this.state.user
@@ -49,9 +51,9 @@ export default class User extends Component {
   handleInputChange = event => {
     const { name, value } = event.target;
     if(name === "interests" || name === "languages" || name === "technologies"){
-      const splitValue = value.split(",");
+      // const splitValue = value.split(",");
       let newUserObj = this.state.user
-      newUserObj[name] = splitValue
+      newUserObj[name] = value
       this.setState({
         user: newUserObj
       });
@@ -86,7 +88,7 @@ export default class User extends Component {
         if(payload.data.status === 401){
           this.setState({rejected: true})
         }else if(payload.status === 200){
-          this.setState({ user: payload, edit: false })
+          this.setState({ user: payload.data, edit: false })
           this.props.history.push("/")
         }
       })
@@ -102,7 +104,7 @@ export default class User extends Component {
       if(payload.data.status === 401){
         this.setState({rejected: true})
       }else if(payload.status === 200){
-        this.setState({ user: payload })
+        this.setState({ user: payload.data })
         this.props.history.push("/profile")
       }
     })
@@ -119,81 +121,53 @@ export default class User extends Component {
   
   render() {
     let { user, noMatch, newPassword, confNewPassword, clicked, rejected, edit, disabled } = this.state;
-    if ( user === null ) return <p>Loading ...</p>;
+    if ( user.name === "" ) return <p>Loading ...</p>;
     noMatch = newPassword !== confNewPassword ? true : false;
-    console.log('====this.state====', this.state)
+    console.log('====this.state====', user)
     return (
-      <Container>
-        <Jumbotron>
-          <h1 className="display-3">Welcome {user.username}</h1>
-        </Jumbotron>
+      <Container fluid={true}>
         <Row>
           <Col>
-            {edit ?
-              <form className="form">
-                <input
-                      name="password"
-                      disabled={disabled}
-                      type="text"
-                      onChange={this.handleInputChange.bind(this)}
-                      className="form-control"
-                      placeholder="Enter Current Password."
-                    />
-                  <input
-                      name="newPassword"
-                      disabled={disabled}
-                      type="text"
-                      onChange={this.handleInputChange.bind(this)}
-                      className="form-control"
-                      placeholder="Enter New Password."
-                    />
-                  <input
-                      name="confNewPassword"
-                      disabled={disabled}
-                      type="text"
-                      onChange={this.handleInputChange.bind(this)}
-                      className="form-control"
-                      placeholder="Confirm New Password."
-                    />
-                {noMatch ? <small>Passwords Do Not Match!</small> : <div></div>}
-                {rejected ? <small>Old Password Is Incorrect!</small> : <div></div>}
-
-                <Row>
-                  <Col>
-                    <button className="btn btn-primary" type="button" onClick={this.handlePasswordChange.bind(this)} className="btn btn-primary">Submit Change</button>                
-                  </Col>
-                  <Col>
-                    <button className="btn btn-primary" type="button" onClick={this.handleFormDisplay.bind(this)}>Hide</button>              
-                  </Col>
-                </Row>
-              </form> : <Button onClick={this.handleFormDisplay.bind(this)}>Change Password</Button> }
-          </Col>
-          <Col>
-              { clicked ? 
-                <Button onClick={this.handleProfileUpdate.bind(this)}>Submit Changes</Button> : 
-                <Button onClick={this.handleInteraction.bind(this)}>Edit Profile</Button> }
+          { user && clicked ? 
+            <Row>
+              <Col></Col>
+              <Col></Col>
+              <Col className="center">
+                <Image 
+                  className="w-100 profile" 
+                  src={this.state.user.picture[0]} 
+                  alt="https://via.placeholder.com/300/09f/fff.png" 
+                  rounded
+                  fluid
+                  />
+                  {/* <ImageUploader
+                    withIcon={true}
+                    buttonText='Choose Profile Image'
+                    onChange={this.onDrop.bind(this)}
+                    imgExtension={[' .jpg, ', ' .gif, ', ' .png, ', ' .gif']}
+                    maxFileSize={345847985}
+                  />   */}
+              {/* </Col>  */}
+                <br></br>
+                <input name="foo" type="file" onChange={this.onDrop.bind(this)} />
+                <br></br>
+              </Col>
+              <Col></Col>
+              <Col></Col>
+            </Row>
+            : <Row>
+              <Col></Col>
+              <Col></Col>
+              <Col>
+                <Image className="w-100" src={user.picture[0]} rounded fluid />
+              </Col>
+              <Col></Col>
+              <Col></Col>
+            </Row>
+          }
           </Col>
         </Row>
-        <br></br>
         <Row>
-          <Col>
-          { this.state.user.picture.length > 0 && clicked ? 
-            <Row>
-              <Col>
-                <Image className="w-100" src={this.state.user.picture[0]} rounded fluid />
-              </Col>
-              <Col>
-                <ImageUploader
-                  withIcon={false}
-                  buttonText='Choose Profile Image'
-                  onChange={this.onDrop.bind(this)}
-                  imgExtension={[' .jpg, ', ' .gif, ', ' .png, ', ' .gif']}
-                  maxFileSize={3458475}
-                />  
-              </Col>
-            </Row>
-            : <Image className="w-100" src={this.state.user.picture[0]} rounded fluid /> }
-          </Col>
           <Col>
             <div>
               <strong><label>First Name:</label></strong>
@@ -205,7 +179,7 @@ export default class User extends Component {
                     onChange={this.handleInputChange}                
                     onFocus={this.moveCaretAtEnd}
                     type="text" 
-                  />
+                    />
                 </div> :
                 <p>{user.firstName}</p> 
               }
@@ -220,7 +194,7 @@ export default class User extends Component {
                     onChange={this.handleInputChange}                
                     onFocus={this.moveCaretAtEnd}
                     type="text" 
-                  />
+                    />
                 </div> :
                 <p>{user.lastName}</p> 
               }
@@ -235,7 +209,7 @@ export default class User extends Component {
                     onChange={this.handleInputChange}                
                     onFocus={this.moveCaretAtEnd}
                     type="text" 
-                  />
+                    />
                 </div> :
                 <p>{user.phone}</p> 
               }
@@ -252,7 +226,7 @@ export default class User extends Component {
                     onChange={this.handleInputChange}                
                     onFocus={this.moveCaretAtEnd}
                     type="text" 
-                  />
+                    />
                 </div> :
                 <p>{user.email}</p> 
               }
@@ -288,51 +262,112 @@ export default class User extends Component {
               }
             </div>
           </Col>
+          <Col>
+            <Row>
+              <Col>
+                <strong><label>Languages:</label></strong>
+                { clicked ?
+                  <div>
+                    <input 
+                      name="languages" 
+                      value={user.languages}
+                      onChange={this.handleInputChange}                
+                      onFocus={this.moveCaretAtEnd}
+                      type="text" 
+                    /> 
+                  </div> :
+                  <p>{user.languages.join(",")}</p> 
+                }
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <strong><label>Technologies:</label></strong>
+                { clicked ?
+                  <div>
+                    <input 
+                      name="technologies" 
+                      value={user.technologies}
+                      onChange={this.handleInputChange}                
+                      onFocus={this.moveCaretAtEnd}
+                      type="text" 
+                    /> 
+                  </div> :
+                  <p>{user.technologies.join(",")}</p> 
+                }    
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <strong><label>Interests:</label></strong>
+                { clicked ?
+                  <div>
+                    <input 
+                      name="interests" 
+                      value={user.interests}
+                      onChange={this.handleInputChange}                
+                      onFocus={this.moveCaretAtEnd}
+                      type="text" 
+                    /> 
+                  </div> :
+                  <p>{user.interests.join(",")}</p> 
+                }
+              </Col>
+            </Row>
+          </Col> 
         </Row>
+        <br></br>
         <Row>
-          <strong><label>Languages:</label></strong>
-          { clicked ?
-            <Col>
-              <input 
-                name="languages" 
-                value={user.languages}
-                onChange={this.handleInputChange}                
-                onFocus={this.moveCaretAtEnd}
-                type="text" 
-              />
-            </Col> :
-            user.languages.map(lang => <Col><p>{lang}</p></Col>) 
-          }
-        </Row>
-        <Row>
-          <strong><label>Technologies:</label></strong>
-          { clicked ?
-            <Col>
-              <input 
-                name="technologies" 
-                value={user.technologies}
-                onChange={this.handleInputChange}                
-                onFocus={this.moveCaretAtEnd}
-                type="text" 
-              />
-            </Col> :
-            user.technologies.map(tech => <Col><p>{tech}</p></Col>) 
-          }          
-        </Row>
-        <Row>          
-          <strong><label>Interests:</label></strong>
-          { clicked ?
-            <Col>
-              <input 
-                name="interests" 
-                value={user.interests}
-                onChange={this.handleInputChange}                
-                onFocus={this.moveCaretAtEnd}
-                type="text" 
-              />
-            </Col> :
-            user.interests.map(interest => <Col><p>{interest}</p></Col>) 
-          }
+        <Col></Col>          
+          <Col>
+            {edit ?
+              <form className="form">
+                <input
+                      name="password"
+                      disabled={disabled}
+                      type="text"
+                      onChange={this.handleInputChange.bind(this)}
+                      className="form-control"
+                      placeholder="Enter Current Password."
+                    />
+                  <input
+                      name="newPassword"
+                      disabled={disabled}
+                      type="text"
+                      onChange={this.handleInputChange.bind(this)}
+                      className="form-control"
+                      placeholder="Enter New Password."
+                    />
+                  <input
+                      name="confNewPassword"
+                      disabled={disabled}
+                      type="text"
+                      onChange={this.handleInputChange.bind(this)}
+                      className="form-control"
+                      placeholder="Confirm New Password."
+                    />
+                {noMatch ? <small>Passwords Do Not Match!</small> : <div></div>}
+                {rejected ? <small>Old Password Is Incorrect!</small> : <div></div>}
+                
+                <br></br>
+                <Row>
+                  <Col>
+                    <button className="btn btn-primary" type="button" onClick={this.handlePasswordChange.bind(this)} className="btn btn-primary">Submit Change</button>                
+                  </Col>
+                  <Col>
+                    <button className="btn btn-primary" type="button" onClick={this.handleFormDisplay.bind(this)}>Hide</button>              
+                  </Col>
+                </Row>
+              </form> : <Button onClick={this.handleFormDisplay.bind(this)}>Change Password</Button> }
+          </Col>
+          <Col></Col>
+          <Col></Col>
+          <Col>
+              { clicked ? 
+                <Button onClick={this.handleProfileUpdate.bind(this)}>Submit Changes</Button> : 
+                <Button onClick={this.handleInteraction.bind(this)}>Edit Profile</Button> }
+          </Col>
+          <Col></Col>
         </Row>
       </Container>
     )
