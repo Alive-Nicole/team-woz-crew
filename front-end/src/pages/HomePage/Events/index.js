@@ -6,14 +6,16 @@ import axios from 'axios';
 const Meetup_API = "2657185b242c4410412771346973716d";
 
 export class Events extends Component {
-  state = [{
-    id: undefined,
-    title: undefined,
-    description: undefined,
-    url: undefined,
-    // state: undefined,
-    // country: undefined,
-  }]
+  state = {
+    jobs: [{
+      id: undefined,
+      title: undefined,
+      description: undefined,
+      url: undefined,
+      // state: undefined,
+      // country: undefined,
+    }]
+  }
 
   // // Get API for Events.
   // async getEvents(){
@@ -48,7 +50,7 @@ export class Events extends Component {
      await axios.get(`https://cors-anywhere.herokuapp.com/api.meetup.com/2/concierge?&sign=true&photo-host=public&zip=30296&country=US&city=Riverdale&state=GA&fields=technology&key=${Meetup_API}`,{crossDomain: true})
     //  .then(data => data.json())
      .then(data => {
-        data.data.results.map(post => {
+        const jobs = data.data.results.map(post => {
           console.log(post.venue)
 
           this.setState({
