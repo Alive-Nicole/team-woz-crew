@@ -13,8 +13,118 @@ export class Jobs extends Component {
 
     // Get API for Jobs.
    async getJobs(){
-     let interest = "remote";
-     let location = "";
+    //  
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
      let jobs = [];
      let getJson = await axios.get('api-url').then(res => {
@@ -48,7 +158,7 @@ export class Jobs extends Component {
                 Debating me breeding be answered an he. Spoil event was words her off cause any. Tears woman which no is world miles woody. Wished be do mutual except in effect answer. Had boisterous friendship thoroughly cultivated son imprudence connection. Windows because concern sex its. Law allow saved views hills day ten. Examine waiting his evening day passage proceed.
               </div>
               <a href="/url-of-post" _target="blank">Read more...</a>
-              <Link to="/share">
+              <Link to="/share-page">
                 <button className="btn" variant="info" >Share</button>
               </Link>
             </div>
@@ -59,7 +169,7 @@ export class Jobs extends Component {
                 Debating me breeding be answered an he. Spoil event was words her off cause any. Tears woman which no is world miles woody. Wished be do mutual except in effect answer. Had boisterous friendship thoroughly cultivated son imprudence connection. Windows because concern sex its. Law allow saved views hills day ten. Examine waiting his evening day passage proceed.
               </div>
               <a href="/url-of-post" _target="blank">Read more...</a>
-              <Link to="/share">
+              <Link to="/share-page">
                 <button className="btn" variant="info">Share</button>
               </Link>
             </div>
@@ -70,7 +180,7 @@ export class Jobs extends Component {
                 Debating me breeding be answered an he. Spoil event was words her off cause any. Tears woman which no is world miles woody. Wished be do mutual except in effect answer. Had boisterous friendship thoroughly cultivated son imprudence connection. Windows because concern sex its. Law allow saved views hills day ten. Examine waiting his evening day passage proceed.
               </div>
               <a href="/url-of-post" _target="blank">Read more...</a>
-              <Link to="/share">
+              <Link to="/share-page">
                 <button className="btn" variant="info">Share</button>
               </Link>
             </div>

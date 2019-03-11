@@ -6,19 +6,14 @@ import axios from 'axios';
 const Meetup_API = "2657185b242c4410412771346973716d";
 
 export class Events extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      // events: null,
-
-      id: 0,
-      name: "",
-      description: "",
-      event_url: "",
-      state: "",
-      country: "",
-    }
-  }
+  state = [{
+    id: undefined,
+    title: undefined,
+    description: undefined,
+    url: undefined,
+    // state: undefined,
+    // country: undefined,
+  }]
 
   // // Get API for Events.
   // async getEvents(){
@@ -43,30 +38,28 @@ export class Events extends Component {
   //   this.setState({events: events})
   // }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.getMeetup();
   }
  
 
   //Get Meetup API
-   getMeetup() {
-     axios.get(`https://cors-anywhere.herokuapp.com/api.meetup.com/2/concierge?&sign=true&photo-host=public&zip=30296&country=US&city=Riverdale&state=GA&fields=technology&key=${Meetup_API}`,{crossDomain: true})
-     //.then((res) => res.json())
-     .then((data) => {
-      
-       var response = data.articles;
-       console.log(data)
-      //  for(var i = 0; i<5; i++){
-      //    console.log(response[i].state);
-      //    this.setState({
-      //      id: i,
-      //      name: response[i].name,
-      //      description: response[i].description,
-      //      event_url: response[i].event_url.toString(),
-      //      state: response[i].state,
-      //      country: response[i].country, 
-      //    })
-      // }
+   getMeetup = async () => {
+     await axios.get(`https://cors-anywhere.herokuapp.com/api.meetup.com/2/concierge?&sign=true&photo-host=public&zip=30296&country=US&city=Riverdale&state=GA&fields=technology&key=${Meetup_API}`,{crossDomain: true})
+    //  .then(data => data.json())
+     .then(data => {
+        data.data.results.map(post => {
+          console.log(post.venue)
+
+          this.setState({
+            id: post.id,
+            title: post.name,
+            description: post.description,
+            url: post.event_url,
+            // city: post.venue.city,
+            // country: post.venue.country 
+          })
+        })
      }).catch(err =>{
       console.log(err);
      })
@@ -74,8 +67,6 @@ export class Events extends Component {
 
   
   render() {
-    //const {events} = this.state;
-
 
     return (
       <div  className="events">
@@ -86,30 +77,11 @@ export class Events extends Component {
             <div className="content1">
               <h5>Event 1</h5>
               <div className="description">
+                {this.state.title}
                 {this.state.description}
               </div>
-              <a href="/url-of-post" _target="blank">Read more...</a>
-              <Link to="/share">
-                <button className="btn" variant="info" >Share</button>
-              </Link>
-            </div>
-
-            <div className="content2">
-              <h5>Event 2</h5>
-              <div className="description">
-                Sing long her way size. Waited end mutual missed myself the little sister one. So in pointed or chicken cheered neither spirits invited. Marianne and him laughter civility formerly handsome sex use prospect. Hence we doors is given rapid scale above am. Difficult ye mr delivered behaviour by an. If their woman could do wound on. You folly taste hoped their above are and but.
-              </div>
-              <a href="/url-of-post" _target="blank">Read more...</a>
-              <button className="btn" variant="info" >Share</button>
-            </div>
-
-            <div className="content3">
-              <h5>Event 3</h5>
-              <div className="description">
-                Sing long her way size. Waited end mutual missed myself the little sister one. So in pointed or chicken cheered neither spirits invited. Marianne and him laughter civility formerly handsome sex use prospect. Hence we doors is given rapid scale above am. Difficult ye mr delivered behaviour by an. If their woman could do wound on. You folly taste hoped their above are and but.
-              </div>
-              <a href="/url-of-post" _target="blank">Read more...</a>
-              <Link to="/share">
+              <a href="/url-of-post" _target="blank" rel="noopener noreferrer">Read more...</a>
+              <Link to="/share-page">
                 <button className="btn" variant="info" >Share</button>
               </Link>
             </div>

@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
-import NewsFeeds from '../NewsFeeds/NewsFeeds';
-import Jobs from '../Jobs/Jobs';
-import Events from '../Events/Events';
-import './Home.css';
+import NewsFeeds from '../NewsFeeds';
+import Jobs from '../Jobs';
+import Events from '../Events';
 import {Link} from 'react-router-dom';
 import {Jumbotron, Grid, Row, Col, Button, Container} from 'react-bootstrap';
 
+require('./index.css');
 
-// import Container from 'react-bootstrap/Container';
-// import Col from 'react-bootstrap/Col'
-// import Row from 'react-bootstrap/Row'
 
 class Home extends Component {
   state = {

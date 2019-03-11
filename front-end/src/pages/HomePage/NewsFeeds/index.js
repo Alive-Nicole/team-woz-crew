@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-//import {Share} from '../../Share/ShareForm';
 import axios from 'axios';
 
 export class NewsFeeds extends Component {
@@ -113,7 +112,7 @@ export class NewsFeeds extends Component {
               Spoke as as other again ye. Hard on to roof he drew. So sell side ye in mr evil. Longer waited mr of nature seemed. Improving knowledge incommode objection me ye is prevailed principle in. Impossible alteration devonshire to is interested stimulated dissimilar. To matter esteem polite do if. 
               </div>
               <a href="/url-of-post" _target="blank">Read more...</a>
-              <Link to="/share">
+              <Link to="/share-page">
                 <button className="btn" variant="info">Share</button>
               </Link>
               
@@ -125,7 +124,7 @@ export class NewsFeeds extends Component {
               Spoke as as other again ye. Hard on to roof he drew. So sell side ye in mr evil. Longer waited mr of nature seemed. Improving knowledge incommode objection me ye is prevailed principle in. Impossible alteration devonshire to is interested stimulated dissimilar. To matter esteem polite do if. 
               </div>
               <a href="/url-of-post" _target="blank">Read more...</a>
-              <Link to="/share">
+              <Link to="/share-page">
                 <button className="btn" variant="info">Share</button>
               </Link>
             </div>
@@ -136,7 +135,7 @@ export class NewsFeeds extends Component {
               Spoke as as other again ye. Hard on to roof he drew. So sell side ye in mr evil. Longer waited mr of nature seemed. Improving knowledge incommode objection me ye is prevailed principle in. Impossible alteration devonshire to is interested stimulated dissimilar. To matter esteem polite do if. 
               </div>
               <a href="/url-of-post" _target="blank">Read more...</a>
-              <Link to="/share">
+              <Link to="/share-page-page">
                 <button className="btn" variant="info">Share</button>
               </Link>
             </div>

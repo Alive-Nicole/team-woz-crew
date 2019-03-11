@@ -36,6 +36,7 @@
     "passport-local": "^1.0.0",
     "react": "^16.8.3",
     "react-bootstrap": "^1.0.0-beta.5",
-    "react-dom": "^16.8.3"
+    "react-dom": "^16.8.3",
+    "react-images-upload": "^1.2.6"
   }
 }
