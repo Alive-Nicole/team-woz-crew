@@ -67,10 +67,11 @@ export default class NewUser extends Component {
         this.props.history.push('/');
       }
     })
-    .catch(err => {
-      if(err.response.status === 401 || err.response.status === 400) {
-        this.setState({rejected: true});
-      }
+  .catch(err => {
+    //  if(err.response.status === 401 || err.response.status === 400) {
+     //   this.setState({rejected: true});
+    //  }
+    console.log(err);
     });
   }
 

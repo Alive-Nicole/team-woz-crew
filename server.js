@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 3001
 
 // Define middleware here
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(bodyParser.json({limit: '50mb'}))
 // enhance your app security with Helmet
 app.use(helmet())
 
