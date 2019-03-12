@@ -2,49 +2,34 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 
-export class NewsFeeds extends Component {
+const TechCrunch_API = '694a36dcc42a4cbf9922f6435b66ac77'
 
+export class NewsFeeds extends Component {
   constructor(props){
     super(props);
     this.state = {
-      news: null
+      news: []
     }
   }
 
   // Get API for news feeds.
-  getNews = () => {
-    let news = [];
-    let getJson = axios.get('api-url').then(res => {
-      console.log("successful");
-    }).catch(error =>{
-      console.log("Failed: ", error);
-    });
+  getNews = () => async () => {
+    await axios.get(`https://cors-anywhere.herokuapp.com/newsapi.org/v2/everything?sources=techcrunch&apiKey=${TechCrunch_API}`,{crossDomain: true})
+   //  .then(data => data.json())
+    .then(data => {
+       data.data.results.map(post => {
+         console.log(post)
 
-    getJson.forEach(data => {
-      news.push({
-        id: 'data.Id',
-        title: 'data.title',
-        content: 'data.content',
-        url: 'data.url'
-      })  
-    })
-
-    this.setState({news: news})
-  }
-
-  //onClick Send button = Url of news is posted to share page
-  async sharePost(e) {
-    //this.getNews;
-    let share = this.state.news.url;
-    // e.target
-    // await axios.post(url)
-  }
-
-  
+       })
+    }).catch(err =>{
+     console.log(err);
+   })
+ }
+ 
   //Get Tech Crunch API
   // getTechCrunch = () => {
   //   const NewsAPI = require('newsapi');
-  //   const newsapi = new NewsAPI('694a36dcc42a4cbf9922f6435b66ac77');
+  //   const newsApi = '694a36dcc42a4cbf9922f6435b66ac77'
 
   //   // To query sources
   //   newsapi.v2.sources({
@@ -104,51 +89,7 @@ export class NewsFeeds extends Component {
         
         <div>
           <h3 align="center">NewsFeed</h3>
-          <div className="content">
-
-            <div className="content1">
-              <h5>News 1</h5>
-              <div className="description">
-              Spoke as as other again ye. Hard on to roof he drew. So sell side ye in mr evil. Longer waited mr of nature seemed. Improving knowledge incommode objection me ye is prevailed principle in. Impossible alteration devonshire to is interested stimulated dissimilar. To matter esteem polite do if. 
-              </div>
-              <a href="/url-of-post" _target="blank">Read more...</a>
-              <Link to="/share-page">
-                <button className="btn" variant="info">Share</button>
-              </Link>
-              
-            </div>
-
-            <div className="content2">
-              <h5>News 2</h5>
-              <div className="description">
-              Spoke as as other again ye. Hard on to roof he drew. So sell side ye in mr evil. Longer waited mr of nature seemed. Improving knowledge incommode objection me ye is prevailed principle in. Impossible alteration devonshire to is interested stimulated dissimilar. To matter esteem polite do if. 
-              </div>
-              <a href="/url-of-post" _target="blank">Read more...</a>
-              <Link to="/share-page">
-                <button className="btn" variant="info">Share</button>
-              </Link>
-            </div>
-
-            <div className="content3">
-            <h5>News 3</h5>
-              <div className="description">
-              Spoke as as other again ye. Hard on to roof he drew. So sell side ye in mr evil. Longer waited mr of nature seemed. Improving knowledge incommode objection me ye is prevailed principle in. Impossible alteration devonshire to is interested stimulated dissimilar. To matter esteem polite do if. 
-              </div>
-              <a href="/url-of-post" _target="blank">Read more...</a>
-              <Link to="/share-page-page">
-                <button className="btn" variant="info">Share</button>
-              </Link>
-            </div>
-
-          </div>
-
-
-          {/* {this.state.news.map(article => (
-            <div key={article.id} className = "section">
-              <a href={article.url} _target="blank"><h5>{article.name}</h5></a>
-              <p>{article.description}</p>
-            </div>
-          ))} */}
+          <div className="content">Content</div>
 
         </div>
       </div>

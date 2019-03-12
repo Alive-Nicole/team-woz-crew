@@ -44,15 +44,15 @@ class Home extends Component {
       <div className='home'>
         <div className = "">
             <div className='news'>
-                <NewsFeeds news={this.state.feeds} />
+                <NewsFeeds />
             </div>
 
             <div className='jobs'>
-                <Jobs jobs={this.state.feeds} />
+                <Jobs />
             </div>
 
             <div className='events'>
-                <Events events={this.state.feeds} />
+                <Events />
             </div> 
         </div>
       </div>

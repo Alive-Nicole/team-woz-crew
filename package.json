@@ -32,20 +32,12 @@
     "helmet": "^3.15.1",
     "if-env": "^1.0.4",
     "mongoose": "^5.4.14",
-<<<<<<< HEAD
-=======
     "node-fetch": "^2.3.0",
     "npm": "^6.8.0",
->>>>>>> 9c5209d16bfe85a1696404cb4218fce518f7991b
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "react": "^16.8.3",
     "react-bootstrap": "^1.0.0-beta.5",
-<<<<<<< HEAD
-    "react-dom": "^16.8.3",
-    "react-images-upload": "^1.2.6"
-=======
     "react-dom": "^16.8.3"
->>>>>>> 9c5209d16bfe85a1696404cb4218fce518f7991b
   }
 }

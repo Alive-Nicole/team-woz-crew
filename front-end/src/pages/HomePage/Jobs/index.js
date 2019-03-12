@@ -3,193 +3,175 @@ import {Link} from 'react-router-dom';
 import axios from 'axios';
 
 export class Jobs extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-          jobs: null,
-        }
-       
+  constructor(props){
+    super(props);
+    this.state = {
+      jobs: [],
+      interest: 'python'
     }
-
-    // Get API for Jobs.
-   async getJobs(){
-    //  
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-     let jobs = [];
-     let getJson = await axios.get('api-url').then(res => {
-       console.log("successful");
-     }).catch(error =>{
-       console.log("Failed: ", error);
-     });
-
-     getJson.forEach(data => {
-       jobs.push({
-         id: 'data.Id',
-         title: 'data.title',
-         description: 'data.content',
-         url: 'data.url',
+  }
+
+  componentDidMount = () => {
+    this.getGitHubJobs();
+  }
+
+  componentDidUpdate = () => {
+    this.getGitHubJobs();
+  }
       
-       })  
-     })
-     this.setState({jobs: jobs});
-   }
+  // Get API for Jobs.
+  getGitHubJobs = () => async () => {
+    let interest = this.state.interest;
+    await axios.get(`https://cors-anywhere.herokuapp.com/jobs.github.com/positions.json?description=${interest}&location=us`,{crossDomain: true})
+    .then(data => {
 
+      console.log(data); //Nothing displays in the console
+
+      data.map(post => {
+        let jobs = this.state.jobs;
+
+          let fetchedJobs = {
+            id: post.id,
+            title: post.title,
+            type: post.type,
+            company: post.company,
+            url: post.url,
+            location: post.location
+          }
+
+          jobs.push(fetchedJobs);
+          // console.log(events)
+      })
+    }).catch(err =>{
+      console.log(err);
+    })
+
+    console.log(this.state.jobs);
+  }
+
+    
   render() {
     return (
       <div  className="jobs">
         <div>
           <h3 align="center">Jobs</h3>
-          <div className="contents">
-
-            <div className="content1">
-              <h5>Job 1</h5>
-              <div className="description">
-                Debating me breeding be answered an he. Spoil event was words her off cause any. Tears woman which no is world miles woody. Wished be do mutual except in effect answer. Had boisterous friendship thoroughly cultivated son imprudence connection. Windows because concern sex its. Law allow saved views hills day ten. Examine waiting his evening day passage proceed.
-              </div>
-              <a href="/url-of-post" _target="blank">Read more...</a>
-              <Link to="/share-page">
-                <button className="btn" variant="info" >Share</button>
-              </Link>
-            </div>
-
-            <div className="content2">
-              <h5>Job 2</h5>
-              <div className="description">
-                Debating me breeding be answered an he. Spoil event was words her off cause any. Tears woman which no is world miles woody. Wished be do mutual except in effect answer. Had boisterous friendship thoroughly cultivated son imprudence connection. Windows because concern sex its. Law allow saved views hills day ten. Examine waiting his evening day passage proceed.
-              </div>
-              <a href="/url-of-post" _target="blank">Read more...</a>
-              <Link to="/share-page">
-                <button className="btn" variant="info">Share</button>
-              </Link>
-            </div>
-
-            <div className="content3">
-              <h5>Job 3</h5>
-              <div className="description">
-                Debating me breeding be answered an he. Spoil event was words her off cause any. Tears woman which no is world miles woody. Wished be do mutual except in effect answer. Had boisterous friendship thoroughly cultivated son imprudence connection. Windows because concern sex its. Law allow saved views hills day ten. Examine waiting his evening day passage proceed.
-              </div>
-              <a href="/url-of-post" _target="blank">Read more...</a>
-              <Link to="/share-page">
-                <button className="btn" variant="info">Share</button>
-              </Link>
-            </div>
-
-          </div>
+          Content
         </div>
       </div>
     )
   }
 }
+    
+    export default Jobs
+    
 
-export default Jobs
+    
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+

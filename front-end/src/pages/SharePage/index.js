@@ -117,7 +117,7 @@ export class SharePage extends Component {
           </Row>
           
           <div className="row2">
-            <a className="shared-post" href={shared.url} target="_blank">
+            <a className="shared-post" href={shared.url} target="_blank" rel="noopener noreferrer">
               <h5 className="title">{shared.title}</h5>
               <p className="description">{shared.description}</p>
             </a>

@@ -6,15 +6,11 @@ import axios from 'axios';
 const Meetup_API = "2657185b242c4410412771346973716d";
 
 export class Events extends Component {
-  state = {
-    jobs: [{
-      id: undefined,
-      title: undefined,
-      description: undefined,
-      url: undefined,
-      // state: undefined,
-      // country: undefined,
-    }]
+  constructor(props){
+    super(props);
+    this.state = {
+      events: []
+    }
   }
 
   // // Get API for Events.
@@ -43,55 +39,57 @@ export class Events extends Component {
   componentDidMount = () => {
     this.getMeetup();
   }
+
+  componentDidUpdate = () => {
+    this.getMeetup();
+  }
  
 
   //Get Meetup API
-   getMeetup = async () => {
-     await axios.get(`https://cors-anywhere.herokuapp.com/api.meetup.com/2/concierge?&sign=true&photo-host=public&zip=30296&country=US&city=Riverdale&state=GA&fields=technology&key=${Meetup_API}`,{crossDomain: true})
-    //  .then(data => data.json())
-     .then(data => {
-        const jobs = data.data.results.map(post => {
-          console.log(post.venue)
+  getMeetup = async () => {
+    let interest = 'python';
+    await axios.get(`https://cors-anywhere.herokuapp.com/api.meetup.com/2/concierge?&sign=true&photo-host=public&zip=&country=&city=&state=&fields=${interest}&key=${Meetup_API}`,{crossDomain: true})
+    .then(data => {
+        
+      data.data.results.map(post => {
+        let events = this.state.events;
 
-          this.setState({
-            id: post.id,
-            title: post.name,
-            description: post.description,
-            url: post.event_url,
-            // city: post.venue.city,
-            // country: post.venue.country 
-          })
-        })
+        let fetchedEvents = {
+          id: post.id,
+          title: post.name,
+          description: post.description,
+          url: post.event_url,
+          // city: post.venue.city,
+          // country: post.venue.country
+        }
+
+        events.push(fetchedEvents);
+
+      })
      }).catch(err =>{
       console.log(err);
-     })
-   }
+    })
+    //console.log(this.state.events) ===>>PRINTS TO THE CONSOLe, ho
+  }
 
   
   render() {
 
-    return (
-      <div  className="events">
+    return this.state.events.map(event =>(
+      <div className="events" key={event.id}>
         <div>
-          <h3 align="center">Events</h3>
-          <div className="contents">
-
-            <div className="content1">
-              <h5>Event 1</h5>
-              <div className="description">
-                {this.state.title}
-                {this.state.description}
-              </div>
-              <a href="/url-of-post" _target="blank" rel="noopener noreferrer">Read more...</a>
-              <Link to="/share-page">
-                <button className="btn" variant="info" >Share</button>
-              </Link>
-            </div>
-
+          {/* <h3 align="center">Events</h3> */}
+          <div className="contents" >
+            <h4>{event.title}</h4>
+            <p>{event.description}</p>
+            <a href={event.url} _target="blank" rel="noopener noreferrer">Read more...</a>
+            <Link to="/share-page">
+              <button className="btn" variant="info" >Share</button>
+            </Link>
           </div>
         </div>
       </div>
-    )
+    ))
   }
 }
 
