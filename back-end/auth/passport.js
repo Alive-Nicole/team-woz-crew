@@ -4,7 +4,7 @@ const passport = require('passport'),
 
 passport.use('local-signup', new LocalStrategy({ passReqToCallback: true },
     function(request, username, password, done) {
-      console.log('====request in signup====', username)
+      console.log('====request in signup====', User)
       User.findOne({ username: username }, function (err, user) {
         if (err) { return done(err); }
         if (user) {
