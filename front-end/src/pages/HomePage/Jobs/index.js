@@ -1,68 +1,75 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
+import { Container } from 'react-bootstrap';
 import axios from 'axios';
+// import parse from 'html-react-parser';
 
 export class Jobs extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      jobs: [],
-      interest: 'python'
+    constructor(props){
+      super(props);
+      this.state = {
+        jobs: [],
+        interest: 'python'
+      }
     }
-  }
+  
+    componentDidMount = () => {
+      this.getGitHubJobs();
+    }
+  
+    componentDidUpdate = () => {
+      this.getGitHubJobs();
+    }
+        
+    // Get GitHubJobs API.
+    getGitHubJobs = async () => {
+      let interest = this.state.interest;
+  
+      const jobs = await axios.get(`https://cors-anywhere.herokuapp.com/jobs.github.com/positions.json?description=${interest}&location=us`,{crossDomain: true})
+      //console.log(jobs)
 
-  componentDidMount = () => {
-    this.getGitHubJobs();
-  }
-
-  componentDidUpdate = () => {
-    this.getGitHubJobs();
-  }
-      
-  // Get API for Jobs.
-  getGitHubJobs = () => async () => {
-    let interest = this.state.interest;
-    await axios.get(`https://cors-anywhere.herokuapp.com/jobs.github.com/positions.json?description=${interest}&location=us`,{crossDomain: true})
-    .then(data => {
-
-      console.log(data); //Nothing displays in the console
-
-      data.map(post => {
-        let jobs = this.state.jobs;
-
-          let fetchedJobs = {
-            id: post.id,
-            title: post.title,
-            type: post.type,
-            company: post.company,
-            url: post.url,
-            location: post.location
-          }
-
-          jobs.push(fetchedJobs);
-          // console.log(events)
+      this.setState({
+        jobs: jobs.data
       })
-    }).catch(err =>{
-      console.log(err);
-    })
-
-    console.log(this.state.jobs);
-  }
+    }
 
     
   render() {
     return (
-      <div  className="jobs">
-        <div>
-          <h3 align="center">Jobs</h3>
-          Content
+      <Container fluid  className="jobs">
+        <h3 align="center">Jobs</h3>
+
+        <div className="contents">
+          { this.state.jobs ? this.state.jobs.map( (job, index) => {
+            return (
+              <div key={ index }>
+
+                <div className="job-title">
+                  <h4>{ job.title }</h4>
+                </div>
+
+                <div className="job-content">
+                  <p>Company: { job.company }  |  Location: { job.location }</p>
+                </div>
+
+                <a href={ job.url } target="_blank" rel="noopener noreferrer">Learn more...</a>
+
+                <Link to="/share-page">
+                  <button className="btn" variant="info" >Share</button>
+                </Link>
+
+              </div>
+            )
+            }) : <div><br></br><h4 className="center">Loading...</h4><br></br></div>
+          }
+        
         </div>
-      </div>
+      </Container>
     )
   }
 }
     
-    export default Jobs
+export default Jobs
     
 
     
