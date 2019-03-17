@@ -24,6 +24,7 @@ export default class NavigationBar extends Component {
           <Nav.Link href="/home">Home</Nav.Link>
           <Nav.Link href="/shared">Shared</Nav.Link>
           <Nav.Link href="/profile">Profile</Nav.Link>
+          <Nav.Link href="/users">Users</Nav.Link>
         </Nav>
         {userLoggedIn ? <Button onClick={this.handleLogout.bind(this)} className="btn btn-danger float-right"><strong>Logout</strong></Button> : <div></div>}
       </Navbar>

@@ -28,7 +28,7 @@ const corsOptions = {
 app.use(cors(corsOptions))
 // log HTTP requests
 app.use(morgan('combined'))
-
+app.use(cors());
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("front-end/build"))

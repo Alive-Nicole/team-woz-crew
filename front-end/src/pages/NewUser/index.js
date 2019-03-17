@@ -248,7 +248,7 @@ export default class NewUser extends Component {
             </div>
           </div>
         </div>
-      </div>
+     </div>
     )
  
   }

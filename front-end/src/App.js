@@ -7,6 +7,7 @@ import ShareForm from "./pages/ShareForm/";
 import SharePage from "./pages/SharePage/";
 import User from "./pages/User";
 import NavigationBar from "./components/NavigationBar";
+import Users from "./pages/Users"
 
 const App = () => (
   <Router>
@@ -19,6 +20,7 @@ const App = () => (
         <Route exact path="/share" component={ShareForm} />
         <Route exact path="/share-page" component={SharePage} />
         <Route exact path="/profile" component={User} />
+        <Route exact path="/users" component={Users} />
       </Switch>
     </div>
   </Router>

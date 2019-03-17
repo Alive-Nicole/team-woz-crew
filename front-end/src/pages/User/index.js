@@ -9,6 +9,7 @@ require("./index.css");
 export default class User extends Component {
   constructor(props) {
     super(props);
+    this.delete = this.delete.bind(this);
     this.state = {
       user: { name: "", picture: ["https://via.placeholder.com/300/09f/fff.png"] },
       edit: false,
@@ -118,7 +119,15 @@ export default class User extends Component {
     let flip = clicked ? false : true
     this.setState({ clicked: flip })
   }
-  
+
+  delete() {
+    const { user } = this.state
+    console.log('====called====', user._id)
+    axios.get('api/user/delete:/id', user)
+        .then(console.log('Deleted'))
+        .catch(err => console.log(err))
+}
+
   render() {
     let { user, noMatch, newPassword, confNewPassword, clicked, rejected, edit, disabled } = this.state;
     if ( user.name === "" ) return <p>Loading ...</p>;
@@ -166,10 +175,11 @@ export default class User extends Component {
             </Row>
           }
           </Col>
+         
         </Row>
         <Row>
           <Col>
-            <div>
+            <div >
               <strong><label>First Name:</label></strong>
               {clicked ?
                 <div>
@@ -365,11 +375,18 @@ export default class User extends Component {
           <Col>
               { clicked ? 
                 <Button onClick={this.handleProfileUpdate.bind(this)}>Submit Changes</Button> : 
-                <Button onClick={this.handleInteraction.bind(this)}>Edit Profile</Button> }
+              <Button onClick={this.handleInteraction.bind(this)}>Edit Profile</Button>  }
+              
           </Col>
-          <Col></Col>
+
+          <Col>
+           <Button type="button" onClick={this.delete} className="btn btn-danger">Delete Profile</Button>
+          </Col>
         </Row>
+        
+
       </Container>
+      
     )
   }
 }
