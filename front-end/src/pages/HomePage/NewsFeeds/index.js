@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 
+<<<<<<< HEAD
 const TechCrunch_API = '694a36dcc42a4cbf9922f6435b66ac77'
+=======
+require("./index.css");
+
+export class NewsFeeds extends Component {
+>>>>>>> logout button is persisting through page change
 
 export class NewsFeeds extends Component {
   constructor(props){

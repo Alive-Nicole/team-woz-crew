@@ -13,17 +13,16 @@ router.post("/login", passport.authenticate("local-login"), function(request, re
   })
 
 router.post("/signup", passport.authenticate('local-signup'), function(request, response){
-  console.log('====request====', request.user)
-    return response.format({
-      'application/json': function(){
+  return response.format({
+    'application/json': function(){
         response.send({ status: "200", message: "Success!" });
       }
     })
   })
-
-router.get("/logout", function(req, res){
-    req.logout();
-    res.send("Success");
+  
+  router.get("/logout", function(request, response){
+    request.logout();
+    return response.send("Success");
   });
     
 module.exports = router;

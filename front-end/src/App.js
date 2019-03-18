@@ -1,17 +1,21 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Login from './pages/Login';
-import NewUser from './pages/NewUser';
+import { Router, Route, Switch } from "react-router-dom";
+import { createBrowserHistory } from 'history';
+
+import Login from './pages/Login/';
+import NewUser from './pages/NewUser/';
 import Home from './pages/HomePage/Home';
 import SharePage from "./pages/SharePage";
 import User from "./pages/User";
 import NavigationBar from "./components/NavigationBar";
 import Users from "./pages/Users"
 
+const customHistory = createBrowserHistory();
+
 const App = () => (
-  <Router>
+  <Router history={customHistory}>
     <div>
-      <NavigationBar />
+      <NavigationBar history={customHistory}/>
       <Switch>
         <Route exact path="/" component={Login} />
         <Route exact path="/new-user" component={NewUser} /> 

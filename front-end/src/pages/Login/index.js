@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { Button } from 'react-bootstrap';
 import axios from 'axios';
+
 require("./index.css");
 
 export default class Login extends Component {
@@ -28,8 +30,7 @@ export default class Login extends Component {
     })
     .then(payload => {
       if(payload.status === 200){
-        const { username } = payload.data.user;
-        this.props.history.push("/profile")
+        this.props.history.push("/profile", { loggedIn: true })
       }
     })
     .catch(err => {
@@ -38,6 +39,11 @@ export default class Login extends Component {
       }
     })
   };
+
+  handleSignupRedirect = event => {
+    event.preventDefault();
+    this.props.history.push("/new-user", { loggedIn: false })
+  }
 
   render() {
     return (
@@ -51,7 +57,7 @@ export default class Login extends Component {
               className="form-control"
               value={this.state.username} 
               onChange={this.handleInputChange.bind(this)} 
-              placeholder="Enter Username"
+              placeholder="Username"
             />
           </div>
           <div className="form-group w-100">
@@ -66,8 +72,8 @@ export default class Login extends Component {
             />
           </div>
           {this.state.rejected ? <small>Username Or Password Is Incorrect</small> : <div></div>}
-          <button type="button" className="btn btn-primary w-100" onClick={this.handleFormSubmit.bind(this)}>Login</button><br></br>
-          <a type="link" className="btn btn-primary w-100" href="/new-user">SignUp</a>
+          <Button type="button" variant="outline-secondary" className="btn w-100" onClick={this.handleFormSubmit.bind(this)}>Login</Button><br></br>
+          <Button type="button" variant="outline-secondary" className="btn w-100" onClick={this.handleSignupRedirect.bind(this)}>SignUp</Button>
         </form>
       </div>
     )

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import ImageUploader from 'react-images-upload';
+
 require("./index.css");
 
 export default class NewUser extends Component {

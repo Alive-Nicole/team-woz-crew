@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import ImageUploader from 'react-images-upload';
-import { Container, Row, Col, Button, Jumbotron, Image } from 'react-bootstrap';
-import Editable from '../../components/Editable';
+import { Container, Row, Col, Button, Image } from 'react-bootstrap';
 
 require("./index.css");
 
@@ -19,24 +17,22 @@ export default class User extends Component {
       noMatch: false,
       rejected: false,
       btnEdit: false,
-      clicked: false
+      clicked: false,
+      updateFlag: false
     };
   }
 
   componentDidMount() {
     axios.get("/api/user/profile")
       .then(payload => {
-        localStorage.setItem("username", payload.data.username)
         this.setState({ user: payload.data })
-        // window.location.reload()
       })
       .catch(err => console.log(err)) 
   }
 
   onDrop(picture) {
-    let reader = new FileReader();
-    console.log('====picture====', picture.target.files[0])
-    let file = picture.target.files[0];
+    const reader = new FileReader();
+    const file = picture.target.files[0];
 
     reader.onloadend = () => {
       let newUserObj = this.state.user
@@ -52,7 +48,6 @@ export default class User extends Component {
   handleInputChange = event => {
     const { name, value } = event.target;
     if(name === "interests" || name === "languages" || name === "technologies"){
-      // const splitValue = value.split(",");
       let newUserObj = this.state.user
       newUserObj[name] = value
       this.setState({
@@ -66,6 +61,7 @@ export default class User extends Component {
       });
     }
   };
+
   moveCaretAtEnd(e) {
     var temp_value = e.target.value
     e.target.value = ''
@@ -99,7 +95,6 @@ export default class User extends Component {
 
   handleProfileUpdate() {
     const { user } = this.state
-    console.log('====called====', user.username)
     axios.post("/api/user/update", user)
     .then(payload => {
       if(payload.data.status === 401){
@@ -130,9 +125,10 @@ export default class User extends Component {
 
   render() {
     let { user, noMatch, newPassword, confNewPassword, clicked, rejected, edit, disabled } = this.state;
-    if ( user.name === "" ) return <p>Loading ...</p>;
+    
+    if ( user.name === "" ) return <a href="/"><h4 className="center">No User Logged In Click To Go To Login Page</h4></a>;
     noMatch = newPassword !== confNewPassword ? true : false;
-    console.log('====this.state====', user)
+
     return (
       <Container fluid={true}>
         <Row>
@@ -149,14 +145,6 @@ export default class User extends Component {
                   rounded
                   fluid
                   />
-                  {/* <ImageUploader
-                    withIcon={true}
-                    buttonText='Choose Profile Image'
-                    onChange={this.onDrop.bind(this)}
-                    imgExtension={[' .jpg, ', ' .gif, ', ' .png, ', ' .gif']}
-                    maxFileSize={345847985}
-                  />   */}
-              {/* </Col>  */}
                 <br></br>
                 <input name="foo" type="file" onChange={this.onDrop.bind(this)} />
                 <br></br>
@@ -328,7 +316,6 @@ export default class User extends Component {
         </Row>
         <br></br>
         <Row>
-        <Col></Col>          
           <Col>
             {edit ?
               <form className="form">
@@ -362,18 +349,17 @@ export default class User extends Component {
                 <br></br>
                 <Row>
                   <Col>
-                    <button className="btn btn-primary" type="button" onClick={this.handlePasswordChange.bind(this)} className="btn btn-primary">Submit Change</button>                
+                    <Button variant="outline-secondary" className="btn btn-primary" type="button" onClick={this.handlePasswordChange.bind(this)} className="btn btn-primary">Submit Change</Button>                
                   </Col>
                   <Col>
-                    <button className="btn btn-primary" type="button" onClick={this.handleFormDisplay.bind(this)}>Hide</button>              
+                    <Button variant="outline-secondary" className="btn btn-primary" type="button" onClick={this.handleFormDisplay.bind(this)}>Hide</Button>
                   </Col>
                 </Row>
-              </form> : <Button onClick={this.handleFormDisplay.bind(this)}>Change Password</Button> }
+              </form> : <Button variant="outline-secondary" onClick={this.handleFormDisplay.bind(this)}>Change Password</Button> }
           </Col>
-          <Col></Col>
-          <Col></Col>
           <Col>
               { clicked ? 
+<<<<<<< HEAD
                 <Button onClick={this.handleProfileUpdate.bind(this)}>Submit Changes</Button> : 
               <Button onClick={this.handleInteraction.bind(this)}>Edit Profile</Button>  }
               
@@ -381,6 +367,10 @@ export default class User extends Component {
 
           <Col>
            <Button type="button" onClick={this.delete} className="btn btn-danger">Delete Profile</Button>
+=======
+                <Button variant="outline-secondary" onClick={this.handleProfileUpdate.bind(this)}>Submit Changes</Button> : 
+                <Button variant="outline-secondary" onClick={this.handleInteraction.bind(this)}>Edit Profile</Button> }
+>>>>>>> logout button is persisting through page change
           </Col>
         </Row>
         

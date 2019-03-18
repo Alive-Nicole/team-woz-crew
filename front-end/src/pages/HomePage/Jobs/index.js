@@ -4,6 +4,8 @@ import { Container } from 'react-bootstrap';
 import axios from 'axios';
 // import parse from 'html-react-parser';
 
+require("./index.css");
+
 export class Jobs extends Component {
     constructor(props){
       super(props);

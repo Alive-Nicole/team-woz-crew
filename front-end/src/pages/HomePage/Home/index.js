@@ -7,7 +7,6 @@ import { MDBBtn, MDBInput, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFoote
 import NewsFeeds from '../NewsFeeds';
 import Jobs from '../Jobs';
 import Events from '../Events';
-import {Link} from 'react-router-dom';
 
 require('./index.css');
 
