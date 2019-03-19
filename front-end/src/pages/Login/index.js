@@ -5,8 +5,8 @@ import axios from 'axios';
 require("./index.css");
 
 export default class Login extends Component {
-  constructor(props) {
-    super(props);
+  constructor( props ) {
+    super(props );
     this.state = {
       username: "",
       password: "",
@@ -30,12 +30,12 @@ export default class Login extends Component {
     })
     .then(payload => {
       if(payload.status === 200){
-        this.props.history.push("/profile", { loggedIn: true })
+        this.props.history.push("/home", { loggedIn: true })
       }
     })
     .catch(err => {
       if(err.response.status === 401 || err.response.status === 400) {
-        this.setState({rejected: true});
+        this.setState({ rejected: true });
       }
     })
   };
@@ -55,8 +55,8 @@ export default class Login extends Component {
               type="text" 
               name="username"
               className="form-control"
-              value={this.state.username} 
-              onChange={this.handleInputChange.bind(this)} 
+              value={ this.state.username } 
+              onChange={ this.handleInputChange.bind(this) } 
               placeholder="Username"
             />
           </div>
@@ -66,14 +66,14 @@ export default class Login extends Component {
               type="password"
               name="password" 
               className="form-control" 
-              value={this.state.password} 
-              onChange={this.handleInputChange.bind(this)} 
+              value={ this.state.password } 
+              onChange={ this.handleInputChange.bind(this) } 
               placeholder="Password"
             />
           </div>
           {this.state.rejected ? <small>Username Or Password Is Incorrect</small> : <div></div>}
-          <Button type="button" variant="outline-secondary" className="btn w-100" onClick={this.handleFormSubmit.bind(this)}>Login</Button><br></br>
-          <Button type="button" variant="outline-secondary" className="btn w-100" onClick={this.handleSignupRedirect.bind(this)}>SignUp</Button>
+          <Button type="button" variant="dark" className="btn w-100" onClick={this.handleFormSubmit.bind( this )}>Login</Button><br></br>
+          <Button type="button" variant="dark" className="btn w-100" onClick={this.handleSignupRedirect.bind( this )}>SignUp</Button>
         </form>
       </div>
     )

@@ -1,13 +1,18 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 import { Container, Row, Col, Button, Image } from 'react-bootstrap';
 
 require("./index.css");
 
 export default class User extends Component {
+<<<<<<< HEAD
   constructor(props) {
     super(props);
     this.delete = this.delete.bind(this);
+=======
+  constructor( props ) {
+    super( props );
+>>>>>>> styling and functionality updates
     this.state = {
       user: { name: "", picture: ["https://via.placeholder.com/300/09f/fff.png"] },
       edit: false,
@@ -24,13 +29,13 @@ export default class User extends Component {
 
   componentDidMount() {
     axios.get("/api/user/profile")
-      .then(payload => {
+      .then( payload => {
         this.setState({ user: payload.data })
       })
-      .catch(err => console.log(err)) 
+      .catch(err => console.log( err )) 
   }
 
-  onDrop(picture) {
+  onDrop( picture ) {
     const reader = new FileReader();
     const file = picture.target.files[0];
 
@@ -42,12 +47,12 @@ export default class User extends Component {
       });
     }
 
-    reader.readAsDataURL(file)
+    reader.readAsDataURL( file )
   }
 
   handleInputChange = event => {
     const { name, value } = event.target;
-    if(name === "interests" || name === "languages" || name === "technologies"){
+    if( name === "interests" || name === "languages" || name === "technologies" ){
       let newUserObj = this.state.user
       newUserObj[name] = value
       this.setState({
@@ -62,49 +67,49 @@ export default class User extends Component {
     }
   };
 
-  moveCaretAtEnd(e) {
+  moveCaretAtEnd( e ) {
     var temp_value = e.target.value
     e.target.value = ''
     e.target.value = temp_value
   }
 
   handleFormDisplay() {
-    if(this.state.edit === false){
-      this.setState({edit: true})
+    if( this.state.edit === false ){
+      this.setState({ edit: true })
     }else {
-      this.setState({edit: false})
+      this.setState({ edit: false })
     }
   }
 
   handlePasswordChange() {
     const { user, password, newPassword, confNewPassword } = this.state;
 
-    if(newPassword === confNewPassword){
-      axios.post(`/api/user/change-password/${user.username}`, {password, newPassword})
-      .then(payload => {
-        if(payload.data.status === 401){
-          this.setState({rejected: true})
-        }else if(payload.status === 200){
+    if( newPassword === confNewPassword ){
+      axios.post(`/api/user/change-password/${ user.username }`, { password, newPassword })
+      .then( payload => {
+        if( payload.data.status === 401 ){
+          this.setState({ rejected: true })
+        }else if( payload.status === 200 ){
           this.setState({ user: payload.data, edit: false })
           this.props.history.push("/")
         }
       })
-      .catch(err => console.log(err)) 
+      .catch(err => console.log( err )) 
     }
   }
 
   handleProfileUpdate() {
     const { user } = this.state
     axios.post("/api/user/update", user)
-    .then(payload => {
-      if(payload.data.status === 401){
-        this.setState({rejected: true})
-      }else if(payload.status === 200){
+    .then( payload => {
+      if( payload.data.status === 401 ){
+        this.setState({ rejected: true })
+      }else if( payload.status === 200 ){
         this.setState({ user: payload.data })
         this.props.history.push("/profile")
       }
     })
-    .catch(err => console.log(err)) 
+    .catch(err => console.log( err )) 
     this.handleInteraction()
   }
 
@@ -145,8 +150,11 @@ export default class User extends Component {
                   rounded
                   fluid
                   />
-                <br></br>
-                <input name="foo" type="file" onChange={this.onDrop.bind(this)} />
+                <br></br>                
+                <div className="file">
+                  <label className="file-label" for="inputGroupFile01">Choose file</label>
+                  <input type="file" variant="dark" className="file-input" />
+                </div>
                 <br></br>
               </Col>
               <Col></Col>
@@ -349,16 +357,17 @@ export default class User extends Component {
                 <br></br>
                 <Row>
                   <Col>
-                    <Button variant="outline-secondary" className="btn btn-primary" type="button" onClick={this.handlePasswordChange.bind(this)} className="btn btn-primary">Submit Change</Button>                
+                    <Button variant="dark" className="btn btn-primary" type="button" onClick={this.handlePasswordChange.bind(this)} className="btn btn-primary">Submit Change</Button>                
                   </Col>
                   <Col>
-                    <Button variant="outline-secondary" className="btn btn-primary" type="button" onClick={this.handleFormDisplay.bind(this)}>Hide</Button>
+                    <Button variant="dark" className="btn btn-primary" type="button" onClick={this.handleFormDisplay.bind(this)}>Hide</Button>
                   </Col>
                 </Row>
-              </form> : <Button variant="outline-secondary" onClick={this.handleFormDisplay.bind(this)}>Change Password</Button> }
+              </form> : <Button variant="dark" onClick={this.handleFormDisplay.bind(this)}>Change Password</Button> }
           </Col>
           <Col>
               { clicked ? 
+<<<<<<< HEAD
 <<<<<<< HEAD
                 <Button onClick={this.handleProfileUpdate.bind(this)}>Submit Changes</Button> : 
               <Button onClick={this.handleInteraction.bind(this)}>Edit Profile</Button>  }
@@ -371,6 +380,10 @@ export default class User extends Component {
                 <Button variant="outline-secondary" onClick={this.handleProfileUpdate.bind(this)}>Submit Changes</Button> : 
                 <Button variant="outline-secondary" onClick={this.handleInteraction.bind(this)}>Edit Profile</Button> }
 >>>>>>> logout button is persisting through page change
+=======
+                <Button variant="dark" onClick={this.handleProfileUpdate.bind(this)}>Submit Changes</Button> : 
+                <Button variant="dark" onClick={this.handleInteraction.bind(this)}>Edit Profile</Button> }
+>>>>>>> styling and functionality updates
           </Col>
         </Row>
         

@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
-import ImageUploader from 'react-images-upload';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 
 require("./index.css");
 
@@ -9,77 +9,80 @@ export default class NewUser extends Component {
     super(props);
     
     this.state = {
-      username: '',
-      password: '',
-      retypedPassword: '',
-      firstName: '',
-      lastName: '',
-      phone: '',
-      email: '',
-      github: '',
-      linkedIn: '',
-      aboutYou: '',
-      languages:[],
-      technologies:[],
-      interests:[],
-      picture:[],
-      rejected: false
-    
-  }
+      user: {
+        username: "",
+        password: "",
+        retypedPassword: "",
+        firstName: "",
+        lastName: "",
+        phone: "",
+        email: "",
+        github: "",
+        linkedIn: "",
+        languages:"",
+        technologies:"",
+        interests:"",
+        picture:"",
+        rejected: false
+      }
+    }
 
-  // this.state = {picture:[]}
-  this.onDrop = this.onDrop.bind(this);
-} 
-// db.User.findAndModify({query: {username: "derp"}, update: {$set: {picture: [], linkedIn: "https://www.linkedin.com/in/abraham-ferguson/", github: "https://github.com/AbrahamFergie"}}, upsert: true})
-onDrop(picture) {
-  let reader = new FileReader();
-  let file = picture[0];
+    this.onDrop = this.onDrop.bind(this);
+  } 
+
+  onDrop( picture ) {
+    const reader = new FileReader();
+    const file = picture.target.files[0];
 
     reader.onloadend = () => {
-      let newUserObj = this.state
-      newUserObj.picture.push(reader.result)
+      let newUserObj = this.state.user
+      newUserObj.picture = reader.result
       this.setState({
-        newUserObj
+        user: newUserObj
       });
     }
 
-    reader.readAsDataURL(file)
+    reader.readAsDataURL( file )
   }
 
   handleInputChange = event => {
     const { name, value } = event.target;
-    if(name === "interests" || name === "languages" || name === "technologies"){
-      const splitValue = value.split(",");
-      
+    if( name === "interests" || name === "languages" || name === "technologies" ){
+      let newUserObj = this.state.user
+      newUserObj[name] = value
       this.setState({
-        [name]: splitValue
-      });  
+        user: newUserObj
+      });
     } else {
+      let newUserObj = this.state.user
+      newUserObj[name] = value
       this.setState({
-        [name]: value
+        user: newUserObj
       });
     }
   };
 
   
   handleSubmit() {
-    axios.post('/api/auth/signup', this.state)
+    axios.post('/api/auth/signup', this.state.user)
     .then(payload => {
-      console.log('====payload====', payload)
       if(payload.data.message === "Success!"){        
-        this.props.history.push('/');
+        this.props.history.push('/', { loggedIn: false });
       }
     })
     .catch(err => {
-      if(err.response.status === 401 || err.response.status === 400) {
-        this.setState({rejected: true});
+      if( err.response.status === 401 || err.response.status === 400 ) {
+        this.setState({ rejected: true });
       }
     });
   }
 
   render() {
-    this.state.rejected = this.state.password !== this.state.retypedPassword ? true : false;
+    let { rejected, password, retypedPassword, disabled } = this.state.user
+    rejected = password !== retypedPassword ? true : false;
+
     return (
+<<<<<<< HEAD
       <div className="container">
         <div className="row">
           <div className="col-12">
@@ -252,6 +255,94 @@ onDrop(picture) {
           </div>
         </div>
      </div>
+=======
+      <Container>
+        <Row>
+          <Col><h1 className="text-center">Sign-Up To Join The Dev Companions!</h1></Col>
+        </Row>
+        <hr></hr>
+        <br></br>
+        <br></br>
+        <Row>
+          <Col>
+            <Form className="signup-form" onSubmit={this.handleSubmit.bind(this)}>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridUsername">
+                  <Form.Label>Username</Form.Label>
+                  <Form.Control type="username" onChange={this.handleInputChange.bind(this)} placeholder="johnSmith" />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridPassword">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control type="password" onChange={this.handleInputChange.bind(this)} placeholder="Password123" />
+                </Form.Group>
+                <Form.Group as={Col} controlId="formGridRetypePassword">
+                  <Form.Label>RetypePassword</Form.Label>
+                  <Form.Control type="retypePassword" onChange={this.handleInputChange.bind(this)} placeholder="Retype Password" />
+                </Form.Group>
+              </Form.Row>
+              
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridFirstName">
+                  <Form.Label>First Name</Form.Label>
+                  <Form.Control type="firstName" onChange={this.handleInputChange.bind(this)} placeholder="e.g. John" />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridLastName">
+                  <Form.Label>Last Name</Form.Label>
+                  <Form.Control type="lastName" onChange={this.handleInputChange.bind(this)} placeholder="e.g. Smith" />
+                </Form.Group>
+                <Form.Group as={Col} controlId="formGridPhoneNumber">
+                  <Form.Label>Phone Number</Form.Label>
+                  <Form.Control type="phoneNumber" onChange={this.handleInputChange.bind(this)} placeholder="(555) 555-5555" />
+                </Form.Group>
+              </Form.Row>
+              
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridEmail">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control type="email" onChange={this.handleInputChange.bind(this)} placeholder="https://someemail@somewhere.here" />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridGithub">
+                  <Form.Label>Github</Form.Label>
+                  <Form.Control type="github" onChange={this.handleInputChange.bind(this)} placeholder="https://github.com/username" />
+                </Form.Group>
+                <Form.Group as={Col} controlId="formGridLinkedIn">
+                  <Form.Label>LinkedIn</Form.Label>
+                  <Form.Control type="linkedIn" onChange={this.handleInputChange.bind(this)} placeholder="https://www.linkedin.com/in/username/" />
+                </Form.Group>
+              </Form.Row>
+
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridLanguages">
+                  <Form.Label>Languages</Form.Label>
+                  <Form.Control type="languages" onChange={this.handleInputChange.bind(this)} placeholder="Java, C++, HTML" />
+                </Form.Group>
+              </Form.Row>
+
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridTechnologies">
+                  <Form.Label>Technologies</Form.Label>
+                  <Form.Control type="technologies" onChange={this.handleInputChange.bind(this)} placeholder="React, Angular, SQL" />
+                </Form.Group>
+              </Form.Row>
+
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridInterests">
+                  <Form.Label>Interests</Form.Label>
+                  <Form.Control type="interests" onChange={this.handleInputChange.bind(this)} placeholder="Hackathons, Basketball, Quidditch" />
+                </Form.Group>
+              </Form.Row>
+
+              { rejected ? <div><small>Username Exists, Please Choose Another</small><br></br></div> : <div></div> }
+
+              <Button variant="dark" size="lg" type="submit">Submit</Button>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
+>>>>>>> styling and functionality updates
     )
  
   }

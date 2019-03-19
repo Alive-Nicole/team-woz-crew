@@ -4,13 +4,10 @@ import { Container, Row, Col, Button, Jumbotron, Image } from 'react-bootstrap';
 import axios from 'axios';
 import parse from 'html-react-parser';
 
-<<<<<<< HEAD
 
 const Meetup_API = "2657185b242c4410412771346973716d";
-=======
 require("./index.css");
 //const Meetup_API = "2657185b242c4410412771346973716d";
->>>>>>> logout button is persisting through page change
 
 export class Events extends Component {
   constructor(props){
