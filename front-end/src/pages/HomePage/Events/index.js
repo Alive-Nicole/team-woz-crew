@@ -35,14 +35,7 @@ export class Events extends Component {
     this.setState({
       events: events.data.results
     })
-    
-      //     id: post.id,
-      //     title: post.name,
-      //     description: post.description,
-      //     url: post.event_url,
-      //     // city: post.venue.city,
-      //     // country: post.venue.country
-     }
+  }
 
   
   render() {

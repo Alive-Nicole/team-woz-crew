@@ -145,7 +145,7 @@ export default class User extends Component {
               <Col className="center">
                 <Image 
                   className="w-100 profile" 
-                  src={this.state.user.picture[0]} 
+                  src={user.picture[0]} 
                   alt="https://via.placeholder.com/300/09f/fff.png" 
                   rounded
                   fluid

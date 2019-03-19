@@ -1,5 +1,6 @@
 import React from 'react';
 import { Router, Route, Switch } from "react-router-dom";
+import { Row, Col } from 'react-bootstrap';
 import { createBrowserHistory } from 'history';
 
 import Login from './pages/Login/';
@@ -15,7 +16,15 @@ const customHistory = createBrowserHistory();
 const App = () => (
   <Router history={customHistory}>
     <div>
-      <NavigationBar history={customHistory}/>
+      <Row>
+        <Col>
+          <NavigationBar history={customHistory}/>
+        </Col>
+      </Row>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
       <Switch>
         <Route exact path="/" component={Login} />
         <Route exact path="/new-user" component={NewUser} /> 
