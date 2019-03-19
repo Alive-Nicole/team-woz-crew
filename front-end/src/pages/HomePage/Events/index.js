@@ -1,107 +1,79 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
+import { Container, Row, Col, Button, Jumbotron, Image } from 'react-bootstrap';
 import axios from 'axios';
+import parse from 'html-react-parser';
 
 
-//const Meetup_API = "2657185b242c4410412771346973716d";
+const Meetup_API = "2657185b242c4410412771346973716d";
 
 export class Events extends Component {
   constructor(props){
     super(props);
     this.state = {
-      events: null,
+      events: [],
+      interest: 'python'
     }
   }
 
-  // Get API for Events.
-  async getEvents(){
-    let events = [];
-    let getJson = await axios.get('api-url').then(res => {
-      console.log("successful");
-    }).catch(error =>{
-      console.log("Failed: ", error);
-    });
+  componentDidMount = () => {
+    this.getMeetup();
+  }
 
-    getJson.forEach(data => {
-      events.push({
-        id: 'data.Id',
-        title: 'data.title',
-        description: 'data.description',
-        url: 'data.url',
-        state: 'data.state',
-        country: 'data.country'
-      })  
-    })
-
-    this.setState({events: events})
+  componentDidUpdate = () => {
+    this.getMeetup();
   }
  
 
   //Get Meetup API
-  // getMeetup() {
-  //   fetch(`https://api.meetup.com/2/concierge?&sign=true&photo-host=public&zip=30296&country=US&city=Riverdale&state=GA&fields=technology&key=${Meetup_API}`)
-  //   .then((res) => res.json())
-  //   .then((data) => {
-
-  //     var response = data.articles;
-  //     for(var i = 0; i<5; i++){
-  //       console.log(response[i].state);
-  //       this.setState({
-  //         id: i,
-  //         name: response[i].name,
-  //         description: response[i].description,
-  //         event_url: response[i].event_url.toString(),
-  //         state: response[i].state,
-  //         country: response[i].country, 
-  //       })
-  //     }
-  //   })
-  // }
+  getMeetup = async () => {
+    let interest = this.state.interest;
+    const events = await axios.get(`https://cors-anywhere.herokuapp.com/api.meetup.com/2/concierge?&sign=true&photo-host=public&zip=&country=&city=&state=&fields=${interest}&key=${Meetup_API}`,{crossDomain: true})
+    
+    this.setState({
+      events: events.data.results
+    })
+    
+      //     id: post.id,
+      //     title: post.name,
+      //     description: post.description,
+      //     url: post.event_url,
+      //     // city: post.venue.city,
+      //     // country: post.venue.country
+     }
 
   
   render() {
-    //const {events} = this.state;
-
     return (
-      <div  className="events">
-        <div>
-          <h3 align="center">Events</h3>
-          <div className="contents">
+      <Container fluid>
 
-            <div className="content1">
-              <h5>Event 1</h5>
-              <div className="description">
-                Sing long her way size. Waited end mutual missed myself the little sister one. So in pointed or chicken cheered neither spirits invited. Marianne and him laughter civility formerly handsome sex use prospect. Hence we doors is given rapid scale above am. Difficult ye mr delivered behaviour by an. If their woman could do wound on. You folly taste hoped their above are and but.
+        <div className="contents">
+          { this.state.events ? this.state.events.map( (event, index) =>  {     
+            const desc = event.decription ? parse(event.decription).slice(0, 30) : "No description available";
+            return ( 
+              <div key={ index }>
+
+                <div className="event-title">
+                  <h4>{ event.name }</h4>
+                </div>
+
+                <div className="event-content">
+                  <p> { desc } </p>
+                </div>
+
+                <a href={ event.event_url } target="_blank" rel="noopener noreferrer">Read more...</a>
+
+                <Link to="/share-page">
+                  <button className="btn" variant="info" >Share</button>
+                </Link>
+                
               </div>
-              <a href="/url-of-post" _target="blank">Read more...</a>
-              <Link to="/share">
-                <button className="btn" variant="info" >Share</button>
-              </Link>
-            </div>
+            )
+          }) : <div><br></br><h4 className="center">Loading...</h4><br></br></div>
+        }
 
-            <div className="content2">
-              <h5>Event 2</h5>
-              <div className="description">
-                Sing long her way size. Waited end mutual missed myself the little sister one. So in pointed or chicken cheered neither spirits invited. Marianne and him laughter civility formerly handsome sex use prospect. Hence we doors is given rapid scale above am. Difficult ye mr delivered behaviour by an. If their woman could do wound on. You folly taste hoped their above are and but.
-              </div>
-              <a href="/url-of-post" _target="blank">Read more...</a>
-              <button className="btn" variant="info" >Share</button>
-            </div>
-
-            <div className="content3">
-              <h5>Event 3</h5>
-              <div className="description">
-                Sing long her way size. Waited end mutual missed myself the little sister one. So in pointed or chicken cheered neither spirits invited. Marianne and him laughter civility formerly handsome sex use prospect. Hence we doors is given rapid scale above am. Difficult ye mr delivered behaviour by an. If their woman could do wound on. You folly taste hoped their above are and but.
-              </div>
-              <a href="/url-of-post" _target="blank">Read more...</a>
-              <Link to="/share">
-                <button className="btn" variant="info" >Share</button>
-              </Link>
-            </div>
-
-          </div>
         </div>
-      </div>
+      </Container>
     )
   }
 }
