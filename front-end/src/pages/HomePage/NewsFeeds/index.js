@@ -88,7 +88,7 @@ export class NewsFeeds extends Component {
       <div  className="news-feed">
         
         <div>
-          <h3 align="center">NewsFeed</h3>
+          
           <div className="content">Content</div>
 
         </div>

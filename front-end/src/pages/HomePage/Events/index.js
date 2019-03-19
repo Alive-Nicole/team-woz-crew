@@ -46,10 +46,10 @@ export class Events extends Component {
   render() {
     return (
       <Container fluid>
-        <h3 align="center">Events</h3>
 
         <div className="contents">
-          { this.state.events ? this.state.events.map( (event, index) =>  {              
+          { this.state.events ? this.state.events.map( (event, index) =>  {     
+            const desc = event.decription ? parse(event.decription).slice(0, 30) : "No description available";
             return ( 
               <div key={ index }>
 
@@ -58,7 +58,7 @@ export class Events extends Component {
                 </div>
 
                 <div className="event-content">
-                  <p> { event.description ? parse(event.description) : "No description available" } </p>
+                  <p> { desc } </p>
                 </div>
 
                 <a href={ event.event_url } target="_blank" rel="noopener noreferrer">Read more...</a>

@@ -37,8 +37,6 @@ export class Jobs extends Component {
   render() {
     return (
       <Container fluid  className="jobs">
-        <h3 align="center">Jobs</h3>
-
         <div className="contents">
           { this.state.jobs ? this.state.jobs.map( (job, index) => {
             return (
