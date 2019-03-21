@@ -72,17 +72,14 @@ router.post('/update', (request, response) => {
 });
 
 // Defined delete | remove | destroy route
-<<<<<<< HEAD
-router.get('/delete/:id')
-  .get(function (req, res) {
-=======
-router.route('/delete/:id')
-  .get( (req, res) => {
->>>>>>> styling and functionality updates
-    User.findByIdAndRemove({_id: req.params.id}, function(err, user){
-        if(err) res.json(err);
-        else res.json('Successfully removed');
-    });
+router.get('/delete/:username', (request, response) => {
+  const { username } = request.params;
+  User.findOneAndDelete({username: username}, (err, user) => {
+    if(err) response.json(err);
+
+    request.logout();
+    response.json('Successfully removed');
   });
+});
 
 module.exports = router;
