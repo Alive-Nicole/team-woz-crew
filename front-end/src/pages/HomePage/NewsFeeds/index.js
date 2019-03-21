@@ -8,19 +8,19 @@ export class NewsFeeds extends Component {
   constructor(props){
     super(props);
     this.state = {
-      news: []
+      articles: []
     }
   }
 
+  componentDidMount() {
+    this.getNews()
+  }
   // Get API for news feeds.
-  getNews = () => async () => {
+  getNews = async () => {
     await axios.get(`https://cors-anywhere.herokuapp.com/newsapi.org/v2/everything?sources=techcrunch&apiKey=${TechCrunch_API}`,{crossDomain: true})
    //  .then(data => data.json())
-    .then(data => {
-       data.data.results.map(post => {
-         console.log(post)
-
-       })
+    .then(payload => {
+      this.setState({ articles: payload.data.articles })
     }).catch(err =>{
      console.log(err);
    })
@@ -86,11 +86,18 @@ export class NewsFeeds extends Component {
 
     return (
       <div  className="news-feed">
-        
+        <h3>News Articles</h3>
+        <hr></hr>
         <div>
-          
-          <div className="content">Content</div>
-
+          { this.state.articles.map( ( article, index ) => {
+            return (
+              <div key={ index }>
+                <p className="content">{ article.title }</p>
+                <small className="content">{ article.author }</small>
+                <p className="content">{ article.description }</p>
+                <hr></hr>
+              </div>
+            )}) }
         </div>
       </div>
     )

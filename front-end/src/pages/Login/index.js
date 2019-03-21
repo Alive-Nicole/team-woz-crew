@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { Button } from 'react-bootstrap';
 import axios from 'axios';
+
 require("./index.css");
 
 export default class Login extends Component {
-  constructor(props) {
-    super(props);
+  constructor( props ) {
+    super(props );
     this.state = {
       username: "",
       password: "",
@@ -28,16 +30,20 @@ export default class Login extends Component {
     })
     .then(payload => {
       if(payload.status === 200){
-        const { username } = payload.data.user;
-        this.props.history.push("/profile")
+        this.props.history.push("/home", { loggedIn: true })
       }
     })
     .catch(err => {
       if(err.response.status === 401 || err.response.status === 400) {
-        this.setState({rejected: true});
+        this.setState({ rejected: true });
       }
     })
   };
+
+  handleSignupRedirect = event => {
+    event.preventDefault();
+    this.props.history.push("/new-user", { loggedIn: false })
+  }
 
   render() {
     return (
@@ -49,9 +55,9 @@ export default class Login extends Component {
               type="text" 
               name="username"
               className="form-control"
-              value={this.state.username} 
-              onChange={this.handleInputChange.bind(this)} 
-              placeholder="Enter Username"
+              value={ this.state.username } 
+              onChange={ this.handleInputChange.bind(this) } 
+              placeholder="Username"
             />
           </div>
           <div className="form-group w-100">
@@ -60,14 +66,14 @@ export default class Login extends Component {
               type="password"
               name="password" 
               className="form-control" 
-              value={this.state.password} 
-              onChange={this.handleInputChange.bind(this)} 
+              value={ this.state.password } 
+              onChange={ this.handleInputChange.bind(this) } 
               placeholder="Password"
             />
           </div>
           {this.state.rejected ? <small>Username Or Password Is Incorrect</small> : <div></div>}
-          <button type="button" className="btn btn-primary w-100" onClick={this.handleFormSubmit.bind(this)}>Login</button><br></br>
-          <a type="link" className="btn btn-primary w-100" href="/new-user">SignUp</a>
+          <Button type="button" variant="dark" className="btn w-100" onClick={this.handleFormSubmit.bind( this )}>Login</Button><br></br>
+          <Button type="button" variant="dark" className="btn w-100" onClick={this.handleSignupRedirect.bind( this )}>SignUp</Button>
         </form>
       </div>
     )

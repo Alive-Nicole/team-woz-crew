@@ -6,6 +6,8 @@ import parse from 'html-react-parser';
 
 
 const Meetup_API = "2657185b242c4410412771346973716d";
+require("./index.css");
+//const Meetup_API = "2657185b242c4410412771346973716d";
 
 export class Events extends Component {
   constructor(props){
@@ -33,14 +35,7 @@ export class Events extends Component {
     this.setState({
       events: events.data.results
     })
-    
-      //     id: post.id,
-      //     title: post.name,
-      //     description: post.description,
-      //     url: post.event_url,
-      //     // city: post.venue.city,
-      //     // country: post.venue.country
-     }
+  }
 
   
   render() {
