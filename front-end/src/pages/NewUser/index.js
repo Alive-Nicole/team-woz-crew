@@ -250,7 +250,7 @@ onDrop(picture) {
             </div>
           </div>
         </div>
-      </div>
+     </div>
     )
  
   }
