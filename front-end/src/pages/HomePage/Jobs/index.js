@@ -1,85 +1,182 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
+import { Container } from 'react-bootstrap';
 import axios from 'axios';
+// import parse from 'html-react-parser';
 
 export class Jobs extends Component {
     constructor(props){
-        super(props);
-        this.state = {
-          jobs: null,
-        }
-       
+      super(props);
+      this.state = {
+        jobs: [],
+        interest: 'python'
+      }
+    }
+  
+    componentDidMount = () => {
+      this.getGitHubJobs();
+    }
+  
+    componentDidUpdate = () => {
+      this.getGitHubJobs();
+    }
+        
+    // Get GitHubJobs API.
+    getGitHubJobs = async () => {
+      let interest = this.state.interest;
+  
+      const jobs = await axios.get(`https://cors-anywhere.herokuapp.com/jobs.github.com/positions.json?description=${interest}&location=us`,{crossDomain: true})
+      //console.log(jobs)
+
+      this.setState({
+        jobs: jobs.data
+      })
     }
 
-    // Get API for Jobs.
-   async getJobs(){
-     let interest = "remote";
-     let location = "";
-
-     let jobs = [];
-     let getJson = await axios.get('api-url').then(res => {
-       console.log("successful");
-     }).catch(error =>{
-       console.log("Failed: ", error);
-     });
-
-     getJson.forEach(data => {
-       jobs.push({
-         id: 'data.Id',
-         title: 'data.title',
-         description: 'data.content',
-         url: 'data.url',
-      
-       })  
-     })
-     this.setState({jobs: jobs});
-   }
-
+    
   render() {
     return (
-      <div  className="jobs">
-        <div>
-          <h3 align="center">Jobs</h3>
-          <div className="contents">
+      <Container fluid  className="jobs">
+        <div className="contents">
+          { this.state.jobs ? this.state.jobs.map( (job, index) => {
+            return (
+              <div key={ index }>
 
-            <div className="content1">
-              <h5>Job 1</h5>
-              <div className="description">
-                Debating me breeding be answered an he. Spoil event was words her off cause any. Tears woman which no is world miles woody. Wished be do mutual except in effect answer. Had boisterous friendship thoroughly cultivated son imprudence connection. Windows because concern sex its. Law allow saved views hills day ten. Examine waiting his evening day passage proceed.
+                <div className="job-title">
+                  <h4>{ job.title }</h4>
+                </div>
+
+                <div className="job-content">
+                  <p>Company: { job.company }  |  Location: { job.location }</p>
+                </div>
+
+                <a href={ job.url } target="_blank" rel="noopener noreferrer">Learn more...</a>
+
+                <Link to="/share-page">
+                  <button className="btn" variant="info" >Share</button>
+                </Link>
+
               </div>
-              <a href="/url-of-post" _target="blank">Read more...</a>
-              <Link to="/share">
-                <button className="btn" variant="info" >Share</button>
-              </Link>
-            </div>
-
-            <div className="content2">
-              <h5>Job 2</h5>
-              <div className="description">
-                Debating me breeding be answered an he. Spoil event was words her off cause any. Tears woman which no is world miles woody. Wished be do mutual except in effect answer. Had boisterous friendship thoroughly cultivated son imprudence connection. Windows because concern sex its. Law allow saved views hills day ten. Examine waiting his evening day passage proceed.
-              </div>
-              <a href="/url-of-post" _target="blank">Read more...</a>
-              <Link to="/share">
-                <button className="btn" variant="info">Share</button>
-              </Link>
-            </div>
-
-            <div className="content3">
-              <h5>Job 3</h5>
-              <div className="description">
-                Debating me breeding be answered an he. Spoil event was words her off cause any. Tears woman which no is world miles woody. Wished be do mutual except in effect answer. Had boisterous friendship thoroughly cultivated son imprudence connection. Windows because concern sex its. Law allow saved views hills day ten. Examine waiting his evening day passage proceed.
-              </div>
-              <a href="/url-of-post" _target="blank">Read more...</a>
-              <Link to="/share">
-                <button className="btn" variant="info">Share</button>
-              </Link>
-            </div>
-
-          </div>
+            )
+            }) : <div><br></br><h4 className="center">Loading...</h4><br></br></div>
+          }
+        
         </div>
-      </div>
+      </Container>
     )
   }
 }
-
+    
 export default Jobs
+    
+
+    
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+

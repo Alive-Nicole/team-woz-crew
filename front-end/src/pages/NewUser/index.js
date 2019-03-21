@@ -6,7 +6,7 @@ require("./index.css");
 export default class NewUser extends Component {
   constructor(props) {
     super(props);
-     
+    
     this.state = {
       username: '',
       password: '',
@@ -23,14 +23,16 @@ export default class NewUser extends Component {
       interests:[],
       picture:[],
       rejected: false
-    }
-    this.state = {picture:[]}
-    this.onDrop = this.onDrop.bind(this);
-  } 
-  // db.User.findAndModify({query: {username: "derp"}, update: {$set: {picture: [], linkedIn: "https://www.linkedin.com/in/abraham-ferguson/", github: "https://github.com/AbrahamFergie"}}, upsert: true})
-  onDrop(picture) {
-    let reader = new FileReader();
-    let file = picture[0];
+    
+  }
+
+  // this.state = {picture:[]}
+  this.onDrop = this.onDrop.bind(this);
+} 
+// db.User.findAndModify({query: {username: "derp"}, update: {$set: {picture: [], linkedIn: "https://www.linkedin.com/in/abraham-ferguson/", github: "https://github.com/AbrahamFergie"}}, upsert: true})
+onDrop(picture) {
+  let reader = new FileReader();
+  let file = picture[0];
 
     reader.onloadend = () => {
       let newUserObj = this.state
