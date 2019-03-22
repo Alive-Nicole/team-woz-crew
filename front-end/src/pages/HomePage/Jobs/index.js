@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-import { Container } from 'react-bootstrap';
+import { Container, Button, Row, Col, Modal } from 'react-bootstrap';
 import axios from 'axios';
 import parse from 'html-react-parser';
 
@@ -11,20 +11,31 @@ export class Jobs extends Component {
       super(props);
       this.state = {
         jobs: [],
-        interest: 'python'
+        interest: 'nodeJs',
+        readMore: false,
+        modalData: { title: "", description: "<div></div>", company: "", location: "" }
       }
     }
   
     componentDidMount = () => {
       this.getGitHubJobs();
     }
-        
+
+    handleModalShow = ( index ) => {
+      const { jobs } = this.state
+
+      this.setState({ readMore: !this.state.readMore, modalData: jobs[index] })
+    }
+
+    handleShareAction = () => {
+      console.log("clicked")
+    }
+
     // Get GitHubJobs API.
     getGitHubJobs = async () => {
       let interest = this.state.interest;
   
       const jobs = await axios.get(`https://cors-anywhere.herokuapp.com/jobs.github.com/positions.json?description=${interest}&location=us`,{crossDomain: true})
-      console.log(jobs)
 
       this.setState({
         jobs: jobs.data
@@ -33,12 +44,13 @@ export class Jobs extends Component {
 
     
   render() {
+    const { modalData } = this.state
     return (
       <Container fluid  className="jobs">
         <div className="contents">
           <h3>Jobs</h3>
           <hr></hr>
-          { this.state.jobs ? this.state.jobs.map( (job, index) => {
+          { this.state.jobs ? this.state.jobs.map(( job, index ) => {
             return (
               <div key={ index }>
 
@@ -47,18 +59,35 @@ export class Jobs extends Component {
                 </div>
 
                 <div className="job-content">
-                  <p>Company: { job.company }  |  Location: { job.location }</p>
+                  <p><strong>Company:</strong> { job.company }  |  <strong>Location:</strong> { job.location }</p>
                 </div>
+                <Button variant="primary" onClick={ this.handleModalShow.bind( this, index )}>
+                  Read More
+                </Button>
+                <Modal
+                    { ...this.props }
+                    show={ this.state.readMore }
+                    onHide={ this.handleModalShow.bind( this, index )}
+                    size="lg"
+                    aria-labelledby="contained-modal-title-vcenter"
+                    centered
+                  >
+                  <Modal.Header closeButton>
+                    <Modal.Title id="contained-modal-title-vcenter">
+                      <h4>{ modalData.title } </h4>
+                    </Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <h5>Company: { modalData.company }  |  Location: { modalData.location }</h5>
+                    <div className="job-description">
+                      <div>Description: { parse(modalData.description) }</div>
+                    </div>
+                    <a href={ modalData.url } target="_blank" rel="noopener noreferrer">Go To Posting</a>
+                  </Modal.Body>                  
+                </Modal>
 
-                <div className="job-description">
-                  <div>Description: { parse(job.description) }</div>
-                </div>
-
-                <a href={ job.url } target="_blank" rel="noopener noreferrer">Learn more...</a>
-
-                <Link to="/share-page">
-                  <button className="btn" variant="info" >Share</button>
-                </Link>
+                <a href={ job.url } target="_blank" rel="noopener noreferrer">Go To Posting</a>
+                <Button className="btn" variant="dark" onClick={ this.handleShareAction.bind(this) }>Share</Button>
                 <hr></hr>
               </div>
             )

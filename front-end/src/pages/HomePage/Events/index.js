@@ -22,15 +22,11 @@ export class Events extends Component {
     this.getMeetup();
   }
 
-  componentDidUpdate = () => {
-    this.getMeetup();
-  }
- 
-
   //Get Meetup API
   getMeetup = async () => {
     let interest = this.state.interest;
     const events = await axios.get(`https://cors-anywhere.herokuapp.com/api.meetup.com/2/concierge?&sign=true&photo-host=public&zip=&country=&city=&state=&fields=${interest}&key=${Meetup_API}`,{crossDomain: true})
+    console.log('====events====', events)
     
     this.setState({
       events: events.data.results
@@ -43,6 +39,8 @@ export class Events extends Component {
       <Container fluid>
 
         <div className="contents">
+          <h3>Events</h3>
+          <hr></hr>
           { this.state.events ? this.state.events.map( (event, index) =>  {     
             const desc = event.decription ? parse(event.decription).slice(0, 30) : "No description available";
             return ( 
