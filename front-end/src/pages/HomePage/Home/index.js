@@ -18,8 +18,7 @@ class Home extends Component {
     
     return(
       <React.Fragment>
-        <MDBModalHeader >
-          <h5 id="top"></h5>
+        <MDBModalHeader id="top" >
           <a href="#news">News</a>
           <a href="#jobs">Jobs</a>
           <a href="#events">Events</a>
