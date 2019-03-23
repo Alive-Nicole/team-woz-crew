@@ -20,9 +20,9 @@ export class Events extends Component {
   
   componentDidMount = () => {
     this.getMeetup();
+    this.sharePost();
   }
 
-  
   handleReadMore = index => {
     this.setState({ readMore: true, displayedIndex: index })    
   }
