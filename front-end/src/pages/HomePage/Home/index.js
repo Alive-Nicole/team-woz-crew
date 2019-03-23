@@ -3,8 +3,13 @@ import ReactDOM from "react-dom";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
+<<<<<<< HEAD
 import { MDBBtn, MDBInput, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBIcon, MDBBadge, MDBContainer, MDBRow, MDBCol} from "mdbreact";
 import { Container, Row, Col, Tab, Tabs } from 'react-bootstrap';
+=======
+//import { MDBBtn, MDBInput, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter, MDBIcon, MDBBadge, MDBContainer, MDBRow, MDBCol} from "mdbreact";
+import { Container } from 'react-bootstrap';
+>>>>>>> Added Event header
 import NewsFeeds from '../NewsFeeds';
 import Jobs from '../Jobs';
 import Events from '../Events';
