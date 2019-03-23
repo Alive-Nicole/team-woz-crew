@@ -43,6 +43,8 @@ export class Events extends Component {
       <Container fluid>
 
         <div className="contents">
+          <h3>Events</h3>
+          <hr></hr>
           { this.state.events ? this.state.events.map( (event, index) =>  {     
             const desc = event.decription ? parse(event.decription).slice(0, 30) : "No description available";
             return ( 
