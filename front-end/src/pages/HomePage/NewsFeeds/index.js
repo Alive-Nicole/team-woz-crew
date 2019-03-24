@@ -92,7 +92,8 @@ export class NewsFeeds extends Component {
           { this.state.articles.map( ( article, index ) => {
             return (
               <div key={ index }>
-                <p className="content">{ article.title }</p>
+               <a href ={article.url} target="blank">
+                <p className="content">{ article.title }</p> </a>
                 <small className="content">{ article.author }</small>
                 <p className="content">{ article.description }</p>
                 <hr></hr>

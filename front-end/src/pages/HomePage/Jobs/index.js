@@ -11,7 +11,12 @@ export class Jobs extends Component {
       super(props);
       this.state = {
         jobs: [],
-        interest: 'python'
+        user: '',
+        interest: 'python',
+        title: '',
+        location: '',
+        url: ''
+
       }
     }
   
@@ -28,6 +33,23 @@ export class Jobs extends Component {
 
       this.setState({
         jobs: jobs.data
+      })
+    }
+    componentDidMount(){}
+    
+    handleShare(e) {
+    
+     const user = require('../../User')
+      
+      const obj = this.state.jobs.data
+      axios.post('api/share/add', obj )
+          .then(res => console.log(res.data));
+      
+      this.setState({
+        user: '',
+        title: '',
+        location: '',
+        url: '',
       })
     }
 
@@ -57,9 +79,9 @@ export class Jobs extends Component {
                 <a href={ job.url } target="_blank" rel="noopener noreferrer">Learn more...</a>
 
                 <Link to="/share-page">
-                  <button className="btn" variant="info" >Share</button>
+                  <button onClick={this.handleShare.bind(this)} className="btn" variant="info" >Share</button>
                 </Link>
-                <hr></hr>
+                <hr></hr> 
               </div>
             )
             }) : <div><br></br><h4 className="center">Loading...</h4><br></br></div>
