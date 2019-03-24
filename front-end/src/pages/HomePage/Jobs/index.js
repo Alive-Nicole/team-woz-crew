@@ -6,6 +6,7 @@ import parse from 'html-react-parser';
 require("./index.css");
 
 export class Jobs extends Component {
+<<<<<<< HEAD
   constructor(props){
     super(props);
     this.state = {
@@ -48,6 +49,53 @@ export class Jobs extends Component {
       jobs: jobs.data
     })
   }
+=======
+    constructor(props){
+      super(props);
+      this.state = {
+        jobs: [],
+        user: '',
+        interest: 'python',
+        title: '',
+        location: '',
+        url: ''
+
+      }
+    }
+  
+    componentDidMount = () => {
+      this.getGitHubJobs();
+    }
+        
+    // Get GitHubJobs API.
+    getGitHubJobs = async () => {
+      let interest = this.state.interest;
+  
+      const jobs = await axios.get(`https://cors-anywhere.herokuapp.com/jobs.github.com/positions.json?description=${interest}&location=us`,{crossDomain: true})
+      console.log(jobs)
+
+      this.setState({
+        jobs: jobs.data
+      })
+    }
+    componentDidMount(){}
+    
+    handleShare(e) {
+    
+     const user = require('../../User')
+      
+      const obj = this.state.jobs.data
+      axios.post('api/share/add', obj )
+          .then(res => console.log(res.data));
+      
+      this.setState({
+        user: '',
+        title: '',
+        location: '',
+        url: '',
+      })
+    }
+>>>>>>> user share model
 
     
   render() {
@@ -70,6 +118,7 @@ export class Jobs extends Component {
                 <div className="job-content">
                   <p><strong>Company:</strong> { job.company }  |  <strong>Location:</strong> { job.location }</p>
                 </div>
+<<<<<<< HEAD
                 <Button variant="outline-dark" onClick={ this.handleModalShow.bind( this, index )}>
                   Read More
                 </Button>
@@ -97,6 +146,15 @@ export class Jobs extends Component {
                 <a className="btn btn-outline-dark" to={ job.url } target="_blank" rel="noopener noreferrer">Go To Posting</a>
                 <Button className="btn" variant="dark" onClick={ this.handleShareAction.bind(this, index) }>Share</Button>
                 <hr></hr>
+=======
+
+                <a href={ job.url } target="_blank" rel="noopener noreferrer">Learn more...</a>
+
+                <Link to="/share-page">
+                  <button onClick={this.handleShare.bind(this)} className="btn" variant="info" >Share</button>
+                </Link>
+                <hr></hr> 
+>>>>>>> user share model
               </div>
             )
             }) : <div><br></br><h4 className="center">Loading...</h4><br></br></div>
