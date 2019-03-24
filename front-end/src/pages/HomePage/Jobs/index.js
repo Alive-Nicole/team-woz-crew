@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
 import { Container, Button, Row, Col, Modal } from 'react-bootstrap';
 import axios from 'axios';
 import parse from 'html-react-parser';
@@ -7,40 +6,44 @@ import parse from 'html-react-parser';
 require("./index.css");
 
 export class Jobs extends Component {
-    constructor(props){
-      super(props);
-      this.state = {
-        jobs: [],
-        interest: 'nodeJs',
-        readMore: false,
-        modalData: { title: "", description: "<div></div>", company: "", location: "" }
-      }
+  constructor(props){
+    super(props);
+    this.state = {
+      jobs: [],
+      interest: 'nodeJs',
+      readMore: false,
+      modalData: { title: "", description: "<div></div>", company: "", location: "" }
     }
-  
-    componentDidMount = () => {
-      this.getGitHubJobs();
-    }
+  }
 
-    handleModalShow = ( index ) => {
-      const { jobs } = this.state
+  componentDidMount = () => {
+    this.getGitHubJobs();
+  }
 
-      this.setState({ readMore: !this.state.readMore, modalData: jobs[index] })
-    }
+  handleModalShow = ( index ) => {
+    const { jobs } = this.state
 
-    handleShareAction = () => {
-      console.log("clicked")
-    }
+    this.setState({ readMore: !this.state.readMore, modalData: jobs[index] })
+  }
 
-    // Get GitHubJobs API.
-    getGitHubJobs = async () => {
-      let interest = this.state.interest;
-  
-      const jobs = await axios.get(`https://cors-anywhere.herokuapp.com/jobs.github.com/positions.json?description=${interest}&location=us`,{crossDomain: true})
+  handleShareAction = ( index ) => {
+    // const { jobs } = this.state
+    // const job = jobs[ index ]
+    // axios.post("/api/shared/add", { type: "job", payload: job })
+    console.log("clicked")
+    // pull data from state object
+  }
 
-      this.setState({
-        jobs: jobs.data
-      })
-    }
+  // Get GitHubJobs API.
+  getGitHubJobs = async () => {
+    let interest = this.state.interest;
+
+    const jobs = await axios.get(`https://cors-anywhere.herokuapp.com/jobs.github.com/positions.json?description=${interest}&location=us`,{crossDomain: true})
+
+    this.setState({
+      jobs: jobs.data
+    })
+  }
 
     
   render() {
@@ -61,7 +64,7 @@ export class Jobs extends Component {
                 <div className="job-content">
                   <p><strong>Company:</strong> { job.company }  |  <strong>Location:</strong> { job.location }</p>
                 </div>
-                <Button variant="primary" onClick={ this.handleModalShow.bind( this, index )}>
+                <Button variant="outline-dark" onClick={ this.handleModalShow.bind( this, index )}>
                   Read More
                 </Button>
                 <Modal
@@ -82,12 +85,11 @@ export class Jobs extends Component {
                     <div className="job-description">
                       <div>Description: { parse(modalData.description) }</div>
                     </div>
-                    <a href={ modalData.url } target="_blank" rel="noopener noreferrer">Go To Posting</a>
+                    <a className="btn btn-outline-dark" to={ modalData.url } target="_blank" rel="noopener noreferrer">Go To Posting</a>
                   </Modal.Body>                  
                 </Modal>
-
-                <a href={ job.url } target="_blank" rel="noopener noreferrer">Go To Posting</a>
-                <Button className="btn" variant="dark" onClick={ this.handleShareAction.bind(this) }>Share</Button>
+                <a className="btn btn-outline-dark" to={ job.url } target="_blank" rel="noopener noreferrer">Go To Posting</a>
+                <Button className="btn" variant="dark" onClick={ this.handleShareAction.bind(this, index) }>Share</Button>
                 <hr></hr>
               </div>
             )
