@@ -33,6 +33,7 @@
     "history": "^4.9.0",
     "if-env": "^1.0.4",
     "mongoose": "^5.4.14",
+    "newsapi": "^2.4.0",
     "node-fetch": "^2.3.0",
     "npm": "^6.8.0",
     "passport": "^0.4.0",

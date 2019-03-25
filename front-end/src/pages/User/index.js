@@ -24,7 +24,6 @@ export default class User extends Component {
   componentDidMount() {
     axios.get("/api/user/profile")
       .then(payload => {
-
         this.setState({ user: payload.data ? payload.data : { name: "", picture: "https://via.placeholder.com/300/09f/fff.png" }})
       })
       .catch(err => console.log(err)) 

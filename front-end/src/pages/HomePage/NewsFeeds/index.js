@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { Image, Container, Row, Col, Button } from 'react-bootstrap';
 import axios from 'axios';
+import NewsAPI from 'newsapi';
 
 const TechCrunch_API = '694a36dcc42a4cbf9922f6435b66ac77'
+const newsapi = new NewsAPI(TechCrunch_API);
 
 export class NewsFeeds extends Component {
   constructor(props){
@@ -14,92 +17,52 @@ export class NewsFeeds extends Component {
 
   componentDidMount() {
     this.getNews()
+    
   }
   // Get API for news feeds.
   getNews = async () => {
-    await axios.get(`https://cors-anywhere.herokuapp.com/newsapi.org/v2/everything?sources=techcrunch&apiKey=${TechCrunch_API}`,{crossDomain: true})
-   //  .then(data => data.json())
-    .then(payload => {
-      this.setState({ articles: payload.data.articles })
-    }).catch(err =>{
-     console.log(err);
-   })
+    const payload = await newsapi.v2.topHeadlines({
+      category: 'technology',
+      language: 'en',
+      country: 'us'
+    })
+    this.setState({ articles: payload.articles })
  }
- 
-  //Get Tech Crunch API
-  // getTechCrunch = () => {
-  //   const NewsAPI = require('newsapi');
-  //   const newsApi = '694a36dcc42a4cbf9922f6435b66ac77'
 
-  //   // To query sources
-  //   newsapi.v2.sources({
-  //     sources: 'techcrunch',
-  //     category: 'technology',
-  //     language: 'en',
-  //     country: 'us'
-  //   })
-  //   .then(response => {
+ handleShareAction = ( index ) => {
+    const { articles } = this.state
+    const article = articles[ index ]
+    axios.post("/api/share/add", { type: "article", payload: article })
+    .then( response => {
+      console.log("newsFeed response", response)
+    })
+    .catch( err => {
+      console.log('====err====', err)
+    })
+  }
 
-  //     var res = response.sources;
-  //     console.log(res[5]);
-
-  //     var newsFeeds = []
-
-  //     for(var i=0; i<10; i++){
-  //       console.log(res[i].name);
-
-  //       newsFeeds.push({
-  //         id: i,
-  //         name: res[i].name,
-  //         description: res[i].description,
-  //         url: res[i].url.toString()
-  //       })
-  //     }
-  //     console.log(newsFeeds)
-  //     this.setState({news: newsFeeds})
-
-  //   });
-
-    // fetch(`https://newsapi.org/v2/everything?sources=techcrunch&apiKey=${TechCrunch_API}`)
-    // .then((res) => res.json())
-    // .then((data) => {
-
-    //   var response = data.articles;
-    //   var newsFeeds = []
-
-    //   for(var i = 0; i<5; i++){
-    //     console.log(response[i].url);
-    //     newsFeeds.push({
-    //       id: i,
-    //       title: response[i].title,
-    //       description: response[i].description,
-    //       url: response[i].url.toString()
-    //     })
-    //   }
-    //   console.log(newsFeeds)
-    //   this.setState({news: newsFeeds})
-    // })
-         
- // }
   render() {
-    //const {news} = this.state;
-
+    console.log('====this.state.articles[0]====', this.state.articles[0])
     return (
-      <div  className="news-feed">
+      <Container fluid={true}>
         <h3>News Articles</h3>
         <hr></hr>
-        <div>
+        <Row>
           { this.state.articles.map( ( article, index ) => {
             return (
-              <div key={ index }>
-                <p className="content">{ article.title }</p>
+              <Col key={ index } md="5">
+                <a target="_blank" href={ article.url }><p className="content">{ article.title }</p></a>
                 <small className="content">{ article.author }</small>
-                <p className="content">{ article.description }</p>
+                { article.urlToImage ? <a target="_blank" href={ article.url }><Image src={ article.urlToImage } thumbnail /></a> : <div></div> }
+                {/* <p className="content">{ article.description }</p> */}
+                <a target="_blank" href={ article.url }>Click To View Article</a>         
+                <Button className="btn" variant="dark" onClick={ this.handleShareAction.bind(this, index) }>Share</Button>       
                 <hr></hr>
-              </div>
+                <hr></hr>
+              </Col>
             )}) }
-        </div>
-      </div>
+        </Row>
+      </Container>
     )
   }
 }
