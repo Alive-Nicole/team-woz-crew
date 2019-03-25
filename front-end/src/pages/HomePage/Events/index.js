@@ -32,10 +32,15 @@ export class Events extends Component {
   }
   
   handleShareAction = ( index ) => {
-    // const { events } = this.state
-    // const event = events[ index ]
-    // axios.post("/api/shared/add", { type: "event", payload: event })
-    // pull data from state object
+    const { events } = this.state
+    const event = events[ index ]
+    axios.post("/api/share/add", { type: "event", payload: event })
+    .then( response => {
+      console.log("event response", response)
+    })
+    .catch( err => {
+      console.log('====err====', err)
+    })
   }
   //Get Meetup API
   getMeetup = async () => {
@@ -50,6 +55,7 @@ export class Events extends Component {
   
   render() {
     const { events, displayedIndex, readMore } = this.state
+    console.log('====events[0]====', events[0])
     return (
       <Container fluid>
 

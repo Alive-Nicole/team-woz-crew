@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Image, Container, Row, Col } from 'react-bootstrap';
+import { Image, Container, Row, Col, Button } from 'react-bootstrap';
 import axios from 'axios';
 import NewsAPI from 'newsapi';
 
@@ -29,8 +29,20 @@ export class NewsFeeds extends Component {
     this.setState({ articles: payload.articles })
  }
 
-  render() {
+ handleShareAction = ( index ) => {
+    const { articles } = this.state
+    const article = articles[ index ]
+    axios.post("/api/share/add", { type: "article", payload: article })
+    .then( response => {
+      console.log("newsFeed response", response)
+    })
+    .catch( err => {
+      console.log('====err====', err)
+    })
+  }
 
+  render() {
+    console.log('====this.state.articles[0]====', this.state.articles[0])
     return (
       <Container fluid={true}>
         <h3>News Articles</h3>
@@ -39,11 +51,12 @@ export class NewsFeeds extends Component {
           { this.state.articles.map( ( article, index ) => {
             return (
               <Col key={ index } md="5">
-                <p className="content">{ article.title }</p>
+                <a target="_blank" href={ article.url }><p className="content">{ article.title }</p></a>
                 <small className="content">{ article.author }</small>
                 { article.urlToImage ? <a target="_blank" href={ article.url }><Image src={ article.urlToImage } thumbnail /></a> : <div></div> }
                 {/* <p className="content">{ article.description }</p> */}
-                <a target="_blank" href={ article.url }>Click To View Article</a>                
+                <a target="_blank" href={ article.url }>Click To View Article</a>         
+                <Button className="btn" variant="dark" onClick={ this.handleShareAction.bind(this, index) }>Share</Button>       
                 <hr></hr>
                 <hr></hr>
               </Col>

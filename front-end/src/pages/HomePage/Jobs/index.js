@@ -27,11 +27,15 @@ export class Jobs extends Component {
   }
 
   handleShareAction = ( index ) => {
-    // const { jobs } = this.state
-    // const job = jobs[ index ]
-    // axios.post("/api/shared/add", { type: "job", payload: job })
-    console.log("clicked")
-    // pull data from state object
+    const { jobs } = this.state
+    const job = jobs[ index ]
+    axios.post("/api/share/add", { type: "job", payload: job })
+    .then( response => {
+      console.log("job response", response)
+    })
+    .catch( err => {
+      console.log('====err====', err)
+    })
   }
 
   // Get GitHubJobs API.
@@ -48,6 +52,8 @@ export class Jobs extends Component {
     
   render() {
     const { modalData } = this.state
+    console.log('====this.state.jobs[0]====', this.state.jobs[0])
+
     return (
       <Container fluid  className="jobs">
         <div className="contents">
