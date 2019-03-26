@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt")
 
 const Schema = mongoose.Schema;
 
-const Share = new Schema({
+const Job = new Schema({
 
     user:{
      type: String
@@ -20,8 +20,8 @@ const Share = new Schema({
     }
 },
     {
-        collection: 'Share'
+        collection: 'Job'
     }
 );
 
-module.exports = mongoose.model('Share', Share);
+module.exports = mongoose.model('Job', Job);
