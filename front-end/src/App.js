@@ -27,11 +27,11 @@ const App = () => (
       <br></br>
       <Switch>
         <Route exact path="/" component={Login} />
-        <Route exact path="/new-user" component={NewUser} /> 
-        <Route exact path="/home" component={Home} />
-        <Route exact path="/share-page" component={SharePage} />
-        <Route exact path="/profile" component={User} />
-        <Route exact path="/users" component={Users} />
+        <Route path="/new-user" component={NewUser} /> 
+        <Route path="/home" component={Home} />
+        <Route path="/share-page" component={SharePage} />
+        <Route path="/profile" component={User} />
+        <Route path="/users" component={Users} />
       </Switch>
     </div>
   </Router>

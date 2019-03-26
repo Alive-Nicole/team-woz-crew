@@ -99,7 +99,7 @@ export class Jobs extends Component {
                 <hr></hr>
               </div>
             )
-            }) : <div><br></br><h4 className="center">Loading...</h4><br></br></div>
+          }) : <div><br></br><h4 className="center">Loading...</h4><br></br></div>
           }
         
         </div>
