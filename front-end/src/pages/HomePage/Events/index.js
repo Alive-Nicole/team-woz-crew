@@ -20,9 +20,7 @@ export class Events extends Component {
   
   componentDidMount = () => {
     this.getMeetup();
-    this.sharePost();
   }
-
   handleReadMore = index => {
     this.setState({ readMore: true, displayedIndex: index })    
   }
@@ -50,32 +48,7 @@ export class Events extends Component {
     this.setState({
       events: events.data
     })
-    
-      //     id: post.id,
-      //     title: post.name,
-      //     description: post.description,
-      //     url: post.event_url,
-      //     // city: post.venue.city,
-      //     // country: post.venue.country
   }
-
-//   sharePost = (e) => {
-//     let postID = e.target.value;
-//     console.log(postID)
-
-//     this.state.events.map((events, i) => {
-      
-//     })
-//     // const getPost = axios.get('')
-//     // axios.post('/share-page', {
-      
-//     //   return (
-//     //     <
-//     //   )
-//     // })
-// >>>>>>> update 3/22
-//   }
-
   
   render() {
     const { events, displayedIndex, readMore } = this.state

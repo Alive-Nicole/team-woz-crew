@@ -12,7 +12,6 @@ import Events from '../Events';
 require('./index.css');
 
 class Home extends Component {
-
   render() {
     
     return(
