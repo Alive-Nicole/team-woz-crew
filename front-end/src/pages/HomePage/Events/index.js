@@ -73,7 +73,7 @@ export class Events extends Component {
                 </div>
                 <Row>
                   <Col>
-                  { readMore ? <Button className="btn btn-outline-dark" onClick={ this.handleCollapse.bind(this)}>Collapse</Button> : 
+                  { displayedIndex === index ? <Button className="btn btn-outline-dark" onClick={ this.handleCollapse.bind(this)}>Collapse</Button> : 
                   <Button key={ index } variant="outline-dark" onClick={ this.handleReadMore.bind(this, index)}>
                       Read More
                     </Button> }                    

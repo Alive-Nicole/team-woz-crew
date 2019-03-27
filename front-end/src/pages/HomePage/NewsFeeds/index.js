@@ -58,7 +58,7 @@ export class NewsFeeds extends Component {
                 <a target="_blank" href={ article.url }>Click To View Article</a>         
                 <Button className="btn" variant="dark" onClick={ this.handleShareAction.bind(this, index) }>Share</Button>       
                 <hr></hr>
-                <hr></hr>
+                {/* <hr></hr> */}
               </Col>
             )}) }
         </Row>
