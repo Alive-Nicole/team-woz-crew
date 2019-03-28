@@ -57,15 +57,14 @@ export class Events extends Component {
     const { events, displayedIndex, readMore } = this.state
     console.log('====events[0]====', events[0])
     return (
-      <Container fluid>
-
-        <div className="contents">
-          <h3>Events</h3>
-          <hr></hr>
+      <Container fluid={true} className="center">
+        <h2><u>Events</u></h2>
+        <hr></hr>
+        <Row className="">          
           { events ? events.map( (event, index) =>  {     
             let desc = event.description && typeof event.description === "string" ? parse(event.description) : "No description available";            
             return ( 
-              <div key={ index }>
+              <Col key={ index } md="4" className="center">
 
                 <div className="event-title">
                   <h4>{ event.name }</h4>
@@ -86,21 +85,18 @@ export class Events extends Component {
                   </Col>
                 </Row>
                 { displayedIndex === index ? 
-                <Row>
-                  <Col>
-                    <Image src={ event.key_photo ? event.key_photo.photo_link : event.key_photo } />
-                    <div className="event-description">
-                      <div><h4><strong>Description:</strong></h4> { desc }</div>
-                    </div>
-                  </Col>
-                </Row> : <div></div> }                
+                  <Row className="">
+                    <Col>
+                      <Image src={ event.key_photo ? event.key_photo.photo_link : event.key_photo } thumbnail />
+                      <h4><strong>Description:</strong>{ desc }</h4>
+                    </Col>
+                  </Row> : <div></div> }                
                 <hr></hr>
-              </div>
+              </Col>
             )
           }) : <div><br></br><h4 className="center">Loading...</h4><br></br></div>
         }
-
-        </div>
+        </Row>
       </Container>
     )
   }

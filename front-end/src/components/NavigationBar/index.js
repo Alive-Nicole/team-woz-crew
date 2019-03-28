@@ -53,15 +53,18 @@ export default class NavigationBar extends Component {
   render() {
     const { userLoggedIn } = this.state
     return (
-      <Navbar className="fixed-top w-100">
+      <Navbar className="fixed-top">
         <Navbar.Brand className="navvy"><Button variant="light" onClick={this.handleHomeRoute.bind(this)}>DevCompanion</Button></Navbar.Brand>
-        <Nav className="mr-auto">
-        <ButtonGroup toggle>
-          <Button type="button" variant="dark" defaultChecked value="1" className="navvy" onClick={this.handleRedirect.bind(this, "/home")}>Home</Button>
-          <Button type="button" variant="dark" value="2" className="navvy" onClick={this.handleRedirect.bind(this, "/share-page")}>Shared</Button>
-          <Button type="button" variant="dark" value="3" className="navvy" onClick={this.handleRedirect.bind(this, "/profile")}>Profile</Button>
-        </ButtonGroup>
-        </Nav>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse>
+          <Nav className="mr-auto">
+          <ButtonGroup toggle>
+            <Button type="button" variant="dark" defaultChecked value="1" className="navvy" onClick={this.handleRedirect.bind(this, "/home")}>Home</Button>
+            <Button type="button" variant="dark" value="2" className="navvy" onClick={this.handleRedirect.bind(this, "/share-page")}>Shared</Button>
+            <Button type="button" variant="dark" value="3" className="navvy" onClick={this.handleRedirect.bind(this, "/profile")}>Profile</Button>
+          </ButtonGroup>
+          </Nav>
+        </Navbar.Collapse>
         { userLoggedIn ? <Button variant="outline-secondary" onClick={this.handleLogout.bind(this)} className="btn float-right"><strong>Logout</strong></Button> : <div></div> }
       </Navbar>
     );
