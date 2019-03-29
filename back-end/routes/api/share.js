@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const share = require('../../models')
 
-router.post('/add', (request, response) => {
+router.post("/add", (request, response) => {
 	const { username: user } = request.user
 	
 	if( user ) {
@@ -11,7 +11,7 @@ router.post('/add', (request, response) => {
 		
 		if( type === "article" ){
 			const { title, author, url } = payload
-
+			console.log('====author====', author)
 			article.create({ user, title, author, url }, (err, newArticle) => {
 				if(err) console.log('====err====', err)
 				return response.json({ message: "Success from article route" })
@@ -34,6 +34,26 @@ router.post('/add', (request, response) => {
 			})
 		}
 	}
+})
+
+router.get("/shared-items", ( request, response ) => {
+	const { job, article, event } = share
+	let payload = {}
+
+	job.find({}, ( err, data ) => { 
+		if( err ) response.json(err)
+		payload.jobs = data 
+	})
+	article.find({}, ( err, data ) => { 
+		if( err ) response.json(err)
+		payload.articles = data 
+	})
+	event.find({}, ( err, data ) => { 
+		if( err ) response.json(err)
+		payload.events = data 
+	})
+
+	response.json(payload)
 })
 
 module.exports = router;

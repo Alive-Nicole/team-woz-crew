@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt")
 
 const Schema = mongoose.Schema;
 
-const Events = new Schema({
+const Event = new Schema({
 
     user:{
      type: String
@@ -20,8 +20,8 @@ const Events = new Schema({
     }
 },
     {
-        collection: 'Events'
+        collection: 'Event'
     }
 );
 
-module.exports = mongoose.model('Events', Events);
+module.exports = mongoose.model('Event', Event);
