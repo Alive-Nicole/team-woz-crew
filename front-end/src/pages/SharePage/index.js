@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 
 require("./index.css");
 
@@ -9,7 +10,11 @@ export class SharePage extends Component {
         share: null
       };
     }
-   
+    
+    componentDidMount() {
+      axios.get("api/share/shared-items")
+      .then( payload => console.log('====payload====', payload) )
+    }
 
   render() {
     return (
