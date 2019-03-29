@@ -12,7 +12,7 @@ const Articles = new Schema({
      type: String
     },
     
-    Author: {
+    author: {
      type: String
     },
     url: {
