@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Button, Row, Col, Modal } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import parse from 'html-react-parser';
 
@@ -18,6 +19,7 @@ export class Jobs extends Component {
 
   componentDidMount = () => {
     this.getGitHubJobs();
+    
   }
 
   handleModalShow = ( index ) => {
@@ -26,7 +28,7 @@ export class Jobs extends Component {
     this.setState({ readMore: !readMore, modalData: jobs[index] })
   }
 
-  handleShareAction = ( index ) => {
+  handleShareAction( index ) {
     const { jobs } = this.state
     const job = jobs[ index ]
     axios.post("/api/share/add", { type: "job", payload: job })

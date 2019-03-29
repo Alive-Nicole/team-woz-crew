@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Button, Image } from 'react-bootstrap';
+import { Container, Row, Col, Button, Image, Modal } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import parse from 'html-react-parser';
 import axios from 'axios';
 
@@ -13,8 +14,9 @@ export class Events extends Component {
     this.state = {
       events: [],
       interest: 'python',
-      displayedIndex: null,
-      readMore: false
+      //displayedIndex: null,
+      readMore: false,
+      modalData: { name: "", description: "<div></div>", localized_location: "" }
     }
   }
   
@@ -25,8 +27,10 @@ export class Events extends Component {
     this.setState({ readMore: true, displayedIndex: index })    
   }
 
-  handleCollapse = () => {
-    this.setState({ readMore: false, displayedIndex: null })    
+  handleModalShow = ( index ) => {
+    const { events } = this.state
+
+    this.setState({ readMore: !this.state.readMore, modalData: events[index] })
   }
   
   handleShareAction = ( index ) => {
@@ -48,11 +52,13 @@ export class Events extends Component {
     this.setState({
       events: events.data
     })
+    //console.log(events)
   }
   
   render() {
-    const { events, displayedIndex, readMore } = this.state
-    console.log('====events[0]====', events[0])
+    //displayedIndex, 
+    const { events, modalData, readMore } = this.state
+    //console.log('====events[0]====', events[0])
     return (
       <Container fluid={true} className="center">
         <h2><u>Events</u></h2>
@@ -67,6 +73,38 @@ export class Events extends Component {
                   <h4>{ event.name }</h4>
                   <h5>{ event.localized_location }</h5>
                 </div>
+
+                <Button variant="outline-dark" onClick={ this.handleModalShow.bind( this, index )}>
+                  Read More
+                </Button>
+
+                <Modal
+                  { ...this.props }
+                  show={ this.state.readMore }
+                  onHide={ this.handleModalShow.bind( this, index )}
+                  size="lg"
+                  aria-labelledby="contained-modal-title-vcenter"
+                  centered
+                  >
+                  <Modal.Header closeButton>
+                    <Modal.Title id="contained-modal-title-vcenter">
+                      <h4>{ modalData.name }</h4>
+                    </Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <h5>{ modalData.localized_location }</h5>
+                    <div className="event-description">
+                      <div>Description: { parse(modalData.description) }</div>
+                    </div>
+                    <a className="btn btn-outline-dark" href={ modalData.link } target="_blank" rel="noopener noreferrer">Go To Posting</a>
+                  </Modal.Body>                  
+                </Modal>
+                <a className="btn btn-outline-dark" href={ event.link } target="_blank" rel="noopener noreferrer">Go To Posting</a>
+                
+                <Link to='/share-page'>
+                  <Button className="btn" variant="dark" onClick={ this.handleShareAction.bind(this, index) }>Share</Button>    
+                </Link>
+
                 <Row>
                   <Col>
                   { displayedIndex === index ? <Button className="btn btn-outline-dark" onClick={ this.handleCollapse.bind(this)}>Collapse</Button> : 
