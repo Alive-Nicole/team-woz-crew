@@ -88,12 +88,12 @@ export class Jobs extends Component {
       axios.post('api/share/add', obj )
           .then(res => console.log(res.data));
       
-      this.setState({
-        user: '',
-        title: '',
-        location: '',
-        url: '',
-      })
+     // this.setState({
+      //  user: '',
+      //  title: '',
+      //  location: '',
+      //  url: '',
+     // })
     }
 >>>>>>> user share model
 

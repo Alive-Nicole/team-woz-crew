@@ -8,14 +8,14 @@ const Events = new Schema({
     user:{
      type: String
     },
-    title:{
+    name:{
      type: String
     },
     
-    location: {
+    localized_location: {
      type: String
     },
-    url: {
+    link: {
         type: String
     }
 },
