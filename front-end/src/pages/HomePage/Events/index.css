@@ -1,0 +1,11 @@
+.readmore-content {
+  position: absolute;
+  z-index: 1;
+  background: rgba(0,0,0,0.8);
+  color: #fafafa;
+  font-size: 105%;
+  font-weight: 350;
+  border: 5px solid #1c1c1c;
+  border-radius: 5px;
+  padding: 15px;
+}

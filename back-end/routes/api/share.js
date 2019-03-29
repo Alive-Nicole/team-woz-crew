@@ -43,17 +43,20 @@ router.get("/shared-items", ( request, response ) => {
 	job.find({}, ( err, data ) => { 
 		if( err ) response.json(err)
 		payload.jobs = data 
+		
+		article.find({}, ( err, data ) => { 
+			if( err ) response.json(err)
+			payload.articles = data 
+			
+			event.find({}, ( err, data ) => { 
+				if( err ) response.json(err)
+				payload.events = data 
+				
+				console.log('====payload====', payload)
+				response.json(payload)
+			})
+		})
 	})
-	article.find({}, ( err, data ) => { 
-		if( err ) response.json(err)
-		payload.articles = data 
-	})
-	event.find({}, ( err, data ) => { 
-		if( err ) response.json(err)
-		payload.events = data 
-	})
-
-	response.json(payload)
 })
 
 module.exports = router;

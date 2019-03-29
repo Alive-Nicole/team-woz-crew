@@ -4,6 +4,8 @@ import { Image, Container, Row, Col, Button } from 'react-bootstrap';
 import axios from 'axios';
 import NewsAPI from 'newsapi';
 
+require('./index.css')
+
 const TechCrunch_API = '694a36dcc42a4cbf9922f6435b66ac77'
 const newsapi = new NewsAPI(TechCrunch_API);
 
@@ -44,20 +46,18 @@ export class NewsFeeds extends Component {
   render() {
     console.log('====this.state.articles[0]====', this.state.articles[0])
     return (
-      <Container fluid={true}>
-        <h3>News Articles</h3>
+      <Container fluid={true} className="center">
+        <h2><u>News Articles</u></h2>
         <hr></hr>
-        <Row>
+        <Row className="article-row">
           { this.state.articles.map( ( article, index ) => {
             return (
-              <Col key={ index } md="5">
-                <a target="_blank" href={ article.url }><p className="content">{ article.title }</p></a>
+              <Col key={ index } md="4" className="article center">
+                <a target="_blank" href={ article.url }><h4 className="content">{ article.title }</h4></a>
                 <small className="content">{ article.author }</small>
                 { article.urlToImage ? <a target="_blank" href={ article.url }><Image src={ article.urlToImage } thumbnail /></a> : <div></div> }
-                {/* <p className="content">{ article.description }</p> */}
-                <a target="_blank" href={ article.url }>Click To View Article</a>         
+                <a target="_blank" href={ article.url }><u>Click To View Article</u></a>         
                 <Button className="btn" variant="dark" onClick={ this.handleShareAction.bind(this, index) }>Share</Button>       
-                <hr></hr>
                 <hr></hr>
               </Col>
             )}) }
