@@ -5,8 +5,11 @@ require("./index.css");
 export class SharePage extends Component {
     constructor(props){
       super(props);
-        
+      this.state ={
+        share: null
+      };
     }
+   
 
   render() {
     return (

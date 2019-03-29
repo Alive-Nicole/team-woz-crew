@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "start": "node server.js",
     "start:prod": "node server.js",
     "start:dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
     "client": "cd front-end && npm run start",
@@ -16,11 +16,11 @@
   "author": "Nicole Nwakalor, Lah Lah Ntumsi, Abraham Ferguson",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^3.5.0",
-    "morgan": "^1.9.1",
-    "nodemon": "^1.11.0"
   },
   "dependencies": {
+    "concurrently": "^3.5.0",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.11.0",
     "bcrypt": "^3.0.4",
     "body-parser": "^1.17.2",
     "bootstrap": "^4.3.1",
