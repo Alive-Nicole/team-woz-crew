@@ -2,6 +2,7 @@ import React from 'react';
 import { Router, Route, Switch } from "react-router-dom";
 import { Row, Col } from 'react-bootstrap';
 import { createBrowserHistory } from 'history';
+//import { ShareRouter } from '../../back-end/routes/api/share'
 
 import Login from './pages/Login/';
 import NewUser from './pages/NewUser/';
@@ -30,6 +31,8 @@ const App = () => (
         <Route path="/new-user" component={NewUser} /> 
         <Route path="/home" component={Home} />
         <Route path="/share-page" component={SharePage} />
+        {/* <Route path="/:topic" component={ShareRouter} /> */}
+        
         <Route path="/profile" component={User} />
         <Route path="/users" component={Users} />
       </Switch>

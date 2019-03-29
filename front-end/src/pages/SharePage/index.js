@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Grid, Row, Col, Image, Button, Container} from 'react-bootstrap';
-import Axios from 'axios';
+import axios from 'axios';
 require('./index.css');
 
 export class SharePage extends Component {
@@ -11,8 +11,41 @@ export class SharePage extends Component {
       foundUseful: 0
     }
 
-    fetchData = () =>{
-      let result = Axios.get('')
+    // componentDidMount(){
+    //   this.getSharedData()
+    // }
+    // getSharedData = () =>{
+    //   let result = router.get('/api/share/add', ( request, response ) => {
+    //     console.log(response)
+    //   })
+    // }
+    getSharedData = () =>{
+      axios.get('/api/share/add')
+      .then(response => {
+        console.log(response)
+
+        // If statement to verify the type of post shared
+        if(response.type == "article"){
+          console.log("You are sharing a news feed")
+        }
+
+        else if(response.type == "jobs"){
+          console.log("You are sharing a job")
+        }
+
+        else if(response.type == "events"){
+          console.log("You are sharing an event")
+        }
+
+        else {
+          console.log('Cannot get what you are sharing!')
+        }
+
+        
+      })
+      .catch(err => {
+        console.log(err)
+      })
     }
 
     // markfoundUseful = (e) =>{      
@@ -69,7 +102,8 @@ export class SharePage extends Component {
 
 
     render() {
-     // return this.state.share.map(shared => (
+      return (
+     //this.state.share.map(shared => (
         
         <Container className="sharePost">
 
@@ -105,7 +139,8 @@ export class SharePage extends Component {
           </div> */}
 
         </Container>
-      //))
+      //)
+      )
     }
 }
 

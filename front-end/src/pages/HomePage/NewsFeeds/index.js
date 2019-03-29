@@ -42,13 +42,13 @@ export class NewsFeeds extends Component {
   }
 
   render() {
-    console.log('====this.state.articles[0]====', this.state.articles[0])
+    //console.log('====this.state.articles[0]====', this.state.articles[0])
     return (
       <Container fluid={true}>
         <h3>News Articles</h3>
         <hr></hr>
         <Row>
-          { this.state.articles.map( ( article, index ) => {
+          { this.state.articles ? this.state.articles.map( ( article, index ) => {
             return (
               <Col key={ index } md="5">
                 <a target="_blank" href={ article.url }><p className="content">{ article.title }</p></a>
@@ -56,11 +56,16 @@ export class NewsFeeds extends Component {
                 { article.urlToImage ? <a target="_blank" href={ article.url }><Image src={ article.urlToImage } thumbnail /></a> : <div></div> }
                 {/* <p className="content">{ article.description }</p> */}
                 <a target="_blank" href={ article.url }>Click To View Article</a>         
-                <Button className="btn" variant="dark" onClick={ this.handleShareAction.bind(this, index) }>Share</Button>       
-                <hr></hr>
+
+                <Link to='/share-page'>
+                  <Button className="btn" variant="dark" onClick={ this.handleShareAction.bind(this, index) }>Share</Button>    
+                </Link>
+                   
                 <hr></hr>
               </Col>
-            )}) }
+            )}) : <div><br></br><h4 className="center">Loading...</h4><br></br></div>
+          
+          }
         </Row>
       </Container>
     )

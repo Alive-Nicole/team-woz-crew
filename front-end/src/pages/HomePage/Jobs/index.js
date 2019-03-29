@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Button, Row, Col, Modal } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import parse from 'html-react-parser';
 
@@ -18,6 +19,7 @@ export class Jobs extends Component {
 
   componentDidMount = () => {
     this.getGitHubJobs();
+    
   }
 
   handleModalShow = ( index ) => {
@@ -26,7 +28,7 @@ export class Jobs extends Component {
     this.setState({ readMore: !this.state.readMore, modalData: jobs[index] })
   }
 
-  handleShareAction = ( index ) => {
+  handleShareAction( index ) {
     const { jobs } = this.state
     const job = jobs[ index ]
     axios.post("/api/share/add", { type: "job", payload: job })
@@ -51,15 +53,15 @@ export class Jobs extends Component {
 
     
   render() {
-    const { modalData } = this.state
-    console.log('====this.state.jobs[0]====', this.state.jobs[0])
+    const { jobs, modalData } = this.state
+    //console.log('====this.state.jobs[0]====', this.state.jobs[0])
 
     return (
       <Container fluid  className="jobs">
         <div className="contents">
           <h3>Jobs</h3>
           <hr></hr>
-          { this.state.jobs ? this.state.jobs.map(( job, index ) => {
+          { jobs ? jobs.map( ( job, index ) => {
             return (
               <div key={ index }>
 
@@ -91,11 +93,15 @@ export class Jobs extends Component {
                     <div className="job-description">
                       <div>Description: { parse(modalData.description) }</div>
                     </div>
-                    <a className="btn btn-outline-dark" to={ modalData.url } target="_blank" rel="noopener noreferrer">Go To Posting</a>
+                    <a className="btn btn-outline-dark" href={ modalData.url } target="_blank" rel="noopener noreferrer">Go To Posting</a>
                   </Modal.Body>                  
                 </Modal>
-                <a className="btn btn-outline-dark" to={ job.url } target="_blank" rel="noopener noreferrer">Go To Posting</a>
-                <Button className="btn" variant="dark" onClick={ this.handleShareAction.bind(this, index) }>Share</Button>
+                <a className="btn btn-outline-dark" href={ job.url } target="_blank" rel="noopener noreferrer">Go To Posting</a>
+                
+                <Link to='/share-page'>
+                  <Button className="btn" variant="dark" onClick={ this.handleShareAction.bind(this, index) }>Share</Button>    
+                </Link>
+                
                 <hr></hr>
               </div>
             )
