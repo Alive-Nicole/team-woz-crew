@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Button, Row, Col, Modal } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Container, Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
 import parse from 'html-react-parser';
 
@@ -97,11 +96,9 @@ export class Jobs extends Component {
                   </Modal.Body>                  
                 </Modal>
                 <a className="btn btn-outline-dark" href={ job.url } target="_blank" rel="noopener noreferrer">Go To Posting</a>
-                
-                <Link to='/share-page'>
-                  <Button className="btn" variant="dark" onClick={ this.handleShareAction.bind(this, index) }>Share</Button>    
-                </Link>
-                
+               
+                <Button className="btn" variant="dark" onClick={ this.handleShareAction.bind(this, index) }>Share</Button>    
+                               
                 <hr></hr>
               </div>
             )
