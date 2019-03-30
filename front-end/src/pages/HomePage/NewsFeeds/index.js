@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { Image, Container, Row, Col, Button } from 'react-bootstrap';
 import axios from 'axios';
 import NewsAPI from 'newsapi';
@@ -68,11 +67,16 @@ export class NewsFeeds extends Component {
                 {/* <p className="content">{ article.description }</p> */}
                 <a target="_blank" href={ article.url }>Click To View Article</a>         
 
+<<<<<<< HEAD
                 <Link to='/share-page'>
                   <Button className="btn" variant="dark" onClick={ this.handleShareAction.bind(this, index) }>Share</Button>    
                 </Link>
                    
 >>>>>>> new updat
+=======
+                <Button className="btn" variant="dark" onClick={ this.handleShareAction.bind(this, index) }>Share</Button>    
+                                   
+>>>>>>> update share page 3/30
                 <hr></hr>
               </Col>
             )}) : <div><br></br><h4 className="center">Loading...</h4><br></br></div>

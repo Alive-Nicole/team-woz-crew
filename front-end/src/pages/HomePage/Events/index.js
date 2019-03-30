@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Button, Image, Modal } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Container, Button, Modal } from 'react-bootstrap';
 import parse from 'html-react-parser';
 import axios from 'axios';
 
@@ -101,10 +100,8 @@ export class Events extends Component {
                 </Modal>
                 <a className="btn btn-outline-dark" href={ event.link } target="_blank" rel="noopener noreferrer">Go To Posting</a>
                 
-                <Link to='/share-page'>
-                  <Button className="btn" variant="dark" onClick={ this.handleShareAction.bind(this, index) }>Share</Button>    
-                </Link>
-
+                <Button className="btn" variant="dark" onClick={ this.handleShareAction.bind(this, index) }>Share</Button>    
+                
                 <Row>
                   <Col>
                   { displayedIndex === index ? <Button className="btn btn-outline-dark" onClick={ this.handleCollapse.bind(this)}>Collapse</Button> : 
