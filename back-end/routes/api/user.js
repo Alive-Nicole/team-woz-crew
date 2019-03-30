@@ -21,9 +21,21 @@ router.get("/profile", ( request, response ) => {
 });
 
 router.get("/check-user", ( request, response ) => {
-  const userLoggedIn = request.user ? true : false;
-
-  return response.send( userLoggedIn )
+  const payload = request.user ? 
+  ({ 
+    userLoggedIn: true, 
+    user: request.user
+  }) : 
+  ({ 
+    userLoggedIn: false, 
+    user: 
+      { 
+        technologies: [], 
+        languages: [], 
+        interests: [] 
+      }
+  })
+  return response.json( payload )
 })
 
 // Defined edit route

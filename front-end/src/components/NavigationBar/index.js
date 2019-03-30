@@ -37,20 +37,23 @@ export default class NavigationBar extends Component {
   }
 
   handleRedirect = async ( page ) => {
-    const userLoggedIn = await axios.get("/api/user/check-user")
-    if( userLoggedIn.data ) {
-      this.props.history.push( page, { loggedIn: userLoggedIn.data })
+    const payload = await axios.get("/api/user/check-user")
+    const { userLoggedIn, user } = payload.data
+    console.log('====userLoggedIn, user====', userLoggedIn, user, payload)
+    if( userLoggedIn ) {
+      this.props.history.push( page, { loggedIn: userLoggedIn, user })
     } else {
-      this.props.history.push("/", { loggedIn: userLoggedIn.data })    
+      this.props.history.push("/", { loggedIn: userLoggedIn, user })    
     }
   }
 
   handleHomeRoute = async () => {
-    const userLoggedIn = await axios.get("/api/user/check-user")
-    if( userLoggedIn.data ) {
-      this.props.history.push( "/home", { loggedIn: userLoggedIn.data })    
+    const payload = await axios.get("/api/user/check-user")
+    const { userLoggedIn, user } = payload.data
+    if( userLoggedIn ) {
+      this.props.history.push( "/home", { loggedIn: userLoggedIn })    
     } else {
-      this.props.history.push("/", { loggedIn: userLoggedIn.data })    
+      this.props.history.push("/", { loggedIn: userLoggedIn })    
     }
   }
   

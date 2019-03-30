@@ -44,7 +44,8 @@ export class Events extends Component {
   }
   //Get Meetup API
   getMeetup = async () => {
-    
+    // const { technologies, languages } = this.props.user
+    console.log('====this.props.history====', this.props)
     let interest = interest;
     const events = await axios.get(`https://cors-anywhere.herokuapp.com/api.meetup.com/find/groups?&zip=94544&text=programming&radius=10&key=${Meetup_API}`,{crossDomain: true})
     this.setState({

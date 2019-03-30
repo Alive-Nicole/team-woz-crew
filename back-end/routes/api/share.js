@@ -11,7 +11,7 @@ router.post("/add", (request, response) => {
 		
 		if( type === "article" ){
 			const { title, author, url } = payload
-			console.log('====author====', author)
+
 			article.create({ user, title, author, url }, (err, newArticle) => {
 				if(err) console.log('====err====', err)
 				return response.json({ message: "Success from article route" })
@@ -51,7 +51,7 @@ router.get("/shared-items", ( request, response ) => {
 			event.find({}, ( err, data ) => { 
 				if( err ) response.json(err)
 				payload.events = data 
-				
+
 				console.log('====payload====', payload)
 				response.json(payload)
 			})
