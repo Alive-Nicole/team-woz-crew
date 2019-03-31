@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Tab, Tabs } from 'react-bootstrap';
 import NewsFeeds from '../NewsFeeds';
 import Jobs from '../Jobs';
 import Events from '../Events';

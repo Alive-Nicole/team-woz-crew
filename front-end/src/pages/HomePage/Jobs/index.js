@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Button, Modal } from 'react-bootstrap';
+import { Container, Button, Modal, Col, Row } from 'react-bootstrap';
 import axios from 'axios';
 import parse from 'html-react-parser';
 

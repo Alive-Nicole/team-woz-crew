@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Button, Modal } from 'react-bootstrap';
+import { Container, Button, Modal, Row, Col, Image } from 'react-bootstrap';
 import parse from 'html-react-parser';
 import axios from 'axios';
 
@@ -13,7 +13,7 @@ export class Events extends Component {
     this.state = {
       events: [],
       interest: 'python',
-      //displayedIndex: null,
+      displayedIndex: null,
       readMore: false,
       modalData: { name: "", description: "<div></div>", localized_location: "" }
     }
@@ -56,7 +56,7 @@ export class Events extends Component {
   
   render() {
     //displayedIndex, 
-    const { events, modalData, readMore } = this.state
+    const { events, modalData, readMore, displayedIndex } = this.state
     //console.log('====events[0]====', events[0])
     return (
       <Container fluid={true} className="center">
@@ -91,6 +91,7 @@ export class Events extends Component {
                     </Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
+                    <Image src={ modalData.key_photo ? modalData.key_photo.photo_link : modalData.key_photo } thumbnail />
                     <h5>{ modalData.localized_location }</h5>
                     <div className="event-description">
                       <div>Description: { parse(modalData.description) }</div>
@@ -102,7 +103,7 @@ export class Events extends Component {
                 
                 <Button className="btn" variant="dark" onClick={ this.handleShareAction.bind(this, index) }>Share</Button>    
                 
-                <Row>
+                {/* <Row>
                   <Col>
                   { displayedIndex === index ? <Button className="btn btn-outline-dark" onClick={ this.handleCollapse.bind(this)}>Collapse</Button> : 
                   <Button key={ index } variant="outline-dark" onClick={ this.handleReadMore.bind(this, index)}>
@@ -115,15 +116,15 @@ export class Events extends Component {
                   <Col>
                     <Button className="btn" variant="dark" onClick={ this.handleShareAction.bind(this, index) }>Share</Button>
                   </Col>
-                </Row>
-                { displayedIndex === index ? 
+                </Row> */}
+                {/* { displayedIndex === index ? 
                   <Row className="">
                     <Col>
                       <Image src={ event.key_photo ? event.key_photo.photo_link : event.key_photo } thumbnail />
                       <h4><strong>Description:</strong>{ desc }</h4>
                     </Col>
                   </Row> : <div></div> }                
-                <hr></hr>
+                <hr></hr> */}
               </Col>
             )
           }) : <div><br></br><h4 className="center">Loading...</h4><br></br></div>
