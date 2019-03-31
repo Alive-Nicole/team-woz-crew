@@ -1,0 +1,10 @@
+.article-row {
+  padding: 10px;
+}
+
+.article {
+  border: 3px double #1c1c1c;
+  border-radius: 0px;
+  margin: 0px;
+  padding: 10px;
+}

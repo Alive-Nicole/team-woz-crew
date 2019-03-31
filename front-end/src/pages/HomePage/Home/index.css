@@ -1,0 +1,10 @@
+/* hr {
+  display: block;
+  margin-top: 0.5rem;
+  margin-bottom: 2.5rem;
+  border: 0;
+  border-top: 2px solid rgba(0,0,0,0.7);
+} */
+.tabs {
+  margin: 15px;
+}

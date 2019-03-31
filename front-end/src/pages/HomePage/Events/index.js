@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Button, Modal } from 'react-bootstrap';
+import { Container, Button, Modal, Row, Col, Image } from 'react-bootstrap';
 import parse from 'html-react-parser';
 import axios from 'axios';
 
@@ -71,7 +71,7 @@ export class Events extends Component {
           { events ? events.map( (event, index) =>  {     
             let desc = event.description && typeof event.description === "string" ? parse(event.description) : "No description available";            
             return ( 
-              <div key={ index }>
+              <Col key={ index } md="4" className="center">
 
                 <div className="event-title">
                   <h4>{ event.name }</h4>
@@ -96,6 +96,7 @@ export class Events extends Component {
                     </Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
+                    <Image src={ modalData.key_photo ? modalData.key_photo.photo_link : modalData.key_photo } thumbnail />
                     <h5>{ modalData.localized_location }</h5>
                     <div className="event-description">
                       <div>Description: { parse(modalData.description) }</div>
@@ -109,7 +110,7 @@ export class Events extends Component {
                 
                 {/* <Row>
                   <Col>
-                  { readMore ? <Button className="btn btn-outline-dark" onClick={ this.handleCollapse.bind(this)}>Collapse</Button> : 
+                  { displayedIndex === index ? <Button className="btn btn-outline-dark" onClick={ this.handleCollapse.bind(this)}>Collapse</Button> : 
                   <Button key={ index } variant="outline-dark" onClick={ this.handleReadMore.bind(this, index)}>
                       Read More
                     </Button> }                    
@@ -131,7 +132,7 @@ export class Events extends Component {
                   </Col>
                 </Row> : <div></div> }  */}              
                 <hr></hr> 
-              </div>
+              </Col>
             )
           }) : <div><br></br><h4 className="center">Loading...</h4><br></br></div>
         }

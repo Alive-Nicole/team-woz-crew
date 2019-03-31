@@ -4,321 +4,314 @@ import axios from 'axios';
 require('./index.css');
 
 export class SharePage extends Component {
-    state = {
-      news: [],
+  constructor(props){
+    super(props);
+    this.state ={
+      events: [],
       jobs: [],
-      events: []
-    }
+      articles: []
+    };
+  }
+  
+  componentDidMount() {
+    // axios.get("api/share/shared-items")
+    // .then( payload => console.log('====payload====', payload) )
+    this.getSharedData()
+  }
 
-    componentDidMount(){
-      this.getSharedData();
-    }
-    componentWillMount(){
-      this.getSharedData();
-    }
-
-    // Get data from backend
-    getSharedData = (index) =>{
-      axios.get('/api/share/add')
-      .then(response => {
-        let res = response.config.data;
-        console.log(res);
-        // If statement to verify the type of post shared
-        if(res.type == "article"){
-          console.log("You are sharing a News feed");
-          // news.push({
-          //   type: res.type,
-          //   article: res.payload
-          // });
-          this.setState({
-            news: {
-              type: res.type,
-              article: res.payload,
-              like: false,
-              dislike: false,
-              foundUseful: 0
-            }
-          })
-        }
-        else if(res.type == "job"){
-          console.log("You are sharing a job")
-          // jobs.push({
-          //   type: res.type,
-          //   job: res.payload
-          // });
-          this.setState({
-            jobs: {
-              type: res.type,
-              job: res.payload,
-              like: false,
-              dislike: false,
-              foundUseful: 0
-            }
-          })
-        }
-        else if(res.type == "event"){
-          console.log("You are sharing an event")
-          // events.push({
-          //   type: res.type,
-          //   event: res.payload
-          // });
-          this.setState({
-            events: {
-              type: res.type,
-              event: res.payload,
-              like: false,
-              dislike: false,
-              foundUseful: 0
-            }
-          })
-        }
-        else {
-          console.log('Unknown type')
-        }
-
-        //Post updated data to backend "share.js" so info do not get lost after page is refreshed
-      //   const shared = this.state
-      //   const updatedPost = shared[ index ]
-      //   axios.post("/api/share/update")
-      //   .then( response => {
-      //     console.log("newsFeed response", response)
-      //   })
-      //   .catch( err => {
-      //     console.log('====err====', err)
-      //   })
-      })
-      .catch(err => {
-        console.log(err)
-      })
-    }    
+  getSharedData = () =>{
+    axios.get('/api/share/shared-items')
+    .then(response => {
+      console.log(response);
+      let res = response.data;
         
-    
+      this.setState({ events: res.events, jobs: res.jobs, articles: res.articles })
+      // If statement to verify the type of post shared
+      // if(res.type == "article"){
+      //   console.log("You are sharing a articles feed");      
+      //   let { news } = this.state;
+      //   // news.push({
+      //   //   type: res.type,
+      //   //   article: res.payload
+      //   // });
+      //   this.setState({
+      //     news: {
+      //       type: res.type,
+      //       article: res.payload,
+      //       like: false,
+      //       dislike: false,
+      //       foundUseful: 0
+      //     }
+      //   })
+      // }
+      // else if(res.type == "job"){
+      //   console.log("You are sharing a job")
+      //   let { jobs } = this.state;
+      //   // jobs.push({
+      //   //   type: res.type,
+      //   //   job: res.payload
+      //   // });
 
-    // Like | Dislike a post
-    markUseful = (e) =>{      
-      const share = this.state;
-      let id = e.target.value;
-      const newsFeed = share.news
-      const jobsFeed = share.jobs
-      const eventsFeed = share.events
-      // If statement to find type
-      if(share.news){
-        this.setState({
-          news: newsFeed.map(post => {
-            if(id == post.article.url){
-              if(post.like == false && post.dislike == false) {
-                post.foundUseful++;
-                post.like = true;
-              }
-              else if((post.like == true && post.dislike == true) || (post.like == false && post.dislike == true)){
-                post.foundUseful++;
-                post.like = true;
-                post.dislike = false;
-              }
-              else if(post.like == true && post.dislike == false){
-                post.foundUseful--;
-                post.like = false;
-              }
+      //   this.setState({
+      //     jobs: {
+      //       type: res.type,
+      //       job: res.payload,
+      //       like: false,
+      //       dislike: false,
+      //       foundUseful: 0
+      //     }
+      //   })
+      // }
+      // else if(res.type == "event"){
+      //   console.log("You are sharing an event")
+      //   let { events } = this.state;
+      //   // events.push({
+      //   //   type: res.type,
+      //   //   event: res.payload
+      //   // });
+
+      //   this.setState({
+      //     events: {
+      //       type: res.type,
+      //       event: res.payload,
+      //       like: false,
+      //       dislike: false,
+      //       foundUseful: 0
+      //     }
+      //   })
+      // }
+      // else {
+      //   console.log('Unknown type')
+      // }
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+
+  // Like | Dislike a post
+  markUseful = (e) =>{      
+    let share = this.state;
+    let id = e.target.value;
+    let newsFeed = share.news
+    let jobsFeed = share.jobs
+    let eventsFeed = share.events
+    // If statement to find type
+    if(share.news){
+      this.setState({
+        news: newsFeed.map(post => {
+          if(id == post.article.url){
+            if(post.like == false && post.dislike == false) {
+              post.foundUseful++;
+              post.like = true;
             }
-            return newsFeed;
-          })
-        })
-      }
-      else if(share.jobs){
-        this.setState({
-          jobs: jobsFeed.map(post => {
-            if(id == post.job.url){
-              if(post.like == false && post.dislike == false) {
-                post.foundUseful++;
-                post.like = true;
-              }
-              else if((post.like == true && post.dislike == true) || (post.like == false && post.dislike == true)){
-                post.foundUseful++;
-                post.like = true;
-                post.dislike = false;
-              }
-              else if(post.like == true && post.dislike == false){
-                post.foundUseful--;
-                post.like = false;
-              }
+            else if((post.like == true && post.dislike == true) || (post.like == false && post.dislike == true)){
+              post.foundUseful++;
+              post.like = true;
+              post.dislike = false;
             }
-            return jobsFeed;
-          })
-        })
-      }
-      else if(share.events){
-        this.setState({
-          events: eventsFeed.map(post => {
-            if(id == post.event.link){
-              if(post.like == false && post.dislike == false) {
-                post.foundUseful++;
-                post.like = true;
-              }
-              else if((post.like == true && post.dislike == true) || (post.like == false && post.dislike == true)){
-                post.foundUseful++;
-                post.like = true;
-                post.dislike = false;
-              }
-              else if(post.like == true && post.dislike == false){
-                post.foundUseful--;
-                post.like = false;
-              }
+            else if(post.like == true && post.dislike == false){
+              post.foundUseful--;
+              post.like = false;
             }
-            return eventsFeed;
-          })
+          }
+          return newsFeed;
         })
-      }
+      })
     }
-
-    markNotUseful = (e) =>{
-      let share = this.state;
-      let id = e.target.value;
-      let newsFeed = share.news
-      let jobsFeed = share.jobs
-      let eventsFeed = share.events
-      // If statement to find type
-      if(share.news){
-        this.setState({
-          news: newsFeed.map(post => {
-            if(id == post.article.url){
-              if(post.like == false && post.dislike == false) {
-                post.foundUseful--;
-                post.dislike = true;
-              }
-              else if((post.like == true && post.dislike == true) || (post.like == true && post.dislike == false)){
-                post.foundUseful--;
-                post.like = false;
-                post.dislike = true;
-              }
-              else if(post.like == false && post.dislike == true){
-                post.foundUseful++;
-                post.dislike = false;
-              }
+    else if(share.jobs){
+      this.setState({
+        jobs: jobsFeed.map(post => {
+          if(id == post.job.url){
+            if(post.like == false && post.dislike == false) {
+              post.foundUseful++;
+              post.like = true;
             }
-            return newsFeed;
-          })
-        })
-      }
-      else if(share.jobs){
-        this.setState({
-          jobs: jobsFeed.map(post => {
-            if(id == post.job.url){
-              if(post.like == false && post.dislike == false) {
-                post.foundUseful--;
-                post.dislike = true;
-              }
-              else if((post.like == true && post.dislike == true) || (post.like == true && post.dislike == false)){
-                post.foundUseful--;
-                post.like = false;
-                post.dislike = true;
-              }
-              else if(post.like == false && post.dislike == true){
-                post.foundUseful++;
-                post.dislike = false;
-              }
+            else if((post.like == true && post.dislike == true) || (post.like == false && post.dislike == true)){
+              post.foundUseful++;
+              post.like = true;
+              post.dislike = false;
             }
-            return jobsFeed;
-          })
-        })
-      }
-      else if(share.events){
-        this.setState({
-          events: eventsFeed.map(post => {
-            if(id == post.event.link){
-              if(post.like == false && post.dislike == false) {
-                post.foundUseful--;
-                post.dislike = true;
-              }
-              else if((post.like == true && post.dislike == true) || (post.like == true && post.dislike == false)){
-                post.foundUseful--;
-                post.like = false;
-                post.dislike = true;
-              }
-              else if(post.like == false && post.dislike == true){
-                post.foundUseful++;
-                post.dislike = false;
-              }
+            else if(post.like == true && post.dislike == false){
+              post.foundUseful--;
+              post.like = false;
             }
-            return eventsFeed;
-          })
+          }
+          return jobsFeed;
         })
-      }
+      })
     }
+    else if(share.events){
+      this.setState({
+        events: eventsFeed.map(post => {
+          if(id == post.event.link){
+            if(post.like == false && post.dislike == false) {
+              post.foundUseful++;
+              post.like = true;
+            }
+            else if((post.like == true && post.dislike == true) || (post.like == false && post.dislike == true)){
+              post.foundUseful++;
+              post.like = true;
+              post.dislike = false;
+            }
+            else if(post.like == true && post.dislike == false){
+              post.foundUseful--;
+              post.like = false;
+            }
+          }
+          return eventsFeed;
+        })
+      })
+    }
+  }
 
-    render() {
-      const { news, events, jobs } = this.state
-      console.log(`====Data[0]==== ${news[0]}, ${events[0]}, ${jobs[0]}`)
-      return (
-        <Container fluid className="shared">        
-          <h3>Shared items</h3>
-          <hr></hr>
-          {/* If sharing an article */}
-          { news ? news.map( (article, index) => {
+  markNotUseful = (e) =>{
+    let share = this.state;
+    let id = e.target.value;
+    let newsFeed = share.news
+    let jobsFeed = share.jobs
+    let eventsFeed = share.events
+    // If statement to find type
+    if(share.news){
+      this.setState({
+        news: newsFeed.map(post => {
+          if(id == post.article.url){
+            if(post.like == false && post.dislike == false) {
+              post.foundUseful--;
+              post.dislike = true;
+            }
+            else if((post.like == true && post.dislike == true) || (post.like == true && post.dislike == false)){
+              post.foundUseful--;
+              post.like = false;
+              post.dislike = true;
+            }
+            else if(post.like == false && post.dislike == true){
+              post.foundUseful++;
+              post.dislike = false;
+            }
+          }
+          return newsFeed;
+        })
+      })
+    }
+    else if(share.jobs){
+      this.setState({
+        jobs: jobsFeed.map(post => {
+          if(id == post.job.url){
+            if(post.like == false && post.dislike == false) {
+              post.foundUseful--;
+              post.dislike = true;
+            }
+            else if((post.like == true && post.dislike == true) || (post.like == true && post.dislike == false)){
+              post.foundUseful--;
+              post.like = false;
+              post.dislike = true;
+            }
+            else if(post.like == false && post.dislike == true){
+              post.foundUseful++;
+              post.dislike = false;
+            }
+          }
+          return jobsFeed;
+        })
+      })
+    }
+    else if(share.events){
+      this.setState({
+        events: eventsFeed.map(post => {
+          if(id == post.event.link){
+            if(post.like == false && post.dislike == false) {
+              post.foundUseful--;
+              post.dislike = true;
+            }
+            else if((post.like == true && post.dislike == true) || (post.like == true && post.dislike == false)){
+              post.foundUseful--;
+              post.like = false;
+              post.dislike = true;
+            }
+            else if(post.like == false && post.dislike == true){
+              post.foundUseful++;
+              post.dislike = false;
+            }
+          }
+          return eventsFeed;
+        })
+      })
+    }
+  }
+
+  render() {
+    const { articles, events, jobs } = this.state
+    console.log(articles, events, jobs)
+    return (
+      <Container fluid className="shared">        
+        <h3>Shared items</h3>
+        <hr></hr>
+        {/* If sharing an article */}
+        <h4>Articles</h4>
+        { articles ? articles.map( (article, index) => {
+          return (
+            <div key={index} >
+              <p>"Profile pic"</p>
+              <p>(#username) shared an {article.user}</p>
+              <a href={ article.url } target="_blank"><p className="content">{ article.title }</p></a>
+              <div>
+                <Button value={article.url} onClick={this.markUseful}>Like</Button>
+                <Button value={article.url} onClick={this.markNotUseful}>Dislike</Button>
+                <div className="useful">
+                  {article.foundUseful} found this useful.
+                </div>
+              </div>
+              <hr></hr>
+            </div>              
+          )
+        }) : <div></div>}
+          {/* If sharing an event */}
+          <h4>Events</h4>
+          { events ? events.map( (event, index) => {
+            
             return (
-              <div key={index} >
+              <div key={index}>
                 <p>"Profile pic"</p>
-                <p>(#username) shared an {article.type}</p>
-                <a href={ article.article.url } target="_blank"><p className="content">{ article.article.title }</p></a>
+                <p>(#username) shared an {event.user}</p>
+                <a href={ event.link } target="_blank"><p className="content">{ event.name }</p></a>
+                <small>{event.localized_location}</small>
                 <div>
-                  <Button value={article.article.url} onClick={this.markUseful}>Like</Button>
-                  <Button value={article.article.url} onClick={this.markNotUseful}>Dislike</Button>
+                  <Button value={event.link} onClick={this.markUseful}>Like</Button>
+                  <Button value={event.link} onClick={this.markNotUseful}>Dislike</Button>
                   <div className="useful">
-                    {article.foundUseful} found this useful.
+                    {event.foundUseful} found this useful.
                   </div>
                 </div>
                 <hr></hr>
-              </div>              
+              </div>
             )
-          }) : <div>
-            {/* If sharing an event */}
-            { events ? events.map( (event, index) => {
-              return (
-                <div key={index}>
-                  <p>"Profile pic"</p>
-                  <p>(#username) shared an {event.type}</p>
-                  <a href={ event.event.link } target="_blank"><p className="content">{ event.event.name }</p></a>
-                  <small>{event.event.localized_location}</small>
-                  <div>
-                    <Button value={event.event.link} onClick={this.markUseful}>Like</Button>
-                    <Button value={event.event.link} onClick={this.markNotUseful}>Dislike</Button>
-                    <div className="useful">
-                      {event.foundUseful} found this useful.
-                    </div>
+          }): <div></div>}
+            {/* If sharing a job */}
+          <h4>Jobs</h4>
+          { jobs ? jobs.map( (job, index) => {
+            return (
+              <div key={index}>
+                <p>"Profile pic"</p>
+                <p>(#username) shared an {job.user}</p>
+                <a href={ job.url } target="_blank"><p className="content">{ job.title }</p></a>
+                <small>Company: { job.company }  |  Location: { job.location }</small>
+                <div>
+                  <Button value={job.url} onClick={this.markUseful}>Like</Button>
+                  <Button value={job.url} onClick={this.markNotUseful}>Dislike</Button>
+                  <div className="useful">
+                    {job.foundUseful} found this useful.
                   </div>
-                  <hr></hr>
                 </div>
-              )
-            }): <div>
-              {/* If sharing a job */}
-            { jobs ? jobs.map( (job, index) => {
-              return (
-                <div key={index}>
-                  <p>"Profile pic"</p>
-                  <p>(#username) shared an {job.type}</p>
-                  <a href={ job.job.url } target="_blank"><p className="content">{ job.job.title }</p></a>
-                  <small>Company: { job.job.company }  |  Location: { job.job.location }</small>
-                  <div>
-                    <Button value={job.job.url} onClick={this.markUseful}>Like</Button>
-                    <Button value={job.job.url} onClick={this.markNotUseful}>Dislike</Button>
-                    <div className="useful">
-                      {job.foundUseful} found this useful.
-                    </div>
-                  </div>
-                  <hr></hr>
-                </div>
-              )
-            }): <div></div>
-          }
-            </div>
-          }
-            </div> 
-          }
-        </Container>
-        )
-      }
+                <hr></hr>
+              </div>
+            )
+          }): <div></div>}
+      </Container>
+      )
     }
-    
-  export default SharePage;
+  }
+export default SharePage;
 
 
     {/* <Row className="row1">

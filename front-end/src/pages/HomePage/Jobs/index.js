@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Button, Modal } from 'react-bootstrap';
+import { Container, Button, Modal, Col, Row } from 'react-bootstrap';
 import axios from 'axios';
 import parse from 'html-react-parser';
 
@@ -22,9 +22,9 @@ export class Jobs extends Component {
   }
 
   handleModalShow = ( index ) => {
-    const { jobs } = this.state
+    const { jobs, readMore } = this.state
 
-    this.setState({ readMore: !this.state.readMore, modalData: jobs[index] })
+    this.setState({ readMore: !readMore, modalData: jobs[index] })
   }
 
   handleShareAction( index ) {
@@ -62,7 +62,7 @@ export class Jobs extends Component {
           <hr></hr>
           { jobs ? jobs.map( ( job, index ) => {
             return (
-              <div key={ index }>
+              <Col key={ index } md="4" className="center">
 
                 <div className="job-title">
                   <h4>{ job.title }</h4>
@@ -100,7 +100,7 @@ export class Jobs extends Component {
                 <Button className="btn" variant="dark" onClick={ this.handleShareAction.bind(this, index) }>Share</Button>    
                                
                 <hr></hr>
-              </div>
+              </Col>
             )
           }) : <div><br></br><h4 className="center">Loading...</h4><br></br></div>
           }
