@@ -18,15 +18,14 @@ export class SharePage extends Component {
     }
 
     // Get data from backend
-    getSharedData = () =>{
+    getSharedData = (index) =>{
       axios.get('/api/share/add')
       .then(response => {
         let res = response.config.data;
         console.log(res);
         // If statement to verify the type of post shared
         if(res.type == "article"){
-          console.log("You are sharing a News feed");      
-          let { news } = this.state;
+          console.log("You are sharing a News feed");
           // news.push({
           //   type: res.type,
           //   article: res.payload
@@ -43,12 +42,10 @@ export class SharePage extends Component {
         }
         else if(res.type == "job"){
           console.log("You are sharing a job")
-          let { jobs } = this.state;
           // jobs.push({
           //   type: res.type,
           //   job: res.payload
           // });
-
           this.setState({
             jobs: {
               type: res.type,
@@ -61,12 +58,10 @@ export class SharePage extends Component {
         }
         else if(res.type == "event"){
           console.log("You are sharing an event")
-          let { events } = this.state;
           // events.push({
           //   type: res.type,
           //   event: res.payload
           // });
-
           this.setState({
             events: {
               type: res.type,
@@ -80,19 +75,32 @@ export class SharePage extends Component {
         else {
           console.log('Unknown type')
         }
+
+        //Post updated data to backend "share.js" so info do not get lost after page is refreshed
+      //   const shared = this.state
+      //   const updatedPost = shared[ index ]
+      //   axios.post("/api/share/update")
+      //   .then( response => {
+      //     console.log("newsFeed response", response)
+      //   })
+      //   .catch( err => {
+      //     console.log('====err====', err)
+      //   })
       })
       .catch(err => {
         console.log(err)
       })
-    }
+    }    
+        
+    
 
     // Like | Dislike a post
     markUseful = (e) =>{      
-      let share = this.state;
+      const share = this.state;
       let id = e.target.value;
-      let newsFeed = share.news
-      let jobsFeed = share.jobs
-      let eventsFeed = share.events
+      const newsFeed = share.news
+      const jobsFeed = share.jobs
+      const eventsFeed = share.events
       // If statement to find type
       if(share.news){
         this.setState({
